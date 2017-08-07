@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Twitch Talk App</title>
+
+    <script type="text/javascript">
+      var ipc = require('ipc');
+      // 非同期でレンダラープロセスからメインプロセスにメッセージを送信する
+      function Connect() {
+        console.log("asynchronousMessage");
+        ipc.on('connection-result', function(response) {
+           console.log("connection result : " + response);
+          });
+        ipc.send('connection-do', document.getElementById("password")+','+document.getElementById("channel"));
+      }
+    </script>
+
+  </head>
+ 
+  <body>
+    <h1>Twitch Talk App</h1>
+    Password<input type="password" id="password"><br />
+    Channel<input type="text" id="channel"><br />
+    <button onclick="Connect()">Connect</button><br />
+
+
+  </body>
+</html>
