@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Twitch Talk App</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript">
+      var $ = require("jquery");
+      var irc = require('slate-irc');
+      var net = require('net');
+      var loginWindow;
+
+      $('#loginTwitch').click(function(){
+        loginWindow = window.open($(this).attr("href"), "Login with Twitch", "width=500, height=700");
+        return false;
+      })
+      
+
+      function Connect(){
+        var stream = net.connect({
+        port: 6667,
+        host: 'irc.chat.twitch.tv'
+      });
+
+      var client = irc(stream);
+      console.log("arg : " + arg);
+
+      var pass = document.getElementById("password").nodeValue;
+      var name = document.getElementById("channel").nodeValue;
+
+      client.pass(pass);
+      client.nick(name);
+      client.user(name, name);
+
+      client.join(name);
+      client.names(name, function(err, names){
+        console.log(names);
+      });
+      }
+
+    </script>
+
+  </head>
+ 
+  <body>
+    <h1>Twitch Talk App</h1>
+    <a href="http://www.twitchapps.com/tmi/" target="_blank" id="loginTwitch"><img src="img/Login.png"></a><br />
+    Password<input type="password" id="password"><br />
+    Channel<input type="text" id="channel"><br />
+    <button onclick="Connect()">Connect</button><br />
+
+
+  </body>
+</html>
