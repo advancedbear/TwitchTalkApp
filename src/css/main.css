@@ -1,4 +1,46 @@
-html{
-    width: 640;
-    height: 480;
+body {
+    background: #D1C4E9;
+}
+
+h1 {
+    font-family: 'Passion One', cursive;
+    text-align: center;
+    color: #6441A4;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.button_wrapper {
+    text-align: center;
+}
+
+#loginTwitch {
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+button img {
+    display: block;
+}
+
+input[type="text"], input[type="password"]{
+    border-radius: 3px;
+    padding:1ex;
+}
+
+input[type="text"]:focus {
+    box-shadow: 0 0 7px #3498db;
+}
+
+#table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#connButton {
+    font-size: 16px;
+    padding: 12px;
+    width: 90%;
 }

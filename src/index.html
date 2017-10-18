@@ -3,16 +3,26 @@
   <head>
     <meta charset="UTF-8">
     <title>Twitch Talk App</title>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="js/main.js"></script>
   </head>
  
   <body>
-    <h1>Twitch Talk App</h1>
-    <a href="http://www.twitchapps.com/tmi/" target="_blank" id="loginTwitch"><img src="img/Login.png"></a><br />
-    Password<input type="password" id="password"><br />
-    Username<input type="text" id="name"><br />
-    Channel<input type="text" id="channel"><br />
-    <button onclick="Connect()" id="connButton">Connect</button><br />
+    <h1>Twitch Comment Talker</h1>
+    <hr>
+    <div class="button_wrapper">
+     <button onclick="loginTwitch()" id="loginTwitch"><img src="img/Login.png"></button>
+    </div>
+    <table id="table">
+    <tr><td>Password:</td><td><input type="password" id="password" disabled="disabled"></td></tr>
+    <tr><td>Username:</td><td><input type="text" id="name"></td></tr>
+    <tr><td>Channel:</td><td><input type="text" id="channel"></td></tr>
+    </table>
+    <hr>
+    <div class="button_wrapper">
+     <button onclick="Connect()" id="connButton">Connect</button>
+    </div>
   </body>
 </html>

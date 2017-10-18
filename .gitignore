@@ -1,1 +1,6 @@
 src/node_modules/*
+build/*
+debug.log
+icudtl.dat
+TwitchCommentTalker.exe
+.gitignore
