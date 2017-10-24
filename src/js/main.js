@@ -7,11 +7,8 @@ var client;
 var mainWindow = nw.Window.get();
 
 var uttr = new SpeechSynthesisUtterance();
-var voices = speechSynthesis.getVoices();
-console.log(voices);
 
 mainWindow.on('loaded', function(){
-    console.log(localStorage.password);
     document.getElementById("password").value = localStorage.password;
     document.getElementById("name").value = localStorage.name;
     document.getElementById("channel").value = localStorage.channel;
@@ -22,7 +19,6 @@ mainWindow.on('loaded', function(){
     }
 
     if(localStorage.replaceList==null){
-        console.log("replaceList is null");
         let newList ={replacementwordテスト: "読み替え機能のテストです"};
         localStorage.replaceList = JSON.stringify(newList);
     }
@@ -40,22 +36,26 @@ function Connect(){
     let pass = document.getElementById("password").value;
     let name = document.getElementById("name").value;
     let channel = document.getElementById("channel").value;
-
+    let replacementList = JSON.parse(localStorage.replaceList);
     localStorage.name = name;
     localStorage.channel = channel;
+
 
     if(!conn){
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
-            console.log(from+': '+message);
-            console.log(isEnglish(message));
+            for (rKey in replacementList){
+                if(new RegExp(rKey, 'g').test(message)){
+                    message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
+                }
+            }
             if(isEnglish(message)){
                 uttr.text = message;
                 uttr.lang = 'en-US';
+                speechSynthesis.speak(uttr);
             } else {
                 Bouyomi.read(bouyomiServer,message);
             }
-            speechSynthesis.speak(uttr);
         });
         document.getElementById("connButton").innerText = "Disconnect";
         conn = true;
@@ -73,13 +73,11 @@ function loginTwitch() {
         height: 480
       }, function(tmi){
         tmi.on ('loaded', function(){
-            console.log("loaded!");
             let tmiPage = tmi.window.document;
             if(tmiPage.getElementById("tmiPasswordField").value != ""){
                 let Password = tmiPage.getElementById("tmiPasswordField").value;
                 document.getElementById("password").value = Password;
                 localStorage.password = Password;
-                console.log(Password);
                 tmi.close();
             }
         });

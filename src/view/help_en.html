@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Help (English)</title>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+  </head>
+ 
+  <body>
+    <h1>Twitch Comment Talker</h1>
+    <div class="content">
+        <p>This software send Twitch chat messages to TTS application which is called "Bouyomi-chan".<br>
+        Japanese text will be read by "Bouyomi-chan", English text will be read by SpeechAPI.</p>
+        <hr>
+        <H3>How to use</H3>
+        <ol>
+            <li>At first, launch "Bouyomi-chan".</li>
+            <li>Click <img src="../img/Login.png" style="vertical-align: middle;"> and login to Twitch.</li>
+            <li>Enter your username to "Username" box.<br /><small>* username means your login ID.</small></li>
+            <li>Enter channel ID that you want to read.<br /><small>* http://twitch.tv/[this_is_channel_ID]</small></li>
+            <li>After press "Connect" button, voice robot will talk chat messages.</li>
+        </ol>
+        <hr />
+        <H3>How to setting</H3>
+        <ul>
+            <li>Replacement
+                <ul>
+                    <li>Before reading, you can replace specific words in message.</li>
+                    <li>Japanese and English, both messages will be replaced.</li>
+                    <li>If you replace English word to Japanese word, SpeechAPI won't read it.</li>
+                </ul>
+            </li>
+            <li>JP Voice
+                <ul>
+                    <li>You can change connection settings to "Bouyomi-chan".</li>
+                    <li>If your "Bouyomi-chan" socket port is not 50001, you can change in here.</li>
+                    <li>If you launch "Bouyomi-chan" in other PC, you can change host address in here.</li>
+                </ul>
+            </li>
+            <li>EN Voice
+                <ul>
+                    <li>There is no settings yet.</li>
+                </ul>
+            </li>
+        </ul>
+        <hr />
+        <p>Contact: @advanced_bear</p>
+    </div>
+  </body>
+</html>

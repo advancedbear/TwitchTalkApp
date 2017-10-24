@@ -18,10 +18,24 @@ table#list {
     border: solid 1px #333;
     margin-left: auto;
     margin-right: auto;
+    width: 585px;
+    table-layout: fixed;
 }
 
 #list td, th {
     border: solid 1px #333;
+}
+
+#list tr td:nth-child(1) {
+    width: 180px;
+    word-wrap: break-word;
+}
+#list tr td:nth-child(2) {
+    width: 360px;
+    word-wrap: break-word;
+}
+#list tr td:nth-child(3) {
+    width: 40px;
 }
 
 #newWord {
