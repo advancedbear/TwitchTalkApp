@@ -9,11 +9,11 @@ var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
 
 mainWindow.on('loaded', function(){
-    document.getElementById("password").value = localStorage.password;
-    document.getElementById("name").value = localStorage.name;
-    document.getElementById("channel").value = localStorage.channel;
-
+    if(localStorage.password==null) document.getElementById("connButton").disabled = true;
+    if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
+    if(localStorage.channel!=null) document.getElementById("channel").value = localStorage.channel;
     if(localStorage.password!=null){
+        document.getElementById("password").value = localStorage.password;
         $("#loginTwitch img").attr('src', 'img/Loggedin.png');
         $("#loginTwitch").attr('onclick', 'alert(\'You are already logged in\');');
     }
@@ -44,6 +44,7 @@ function Connect(){
     if(!conn){
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
+            if(localStorage.readName) message = message+'. '+from;
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
                     message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
@@ -79,6 +80,7 @@ function loginTwitch() {
                 document.getElementById("password").value = Password;
                 localStorage.password = Password;
                 tmi.close();
+                document.getElementById("connButton").disabled = false;
             }
         });
     });

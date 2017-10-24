@@ -3,6 +3,10 @@ var submenu = new nw.Menu();
 submenu.append(new nw.MenuItem({ label: 'Replacement', click: function(){replaceSettings();} }));
 submenu.append(new nw.MenuItem({ label: 'JP Voice', click: function(){JPSettings();} }));
 submenu.append(new nw.MenuItem({ label: 'EN Voice', click: function(){ENSettings();} }));
+var readName = new nw.MenuItem({ type: 'checkbox', label: 'Read Name', click: function(){chkReadName();}});
+submenu.append(readName);
+if(localStorage.readName) readName.checked = localStorage.readName;
+submenu.append(new nw.MenuItem({ type: 'separator' }));
 submenu.append(new nw.MenuItem({ label: 'Reset Settings', click: function(){resetSettings();} }));
 var submenu2 = new nw.Menu();
 submenu2.append(new nw.MenuItem({ label: 'Help(JP)', click: function(){showHelp("jp");}}));
@@ -69,6 +73,11 @@ function showHelp(lang){
             console.log("loaded!");
         });
     });
+}
+
+function chkReadName(){
+    let check = readName.checked;
+    localStorage.readName = check;
 }
 
 function resetSettings(){
