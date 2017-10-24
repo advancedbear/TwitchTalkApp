@@ -1,15 +1,32 @@
 {
-  "name": "TwitchTalkApp",
-  "version": "0.1.0",
-  "main": "index.html",
-  "window": {
-    "icon": "img/icon.png",
-    "width": 320,
-    "height": 320
-  },
-  "dependencies": {
-    "jQuery": "^1.7.4",
-    "say": "^0.13.1",
-    "twitch-irc-lite": "^1.0.4"
-  }
+    "app_name": "TwitchTalkApp",
+    "dependencies": {
+        "twitch-irc-lite": "^1.0.4"
+    },
+    "main": "index.html",
+    "name": "TwitchTalkApp",
+    "version": "0.1.0",
+    "webexe_settings": {
+        "download_dir": "",
+        "force_download": false,
+        "nw_compression_level": 8,
+        "nw_version": "0.26.0",
+        "sdk_build": false,
+        "uncompressed_folder": false,
+        "windows-x32": true,
+        "windows-x64": true
+    },
+    "webkit": {},
+    "window": {
+        "exe_icon": "img\\icon.png",
+        "icon": "img/icon.png",
+        "id": "TwitchTalkApp",
+        "mac_icon": "img/icon.png",
+        "title": "TwitchTalkApp",
+        "width": 320,
+        "height": 320,
+        "max_width": 320,
+        "max_height": 320,
+        "resizable": false
+    }
 }

@@ -1,0 +1,50 @@
+body {
+    background: #E1DBEE;
+}
+
+h2 {
+    text-align: center;
+    color: #6441A4;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button_wrapper {
+    text-align: center;
+}
+
+table#list {
+    border-collapse: collapse;
+    border: solid 1px #333;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#list td, th {
+    border: solid 1px #333;
+}
+
+#newWord {
+    text-align: center;
+}
+
+p.title {
+    color: #6441A4;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    text-align: center;
+}
+
+input#bouyomi_port{
+    width: 5em;
+}
+
+input#bouyomi_ip{
+    width: 16ex;
+}
+
+button#bouyomi_submit{
+    font-size: 16px;
+    padding: 12px;
+    width: 90%;
+}
