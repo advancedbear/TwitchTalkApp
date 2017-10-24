@@ -7,7 +7,7 @@
         "force_download": false,
         "nw_compression_level": 0,
         "nw_version": "0.26.0",
-        "output_pattern": "",
+        "output_pattern": "%(app_name)_%(version)/",
         "sdk_build": false,
         "uncompressed_folder": false,
         "whitelist": "",

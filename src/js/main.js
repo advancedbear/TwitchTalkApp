@@ -44,6 +44,8 @@ function Connect(){
     if(!conn){
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
+            var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
+            message = message.replace(new RegExp(uri, 'g'), ';webURL;');
             if(localStorage.readName) message = message+'. '+from;
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
@@ -88,8 +90,4 @@ function loginTwitch() {
 
 function isEnglish(message){
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true ;
-}
-
-function replaceURL(message){
-    return message.replace('(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+');
-}
+};

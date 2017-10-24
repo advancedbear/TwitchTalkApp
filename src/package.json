@@ -5,28 +5,33 @@
     },
     "main": "index.html",
     "name": "TwitchTalkApp",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "webexe_settings": {
-        "download_dir": "",
+        "blacklist": "",
+        "custom_script": "",
+        "download_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\NWjs",
+        "export_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\Output",
         "force_download": false,
-        "nw_compression_level": 8,
+        "nw_compression_level": 0,
         "nw_version": "0.26.0",
+        "output_pattern": "",
         "sdk_build": false,
         "uncompressed_folder": false,
+        "whitelist": "",
         "windows-x32": true,
-        "windows-x64": true
+        "windows-x64": false
     },
     "webkit": {},
     "window": {
         "exe_icon": "img\\icon.png",
+        "height": 320,
         "icon": "img/icon.png",
         "id": "TwitchTalkApp",
         "mac_icon": "img/icon.png",
-        "title": "TwitchTalkApp",
-        "width": 320,
-        "height": 320,
-        "max_width": 320,
         "max_height": 320,
-        "resizable": false
+        "max_width": 320,
+        "resizable": false,
+        "title": "TwitchTalkApp",
+        "width": 320
     }
 }
