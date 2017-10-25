@@ -7,16 +7,10 @@
   "main": "index.html",
   "name": "TwitchTalkApp",
   "version": "0.1.3",
-  "manifestUrl": "http://localhost:3000/package.json",
+  "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "packages": {
-      "mac": {
-         "url": "http://localhost:3000/releases/updapp/mac/updapp.zip"
-      },
       "win": {
          "url": "http://localhost:3000/releases/updapp/win/updapp.zip"
-      },
-      "linux32": {
-         "url": "http://localhost:3000/releases/updapp/linux32/updapp.tar.gz"
       }
   },
   "webexe_settings": {

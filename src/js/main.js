@@ -32,20 +32,6 @@ mainWindow.on('loaded', function(){
     }
 });
 
-$(document).on('click', 'H1', function(){
-    gui.Window.open ('view/overlay.html', {
-        "width": 320,
-        "height": 1080,
-        "x" : 0,
-        "y": 0,
-        "transparent": true,
-        "frame": false,         //フレームを非表示に
-        "resizable": false,     //ウィンドウのリサイズを無効化
-        "always_on_top": true 
-      }, function(tmi){
-      });
-});
-
 function Connect(){
     let pass = document.getElementById("password").value;
     let name = document.getElementById("name").value;

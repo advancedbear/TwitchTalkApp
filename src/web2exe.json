@@ -5,6 +5,7 @@
         "download_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\NWjs",
         "export_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\Output",
         "force_download": false,
+        "mac-x64": true,
         "nw_compression_level": 0,
         "nw_version": "0.26.0",
         "output_pattern": "%(app_name)_%(version)/",
