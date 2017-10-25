@@ -10,7 +10,7 @@
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "packages": {
       "win": {
-         "url": "http://localhost:3000/releases/updapp/win/updapp.zip"
+         "url": "https://dl.dropboxusercontent.com/s/lzcms9d02lf5ngq/TwitchTalkApp.zip"
       }
   },
   "webexe_settings": {
