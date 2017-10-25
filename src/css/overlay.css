@@ -1,0 +1,8 @@
+body{
+    background-color: rgba(0,0,0,0);
+    -webkit-app-region: drag;
+}
+
+h1{
+    color: #FFF;
+}
