@@ -10,6 +10,6 @@ exports.read = function(options, message) {
       buffer.writeUInt8(00, 10);
       buffer.writeUInt32LE(messageBuffer.length, 11);
       messageBuffer.copy(buffer, 15, 0, messageBuffer.length);
-  
+    console.log(buffer);
     require('net').connect(options).end(buffer);
 }

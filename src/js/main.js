@@ -40,10 +40,10 @@ function Connect(){
     localStorage.name = name;
     localStorage.channel = channel;
 
-
     if(!conn){
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
+            showNotify(from, message);
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
             message = message.replace(new RegExp(uri, 'g'), ';webURL;');
             if(localStorage.readName) message = message+'. '+from;
@@ -91,3 +91,15 @@ function loginTwitch() {
 function isEnglish(message){
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true ;
 };
+
+function showNotify(from, message){
+    let option = {
+        icon: "./img/icon.png",
+        body: message
+    };
+    
+    let notify = new Notification(from, option);
+    notify.onshow = function(){
+        setTimeout(function() {notify.close();}, 5000);
+    }
+}
