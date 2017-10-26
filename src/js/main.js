@@ -50,18 +50,23 @@ function Connect(){
             if(JSON.parse(localStorage.showNotify)) showNotification(from, message);
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
             message = message.replace(new RegExp(uri, 'g'), ';webURL;');
-            if(JSON.parse(localStorage.readName)) message = message+'. '+from;
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
                     message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
                 }
+                if(new RegExp(rKey, 'g').test(from)){
+                    from = from.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
+                }
+                console.log(message+'. '+from)
             }
+            let nMessage;
+            if(JSON.parse(localStorage.readName)) nMessage = message+'. '+from;
             if(isEnglish(message)){
-                uttr.text = message;
+                uttr.text = nMessage;
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);
             } else {
-                Bouyomi.read(bouyomiServer,message);
+                Bouyomi.read(bouyomiServer,nMessage);
             }
         });
         document.getElementById("connButton").innerText = "Disconnect";
