@@ -1,12 +1,13 @@
 {
   "app_name": "TwitchTalkApp",
   "dependencies": {
+    "node-notifier": "^5.1.2",
     "node-webkit-updater": "^0.3.3",
     "twitch-irc-lite": "^1.0.4"
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",

@@ -4,8 +4,9 @@ submenu.append(new nw.MenuItem({ label: 'Replacement', click: function(){replace
 submenu.append(new nw.MenuItem({ label: 'JP Voice', click: function(){JPSettings();} }));
 submenu.append(new nw.MenuItem({ label: 'EN Voice', click: function(){ENSettings();} }));
 var readName = new nw.MenuItem({ type: 'checkbox', label: 'Read Name', click: function(){chkReadName();}});
+var showNotify = new nw.MenuItem({ type: 'checkbox', label: 'Notification', click: function(){chkShowNotify();}});
 submenu.append(readName);
-if(localStorage.readName) readName.checked = localStorage.readName;
+submenu.append(showNotify);
 submenu.append(new nw.MenuItem({ type: 'separator' }));
 submenu.append(new nw.MenuItem({ label: 'Reset Settings', click: function(){resetSettings();} }));
 var submenu2 = new nw.Menu();
@@ -15,6 +16,8 @@ menu.append(new nw.MenuItem({ label: 'Settings', submenu: submenu}));
 menu.append(new nw.MenuItem({ type: 'separator' }));
 menu.append(new nw.MenuItem({ label: 'Help', submenu: submenu2}));
 mainWindow.menu = menu;
+readName.checked = JSON.parse(localStorage.readName);
+showNotify.checked = JSON.parse(localStorage.showNotify);
 
 function replaceSettings(){
     gui.Window.open ('view/replacement.html', {
@@ -23,7 +26,6 @@ function replaceSettings(){
         resizable: false
       }, function(tmi){
         tmi.on ('loaded', function(){
-            console.log("loaded!");
         });
         tmi.on ('closed', function(){
 
@@ -38,7 +40,6 @@ function JPSettings(){
         resizable: false
       }, function(tmi){
         tmi.on ('loaded', function(){
-            console.log("loaded!"); 
         });
         let tmiPage = tmi.window.document;
         $(tmiPage).on('click', '#bouyomi_submit', function(){
@@ -57,7 +58,6 @@ function ENSettings(){
         resizable: false
       }, function(tmi){
         tmi.on ('loaded', function(){
-            console.log("loaded!");
         });
     });
 }
@@ -70,14 +70,16 @@ function showHelp(lang){
         resizable: false
       }, function(tmi){
         tmi.on ('loaded', function(){
-            console.log("loaded!");
         });
     });
 }
 
 function chkReadName(){
-    let check = readName.checked;
-    localStorage.readName = check;
+    localStorage.readName = readName.checked;
+}
+
+function chkShowNotify(){
+    localStorage.showNotify = showNotify.checked;
 }
 
 function resetSettings(){

@@ -1,5 +1,6 @@
 var gui = require('nw.gui');
 var IRC = require('twitch-irc-lite');
+var notifier = require('node-notifier');
 var Bouyomi = require('./js/bouyomi.js');
 var bouyomiServer = {};
 var conn = false;
@@ -30,6 +31,9 @@ mainWindow.on('loaded', function(){
     } else {
         bouyomiServer = JSON.parse(localStorage.bouyomiServer);
     }
+
+    if(localStorage.showNotify==null) localStorage.showNotify = false;
+    if(localStorage.readName==null) localStorage.readName = false;
 });
 
 function Connect(){
@@ -43,10 +47,10 @@ function Connect(){
     if(!conn){
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
-            showNotify(from, message);
+            if(JSON.parse(localStorage.showNotify)) showNotification(from, message);
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
             message = message.replace(new RegExp(uri, 'g'), ';webURL;');
-            if(localStorage.readName) message = message+'. '+from;
+            if(JSON.parse(localStorage.readName)) message = message+'. '+from;
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
                     message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
@@ -92,14 +96,11 @@ function isEnglish(message){
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true ;
 };
 
-function showNotify(from, message){
-    let option = {
-        icon: "./img/icon.png",
-        body: message
-    };
-    
-    let notify = new Notification(from, option);
-    notify.onshow = function(){
-        setTimeout(function() {notify.close();}, 5000);
-    }
+function showNotification(from, message){
+    notifier.notify({
+        title: from,
+        message: message,
+        sound: false,
+        icon: './img/icon.png'
+    });
 }
