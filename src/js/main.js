@@ -59,7 +59,7 @@ function Connect(){
                 }
                 console.log(message+'. '+from)
             }
-            let nMessage;
+            let nMessage = message;
             if(JSON.parse(localStorage.readName)) nMessage = message+'. '+from;
             if(isEnglish(message)){
                 uttr.text = nMessage;
