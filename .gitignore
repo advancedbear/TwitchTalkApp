@@ -4,3 +4,4 @@ debug.log
 icudtl.dat
 TwitchCommentTalker.exe
 .gitignore
+src/log*.log

@@ -5,8 +5,11 @@ submenu.append(new nw.MenuItem({ label: 'JP Voice', click: function(){JPSettings
 submenu.append(new nw.MenuItem({ label: 'EN Voice', click: function(){ENSettings();} }));
 var readName = new nw.MenuItem({ type: 'checkbox', label: 'Read Name', click: function(){chkReadName();}});
 var showNotify = new nw.MenuItem({ type: 'checkbox', label: 'Notification', click: function(){chkShowNotify();}});
+var useLogger = new nw.MenuItem({ type: 'checkbox', label: 'Output LogFile', click: function(){chkUseLogger();}});
 submenu.append(readName);
 submenu.append(showNotify);
+submenu.append(new nw.MenuItem({ type: 'separator' }));
+submenu.append(useLogger);
 submenu.append(new nw.MenuItem({ type: 'separator' }));
 submenu.append(new nw.MenuItem({ label: 'Reset Settings', click: function(){resetSettings();} }));
 var submenu2 = new nw.Menu();
@@ -18,6 +21,7 @@ menu.append(new nw.MenuItem({ label: 'Help', submenu: submenu2}));
 mainWindow.menu = menu;
 readName.checked = JSON.parse(localStorage.readName);
 showNotify.checked = JSON.parse(localStorage.showNotify);
+useLogger.checked = JSON.parse(localStorage.useLogger);
 
 function replaceSettings(){
     gui.Window.open ('view/replacement.html', {
@@ -80,6 +84,13 @@ function chkReadName(){
 
 function chkShowNotify(){
     localStorage.showNotify = showNotify.checked;
+}
+
+function chkUseLogger(){
+    localStorage.useLogger = useLogger.checked;
+    if(useLogger.checked){
+        alert('You need restart app to enable output logfile.\nログ出力機能を有効にするには、アプリを再起動する必要があります。')
+    }
 }
 
 function resetSettings(){

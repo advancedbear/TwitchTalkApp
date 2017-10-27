@@ -2,6 +2,7 @@ var gui = require('nw.gui');
 var IRC = require('twitch-irc-lite');
 var notifier = require('node-notifier');
 var Bouyomi = require('./js/bouyomi.js');
+var logger = require('./js/logger.js');
 var bouyomiServer = {};
 var conn = false;
 var client;
@@ -34,9 +35,13 @@ mainWindow.on('loaded', function(){
 
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
+    if(localStorage.useLogger==null) localStorage.useLogger = false;
+
+    logger.init(JSON.parse(localStorage.useLogger));
 });
 
 function Connect(){
+    logger.out("Connect button pressed.")
     let pass = document.getElementById("password").value;
     let name = document.getElementById("name").value;
     let channel = document.getElementById("channel").value;
@@ -45,11 +50,17 @@ function Connect(){
     localStorage.channel = channel;
 
     if(!conn){
+        logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC(pass, name);
         client.chatEvents.addListener('message', function(channel, from, message){
-            if(JSON.parse(localStorage.showNotify)) showNotification(from, message);
+            logger.out("message recieved-> from: "+from+" message: "+message);
+            if(JSON.parse(localStorage.showNotify)){
+                showNotification(from, message);
+                logger.out("Notification popped up.");
+            }
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
             message = message.replace(new RegExp(uri, 'g'), ';webURL;');
+            logger.out("URL replaced: "+message);
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
                     message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
@@ -57,29 +68,35 @@ function Connect(){
                 if(new RegExp(rKey, 'g').test(from)){
                     from = from.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
                 }
-                console.log(message+'. '+from)
+                logger.out("message replaced -> from: "+from+" message: "+message);
             }
             let nMessage = message;
             if(JSON.parse(localStorage.readName)) nMessage = message+'. '+from;
+            logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
+                logger.out("Message is English. Try to use Speech API.");
                 uttr.text = nMessage;
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);
             } else {
+                logger.out("Message is Japanese. Try to use Bouyomi-chan");
                 Bouyomi.read(bouyomiServer,nMessage);
             }
         });
         document.getElementById("connButton").innerText = "Disconnect";
         conn = true;
         client.join(channel);
+        logger.out("Connected to Channel.");
     } else {
         document.getElementById("connButton").innerText = "Connect";
         conn = false;
         client.leave();
+        logger.out("Disconnected from channel.");
     }
 };
 
 function loginTwitch() {
+    logger.out("Connect with Twitch button pressed.");
     gui.Window.open ('http://www.twitchapps.com/tmi/', {
         width: 640,
         height: 480
