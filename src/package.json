@@ -7,7 +7,7 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",

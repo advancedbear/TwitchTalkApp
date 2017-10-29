@@ -4,9 +4,11 @@ submenu.append(new nw.MenuItem({ label: 'Replacement', click: function(){replace
 submenu.append(new nw.MenuItem({ label: 'JP Voice', click: function(){JPSettings();} }));
 submenu.append(new nw.MenuItem({ label: 'EN Voice', click: function(){ENSettings();} }));
 var readName = new nw.MenuItem({ type: 'checkbox', label: 'Read Name', click: function(){chkReadName();}});
+var readEmotes = new nw.MenuItem({ type: 'checkbox', label: 'Read Emotes', click: function(){chkReadEmotes();}});
 var showNotify = new nw.MenuItem({ type: 'checkbox', label: 'Notification', click: function(){chkShowNotify();}});
 var useLogger = new nw.MenuItem({ type: 'checkbox', label: 'Output LogFile', click: function(){chkUseLogger();}});
 submenu.append(readName);
+submenu.append(readEmotes);
 submenu.append(showNotify);
 submenu.append(new nw.MenuItem({ type: 'separator' }));
 submenu.append(useLogger);
@@ -80,6 +82,10 @@ function showHelp(lang){
 
 function chkReadName(){
     localStorage.readName = readName.checked;
+}
+
+function chkReadEmotes(){
+    localStorage.readEmotes = readEmotes.checked;
 }
 
 function chkShowNotify(){

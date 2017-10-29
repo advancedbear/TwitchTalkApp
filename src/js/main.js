@@ -35,6 +35,7 @@ mainWindow.on('loaded', function(){
 
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
+    if(localStorage.readEmotes==null) localStorage.readEmotes = false;
     if(localStorage.useLogger==null) localStorage.useLogger = false;
 
     logger.init(JSON.parse(localStorage.useLogger));
@@ -61,6 +62,10 @@ function Connect(){
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
             message = message.replace(new RegExp(uri, 'g'), ';webURL;');
             logger.out("URL replaced: "+message);
+            if(!JSON.parse(localStorage.readEmotes)){
+                message = replaceEmote(message);
+                logger.out("Emotes were replaced.");
+            }
             for (rKey in replacementList){
                 if(new RegExp(rKey, 'g').test(message)){
                     message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
@@ -117,6 +122,15 @@ function loginTwitch() {
 function isEnglish(message){
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true ;
 };
+
+function replaceEmote(message) {
+    let emotes = ["4Head","AMPTropPunch","ANELE","ArgieB8","ArigatoNas","ArsonNoSexy","AsianGlow","BCWarrior","BJBlazkowicz","BabyRage","BatChest","BegWan","BibleThump","BigBrother","BigPhish","BlargNaut","BlessRNG","BloodTrail","BrainSlug","BrokeBack","BudStar","BuddhaBar","CarlSmile","ChefFrank","CoolCat","CoolStoryBob","CorgiDerp","CrreamAwk","CurseLit","DAESuppy","DBstyle","DansGame","DatSheffy","DendiFace","DogFace","DoritosChip","DxCat","EleGiggle","EntropyWins","FUNgineer","FailFish","FrankerZ","FreakinStinkin","FunRun","FutureMan","GOWSkull","GingerPower","GivePLZ","GrammarKing","HassaanChop","HassanChop","HeyGuys","HotPokket","HumbleLife","InuyoFace","ItsBoshyTime","JKanStyle","Jebaited","JonCarnage","KAPOW","Kappa","KappaClaus","KappaPride","KappaRoss","KappaWealth","Kappu","Keepo","KevinTurtle","Kippa","KonCha","Kreygasm","MVGame","Mau5","MikeHogu","MingLee","MorphinTime","MrDestructoid","NinjaGrumpy","NomNom","NotATK","NotLikeThis","OSblob","OSfrog","OSkomodo","OSsloth","OhMyDog","OneHand","OpieOP","OptimizePrime","PJSalt","PJSugar","PMSTwin","PRChase","PanicVis","PartyTime","PeoplesChamp","PermaSmug","PicoMause","PipeHype","PogChamp","Poooound","PraiseIt","PrimeMe","PunOko","PunchTrees","QuadDamage","RaccAttack","RalpherZ","RedCoat","ResidentSleeper","RitzMitz","RlyTho","RuleFive","SMOrc","SSSsss","SabaPing","SeemsGood","ShadyLulu","ShazBotstix","SmoocherZ","SoBayed","SoonerLater","Squid1","Squid2","Squid3","Squid4","StinkyCheese","StoneLightning","StrawBeary","SuperVinlin","SwiftRage","TBAngel","TBCrunchy","TBTacoBag","TBTacoProps","TF2John","TPcrunchyroll","TTours","TakeNRG","TearGlove","TehePelo","ThankEgg","TheIlluminati","TheRinger","TheTarFu","TheThing","ThunBeast","TinyFace","TooSpicy","TriHard","TwitchLit","TwitchRPG","TwitchUnity","UWot","UnSane","UncleNox","VaultBoy","VoHiYo","VoteNay","VoteYea","WTRuck","WholeWheat","WutFace","YouDontSay","YouWHY","bleedPurple","cmonBruh","copyThis","duDudu","imGlitch","mcaT","panicBasket","pastaThat","riPepperonis","twitchRaid"];
+    for(emote of emotes){
+        message = message.replace(new RegExp(emote, 'g'), '');
+        console.log(message);
+    }
+    return message;
+}
 
 function showNotification(from, message){
     notifier.notify({
