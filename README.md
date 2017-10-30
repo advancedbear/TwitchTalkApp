@@ -32,11 +32,11 @@
     - Chromeのインストールは不要ですが、Chromeが動作しないPCでは動作を保証できません。
 
 ## ライセンス
-本アプリケーションは**GPL3.0ライセンス**のもと配布しています。  
+本アプリケーションは**MITライセンス**のもと配布しています。  
 
 ### 利用モジュール等
 - [NW.js](https://github.com/nwjs/nw.js)
 - [node-notifier](https://github.com/mikaelbr/node-notifier)
 - [node-webkit-updater](https://github.com/edjafarov/node-webkit-updater)
-- [twitch-irc-lite](https://github.com/idflores/twitch-irc-lite)
+- [tmi.js](https://github.com/tmijs/tmi.js)
 - [node_bouyomiConnect](https://github.com/thakyuu/node_bouyomiConnect)
