@@ -3,8 +3,7 @@
   "dependencies": {
     "node-notifier": "^5.1.2",
     "node-webkit-updater": "^0.3.3",
-    "tmi.js": "^1.2.1",
-    "twitch-irc-lite": "^1.0.4"
+    "tmi.js": "^1.2.1"
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
