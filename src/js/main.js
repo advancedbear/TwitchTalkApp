@@ -1,5 +1,5 @@
 var gui = require('nw.gui');
-var IRC = require('twitch-irc-lite');
+var IRC = require('tmi.js');
 var notifier = require('node-notifier');
 var Bouyomi = require('./js/bouyomi.js');
 var logger = require('./js/logger.js');
@@ -50,10 +50,23 @@ function Connect(){
     localStorage.name = name;
     localStorage.channel = channel;
 
+    var tmi_options = {
+        connection: {
+            reconnect: true
+        },
+        identity: {
+            username: name,
+            password: pass
+        },
+        channels: ["#"+channel]
+    };
+
     if(!conn){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
-        client = new IRC(pass, name);
-        client.chatEvents.addListener('message', function(channel, from, message){
+        client = new IRC.client(tmi_options);
+        //client.chatEvents.addListener('message', function(channel, from, message){
+        client.on('chat', function(ch, userstate, message, self){
+            let from = userstate["username"];
             logger.out("message recieved-> from: "+from+" message: "+message);
             if(JSON.parse(localStorage.showNotify)){
                 showNotification(from, message);
@@ -90,12 +103,12 @@ function Connect(){
         });
         document.getElementById("connButton").innerText = "Disconnect";
         conn = true;
-        client.join(channel);
+        client.connect();
         logger.out("Connected to Channel.");
     } else {
         document.getElementById("connButton").innerText = "Connect";
         conn = false;
-        client.leave();
+        client.disconnect();
         logger.out("Disconnected from channel.");
     }
 };
