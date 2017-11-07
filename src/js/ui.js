@@ -60,7 +60,7 @@ function JPSettings(){
 function ENSettings(){
     gui.Window.open ('view/ENsettings.html', {
         width: 240,
-        height: 160,
+        height: 270,
         resizable: false
       }, function(tmi){
         tmi.on ('loaded', function(){

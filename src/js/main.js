@@ -93,6 +93,9 @@ function Connect(){
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
                 logger.out("Message is English. Try to use Speech API.");
+                uttr.volume = localStorage.volume;
+                uttr.rate = localStorage.speed;
+                uttr.pitch = localStorage.pitch;
                 uttr.text = nMessage;
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);

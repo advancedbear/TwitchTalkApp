@@ -15,6 +15,26 @@ nw.Window.get().on('loaded', function(){
         $("#bouyomi_ip").val(bouyomi_s.host);
         $("#bouyomi_port").val(bouyomi_s.port);
     } else if (location.pathname == '/view/ENsettings.html'){
+        if(localStorage.volume!=null) $("#volume").val(localStorage.volume);
+        if(localStorage.speed!=null) $("#speed").val(localStorage.speed);
+        if(localStorage.pitch!=null) $("#pitch").val(localStorage.pitch);
+    
+        $("#volume_val").text(parseFloat($("#volume").val()).toFixed(1));
+        $("#speed_val").text(parseFloat($("#speed").val()).toFixed(1));
+        $("#pitch_val").text(parseFloat($("#pitch").val()).toFixed(1));
+
+        $('#volume').on('input', function(){
+            $("#volume_val").text(parseFloat($(this).val()).toFixed(1));
+            localStorage.volume = parseFloat($(this).val());
+        })
+        $('#speed').on('input', function(){
+            $("#speed_val").text(parseFloat($(this).val()).toFixed(1));
+            localStorage.speed = parseFloat($(this).val());
+        })
+        $('#pitch').on('input', function(){
+            $("#pitch_val").text(parseFloat($(this).val()).toFixed(1));
+            localStorage.pitch = parseFloat($(this).val());
+        })
     } else if (location.pathname == '/view/help.html'){
 
     }
@@ -43,6 +63,16 @@ function addWord(){
     $("#list").append(createRow(word1, word2));
     repList[escapeJs(word1)] = escapeJs(word2);
     localStorage.replaceList = JSON.stringify(repList);
+}
+
+function enVoiceTest(){
+    let uttr = new SpeechSynthesisUtterance;
+	uttr.text="This is the test message. Please check the voice quality.";
+    uttr.lang="en-US";
+    uttr.volume = localStorage.volume;
+    uttr.rate = localStorage.speed;
+    uttr.pitch = localStorage.pitch;
+	speechSynthesis.speak(uttr);
 }
 
 var escapeHTML = function (str) {
