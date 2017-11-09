@@ -6,18 +6,48 @@
     <link rel="stylesheet" href="../css/settings.css">
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="../js/settings.js"></script>
+    <script>
+      $(function(){
+        $(".tab li").click(function(){
+              var idx = $(".tab li").index(this);
+              $(".content").hide();
+              $(".content").eq(idx).show();
+              $(".tab li").removeClass('selected');
+              $(this).addClass('selected');
+        });
+      });
+      </script>
   </head>
 
   <body>
     <H2>Replacement Settings</H2>
-    <hr />
-    <div id="newWord">
-        <label for="word1">New Word: </label><input type="text" id="word1"> -> <input type="text" id="word2">　<button onclick="addWord()" id="addWord">Add</button><br />
-        <i style="color: #FF3A3A;">When you finish setting, please close this window.</i>
-    </div> 
-    <hr />
-    <table id="list">
-        <tr><th style="width: 180px">From</th><th style="width: 360px">To</th><th style="width: 40px">DEL</th></tr>
-    </table>
+		<ul class="tab">
+			<li id="jp_tab" class="selected">Japanese</li>
+			<li id="en_tab">English</li>
+		</ul>
+    <div id="rep_jp" class="content">
+      <div id="newWord">
+          <label for="word1">New Word: </label><input type="text" id="word1"> -> <input type="text" id="word2">　<button onclick="addWord(0)" id="addWord">Add</button><br />
+          <i style="color: #FF3A3A;">When you finish setting, please close this window.</i>
+      </div> 
+      <hr />
+      <div class="table_wrapper">
+        <table id="list_jp" class="list">
+            <tr><th style="width: 180px">From</th><th style="width: 360px">To</th><th style="width: 40px">DEL</th></tr>
+        </table>
+      </div>
+    </div>
+    <div id="rep_en" class="content" style="display: none;">
+      <div id="newWord">
+          <label for="word3">New Word: </label><input type="text" id="word3"> -> <input type="text" id="word4">　<button onclick="addWord(1)" id="addWord">Add</button><br />
+          <i style="color: #FF3A3A;">When you finish setting, please close this window.</i>
+      </div> 
+      <hr />
+      <div class="table_wrapper">
+        <table id="list_en" class="list">
+          <tr><th style="width: 180px">From</th><th style="width: 360px">To</th><th style="width: 40px">DEL</th></tr>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

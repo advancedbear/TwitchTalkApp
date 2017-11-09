@@ -1,6 +1,7 @@
 var gui = require('nw.gui');
 
 var repList = {};
+var repListEn = {};
 
 
 nw.Window.get().on('loaded', function(){
@@ -8,7 +9,11 @@ nw.Window.get().on('loaded', function(){
         repList = JSON.parse(localStorage.replaceList);
         console.log(repList);
         for (key in repList) {
-            $("#list").append(createRow(key, repList[key]));
+            $("#list_jp").append(createRow(key, repList[key],'jp'));
+        }
+        repListEn = JSON.parse(localStorage.replaceListEn)
+        for (key in repListEn) {
+            $("#list_en").append(createRow(key, repListEn[key], 'en'));
         }
     } else if (location.pathname == '/view/JPsettings.html'){
         let bouyomi_s = JSON.parse(localStorage.bouyomiServer);
@@ -40,29 +45,44 @@ nw.Window.get().on('loaded', function(){
     }
 })
 
-function createRow(key, val){
+function createRow(key, val, lang){
     key = escapeHTML(key);
     val = escapeHTML(val);
-    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button onclick="deleteRow(this)">✕</button></div></td></tr>';
+    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)">✕</button></div></td></tr>';
     return row;
 }
 
 function deleteRow(obj){
     let delKey = escapeJs(unEscapeHTML($(obj).parent().parent().parent().attr("id")));
     console.log(delKey);
+    if($(obj).attr("lang") == 'jp'){
     delete repList[delKey];
-    $(obj).parent().parent().parent().remove();
     localStorage.replaceList = JSON.stringify(repList);
+    } else {
+    delete repListEn[delKey];
+    localStorage.replaceListEn = JSON.stringify(repListEn);
+    }
+    $(obj).parent().parent().parent().remove();
 }
 
-function addWord(){
-    let word1 = $("#word1").val();
-    let word2 = $("#word2").val();
-    $("#word1").val("");
-    $("#word2").val("");
-    $("#list").append(createRow(word1, word2));
-    repList[escapeJs(word1)] = escapeJs(word2);
-    localStorage.replaceList = JSON.stringify(repList);
+function addWord(lang){
+    if(lang==0){
+        let word1 = $("#word1").val();
+        let word2 = $("#word2").val();
+        $("#word1").val("");
+        $("#word2").val("");
+        $("#list_jp").append(createRow(word1, word2, 'jp'));
+        repList[escapeJs(word1)] = escapeJs(word2);
+        localStorage.replaceList = JSON.stringify(repList);
+    } else {
+        let word3 = $("#word3").val();
+        let word4 = $("#word4").val();
+        $("#word3").val("");
+        $("#word4").val("");
+        $("#list_en").append(createRow(word3, word4, 'en'));
+        repListEn[escapeJs(word3)] = escapeJs(word4);
+        localStorage.replaceListEn = JSON.stringify(repListEn);
+    }
 }
 
 function enVoiceTest(){

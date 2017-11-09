@@ -24,6 +24,10 @@ mainWindow.on('loaded', function(){
         let newList ={replacementwordテスト: "読み替え機能のテストです"};
         localStorage.replaceList = JSON.stringify(newList);
     }
+    if(localStorage.replaceListEn==null){
+        let newListEn ={replacementword: "SampleWordOfReplacement"};
+        localStorage.replaceListEn = JSON.stringify(newListEn);
+    }
 
     if(localStorage.bouyomiServer==null){
         bouyomiServer.host = '127.0.0.1';
@@ -46,7 +50,6 @@ function Connect(){
     let pass = document.getElementById("password").value;
     let name = document.getElementById("name").value;
     let channel = document.getElementById("channel").value;
-    let replacementList = JSON.parse(localStorage.replaceList);
     localStorage.name = name;
     localStorage.channel = channel;
 
@@ -64,8 +67,9 @@ function Connect(){
     if(!conn){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC.client(tmi_options);
-        //client.chatEvents.addListener('message', function(channel, from, message){
         client.on('chat', function(ch, userstate, message, self){
+            let replacementList = JSON.parse(localStorage.replaceList);
+            let replacementListEn = JSON.parse(localStorage.replaceListEn);
             let from = userstate["username"];
             logger.out("message recieved-> from: "+from+" message: "+message);
             if(JSON.parse(localStorage.showNotify)){
@@ -79,19 +83,16 @@ function Connect(){
                 message = replaceEmote(message);
                 logger.out("Emotes were replaced.");
             }
-            for (rKey in replacementList){
-                if(new RegExp(rKey, 'g').test(message)){
-                    message = message.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
-                }
-                if(new RegExp(rKey, 'g').test(from)){
-                    from = from.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
-                }
-                logger.out("message replaced -> from: "+from+" message: "+message);
-            }
             let nMessage = message;
-            if(JSON.parse(localStorage.readName)) nMessage = message+'. '+from;
+            if(JSON.parse(localStorage.readName)) nMessage = message+'; '+from;
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
+                for (rKey in replacementListEn){
+                    if(new RegExp(rKey, 'g').test(nMessage)){
+                        nMessage = nMessage.replace(new RegExp(rKey, 'g'), replacementListEn[rKey]);
+                    }
+                    logger.out("message replaced -> "+nMessage);
+                }
                 logger.out("Message is English. Try to use Speech API.");
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;
@@ -100,6 +101,12 @@ function Connect(){
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);
             } else {
+                for (rKey in replacementList){
+                    if(new RegExp(rKey, 'g').test(nMessage)){
+                        nMessage = nMessage.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
+                    }
+                    logger.out("message replaced -> from: "+nMessage);
+                }
                 logger.out("Message is Japanese. Try to use Bouyomi-chan");
                 Bouyomi.read(bouyomiServer,nMessage);
             }
@@ -143,7 +150,6 @@ function replaceEmote(message) {
     let emotes = ["4Head","AMPTropPunch","ANELE","ArgieB8","ArigatoNas","ArsonNoSexy","AsianGlow","BCWarrior","BJBlazkowicz","BabyRage","BatChest","BegWan","BibleThump","BigBrother","BigPhish","BlargNaut","BlessRNG","BloodTrail","BrainSlug","BrokeBack","BudStar","BuddhaBar","CarlSmile","ChefFrank","CoolCat","CoolStoryBob","CorgiDerp","CrreamAwk","CurseLit","DAESuppy","DBstyle","DansGame","DatSheffy","DendiFace","DogFace","DoritosChip","DxCat","EleGiggle","EntropyWins","FUNgineer","FailFish","FrankerZ","FreakinStinkin","FunRun","FutureMan","GOWSkull","GingerPower","GivePLZ","GrammarKing","HassaanChop","HassanChop","HeyGuys","HotPokket","HumbleLife","InuyoFace","ItsBoshyTime","JKanStyle","Jebaited","JonCarnage","KAPOW","Kappa","KappaClaus","KappaPride","KappaRoss","KappaWealth","Kappu","Keepo","KevinTurtle","Kippa","KonCha","Kreygasm","MVGame","Mau5","MikeHogu","MingLee","MorphinTime","MrDestructoid","NinjaGrumpy","NomNom","NotATK","NotLikeThis","OSblob","OSfrog","OSkomodo","OSsloth","OhMyDog","OneHand","OpieOP","OptimizePrime","PJSalt","PJSugar","PMSTwin","PRChase","PanicVis","PartyTime","PeoplesChamp","PermaSmug","PicoMause","PipeHype","PogChamp","Poooound","PraiseIt","PrimeMe","PunOko","PunchTrees","QuadDamage","RaccAttack","RalpherZ","RedCoat","ResidentSleeper","RitzMitz","RlyTho","RuleFive","SMOrc","SSSsss","SabaPing","SeemsGood","ShadyLulu","ShazBotstix","SmoocherZ","SoBayed","SoonerLater","Squid1","Squid2","Squid3","Squid4","StinkyCheese","StoneLightning","StrawBeary","SuperVinlin","SwiftRage","TBAngel","TBCrunchy","TBTacoBag","TBTacoProps","TF2John","TPcrunchyroll","TTours","TakeNRG","TearGlove","TehePelo","ThankEgg","TheIlluminati","TheRinger","TheTarFu","TheThing","ThunBeast","TinyFace","TooSpicy","TriHard","TwitchLit","TwitchRPG","TwitchUnity","UWot","UnSane","UncleNox","VaultBoy","VoHiYo","VoteNay","VoteYea","WTRuck","WholeWheat","WutFace","YouDontSay","YouWHY","bleedPurple","cmonBruh","copyThis","duDudu","imGlitch","mcaT","panicBasket","pastaThat","riPepperonis","twitchRaid"];
     for(emote of emotes){
         message = message.replace(new RegExp(emote, 'g'), '');
-        console.log(message);
     }
     return message;
 }

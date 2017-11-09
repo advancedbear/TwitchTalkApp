@@ -13,7 +13,45 @@ h2 {
     text-align: center;
 }
 
-table#list {
+.tab {
+	padding: 0;
+	margin: 0;
+}
+
+.tab li {
+	box-sizing: border-box;
+	float: left;
+	height: 42px;
+	font-size: 16px;
+	text-align: center;
+	line-height: 42px;
+	width: -webkit-calc(100% / 2);
+	list-style-type: none;
+    background: #E1DBEE;
+    cursor: pointer;
+}
+
+li.selected {
+	background: transparent;
+	cursor: default;
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+.content {
+    background: rgba(0,0,0,0.1);
+    height: 420px;
+}
+
+.table_wrapper {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+table.list {
     border-collapse: collapse;
     border: solid 1px #333;
     margin-left: auto;
@@ -22,19 +60,19 @@ table#list {
     table-layout: fixed;
 }
 
-#list td, th {
+.list td, .list th {
     border: solid 1px #333;
 }
 
-#list tr td:nth-child(1) {
+.list tr td:nth-child(1) {
     width: 180px;
     word-wrap: break-word;
 }
-#list tr td:nth-child(2) {
+.list tr td:nth-child(2) {
     width: 360px;
     word-wrap: break-word;
 }
-#list tr td:nth-child(3) {
+.list tr td:nth-child(3) {
     width: 40px;
 }
 
