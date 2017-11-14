@@ -39,7 +39,7 @@ mainWindow.on('loaded', function(){
         bouyomiServer = JSON.parse(localStorage.bouyomiServer);
     }
 
-    if(localStorage.volume==null){
+    if(localStorage.volume==null || localStorage.speed==null || localStorage.pitch==null){
         localStorage.volume = localStorage.speed = localStorage.pitch = 1.0;
     }
 
