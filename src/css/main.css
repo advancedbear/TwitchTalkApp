@@ -34,14 +34,14 @@ input[type="text"]:focus,button:focus {
 
 #title {
     font-family: 'Passion One', cursive;
-    width: 260px;
+    width: calc(100% - 48px - 44px);
     font-size: 24px;
     background: rgb(65, 67, 79);
     color: rgb(236, 240, 241);
     margin-top: 0;
     padding-top: 11px;
     padding-bottom: 11px;
-    padding-left: 12px;
+    padding-left: 44px;
 }
 
 .loader {
