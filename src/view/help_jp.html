@@ -4,27 +4,51 @@
     <meta charset="UTF-8">
     <title>Help (Japanese)</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/help.css">
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        $(function() {
+            $('body').fadeIn('fast');
+            $('.tabs div').click(function() {
+                var idx = $('.tabs div').index(this);
+                $('.content').fadeOut(150);
+                $('.content').eq(idx).delay(150).fadeIn(150);
+                $('.tabs div').removeClass('selected');
+                $(this).addClass('selected')
+            });
+
+            $('#langButton').click(function(){
+                $('body').fadeOut('fast',function(){
+                    location.href = "help_en.html";
+                });
+            })
+        });
+    </script>
   </head>
  
   <body>
-    <h1>Twitch Comment Talker</h1>
-    <div class="content">
+    <header>
+        <div id="langButton"><img src="../img/settingsEN.png"></div>
+        <div id="title">Twitch Comment Talker Help</div>
         <p>Twitchに投稿されたコメントを、棒読みちゃんとSpeechAPIで読み上げ可能にします。<br>
         和文は棒読みちゃんで、英文はSpeechAPIで読み上げられます。</p>
-        <hr>
-        <H3>使い方</H3>
+    </header>
+    <div class="tabs">
+        <div class="selected">使い方</div>
+        <div>設定項目</div>
+        <div>アプリ更新</div>
+    </div>
+    <div class="content">
         <ol>
             <li>棒読みちゃんを起動しておきます。</li>
-            <li><img src="../img/Login.png" style="vertical-align: middle;">をクリックして、Twitchにログインします。</li>
+            <li>Connect with Twitchをクリックして、Twitchにログインします。</li>
             <li>Username欄に自分のユーザーIDを入力します。<br /><small>※ログイン時に入力するIDです</small></li>
             <li>Channel欄に読み上げたいチャンネルIDを入力します。<br />
                 <small>※自分のチャンネルであれば自分のユーザーID、他人のチャンネルであれば相手のユーザーIDです</small></li>
             <li>Connectボタンを押すと読み上げが開始されます。</li>
         </ol>
-        <hr />
-        <H3>Settingsについて</H3>
+    </div>
+    <div class="content" style="display: none;">
         <ul>
             <li>Replacement
                 <ul>
@@ -65,8 +89,8 @@
                 </ul>
             </li>
         </ul>
-        <hr />
-        <H3>アプリの更新について</H3>
+    </div>
+    <div class="content" style="display: none;">
         <p>アプリ起動時、新しいバージョンが利用できる場合は通知されます。<br />
         可能な限り、最新バージョンをダウンロードしてご利用下さい。<br />
         アプリはダウンロード・解凍後、既存のフォルダに上書き保存して下さい。<br />

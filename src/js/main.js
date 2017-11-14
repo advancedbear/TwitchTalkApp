@@ -15,9 +15,11 @@ mainWindow.on('loaded', function(){
     if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
     if(localStorage.channel!=null) document.getElementById("channel").value = localStorage.channel;
     if(localStorage.password!=null){
-        document.getElementById("password").value = localStorage.password;
-        $("#loginTwitch img").attr('src', 'img/Loggedin.png');
-        $("#loginTwitch").attr('onclick', 'alert(\'You are already logged in\');');
+        $("#loginTwitch").hide();
+        statusUpdate("Already Logged in with Twitch.", 1);
+    } else {
+        $("#connSettings").hide();
+        statusUpdate("Please connect with Twitch at first.", -1);
     }
 
     if(localStorage.replaceList==null){
@@ -37,17 +39,25 @@ mainWindow.on('loaded', function(){
         bouyomiServer = JSON.parse(localStorage.bouyomiServer);
     }
 
+    if(localStorage.volume==null){
+        localStorage.volume = localStorage.speed = localStorage.pitch = 1.0;
+    }
+
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
     if(localStorage.useLogger==null) localStorage.useLogger = false;
-
     logger.init(JSON.parse(localStorage.useLogger));
+
+    $(document).on('click','#settingButton', function(){
+        $('#sideMenu').toggleClass('opened');
+    })
+
 });
 
 function Connect(){
     logger.out("Connect button pressed.")
-    let pass = document.getElementById("password").value;
+    let pass = localStorage.password;
     let name = document.getElementById("name").value;
     let channel = document.getElementById("channel").value;
     localStorage.name = name;
@@ -68,6 +78,8 @@ function Connect(){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC.client(tmi_options);
         client.on('chat', function(ch, userstate, message, self){
+            bouyomiServer = JSON.parse(localStorage.bouyomiServer);
+            logger.out("Client event listner was set.")
             let replacementList = JSON.parse(localStorage.replaceList);
             let replacementListEn = JSON.parse(localStorage.replaceListEn);
             let from = userstate["username"];
@@ -77,14 +89,15 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
-            message = message.replace(new RegExp(uri, 'g'), ';webURL;');
+            message = message.replace(new RegExp(uri, 'g'), ' (webURL) ');
             logger.out("URL replaced: "+message);
+            statusUpdate(from + ": "+replaceEmote(message),0);
             if(!JSON.parse(localStorage.readEmotes)){
                 message = replaceEmote(message);
                 logger.out("Emotes were replaced.");
             }
             let nMessage = message;
-            if(JSON.parse(localStorage.readName)) nMessage = message+'; '+from;
+            if(JSON.parse(localStorage.readName)) nMessage = message+' ('+from+')';
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
                 for (rKey in replacementListEn){
@@ -112,14 +125,18 @@ function Connect(){
             }
         });
         document.getElementById("connButton").innerText = "Disconnect";
+        $('#connButton').toggleClass('connected');
         conn = true;
         client.connect();
         logger.out("Connected to Channel.");
+        statusUpdate("Connected to "+channel+"'s channel.",1);
     } else {
         document.getElementById("connButton").innerText = "Connect";
+        $('#connButton').toggleClass('connected');
         conn = false;
         client.disconnect();
         logger.out("Disconnected from channel.");
+        statusUpdate("Disconnected from "+channel+"'s channel.",-1);
     }
 };
 
@@ -133,10 +150,12 @@ function loginTwitch() {
             let tmiPage = tmi.window.document;
             if(tmiPage.getElementById("tmiPasswordField").value != ""){
                 let Password = tmiPage.getElementById("tmiPasswordField").value;
-                document.getElementById("password").value = Password;
                 localStorage.password = Password;
+                $("#loginTwitch").hide();
+                $("#connSettings").show();
                 tmi.close();
                 document.getElementById("connButton").disabled = false;
+                statusUpdate("Twitch oAuth completed.", 1);
             }
         });
     });
@@ -161,4 +180,18 @@ function showNotification(from, message){
         sound: false,
         icon: './img/icon.png'
     });
+}
+
+function statusUpdate(message, code) {
+    var p;
+    if(code==1){
+        p = '<p class="d_text">';
+    } else if(code==0){
+        p = '<p class="d_text0">';
+    } else if(code==-1){
+        p = '<p class="d_text1">';
+    }
+    let m = p+message+'</p>';
+    $('.description').append(m);
+    $('.description').animate({scrollTop: $('.description')[0].scrollHeight}, 'fast');
 }

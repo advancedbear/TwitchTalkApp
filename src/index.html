@@ -5,26 +5,46 @@
     <title>Twitch Talk App</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/updater.js"></script>
   </head>
  
   <body>
-    <h1>Twitch Comment Talker</h1>
-    <hr>
-    <div class="button_wrapper">
-     <button onclick="loginTwitch()" id="loginTwitch"><img src="img/Login.png"></button>
+    <div class="loader"><img src="img/loader.gif"><br/><br/>LOADING...</div>
+    <div class="header">
+      <div id="settingButton" class="headerButton"><img src="img/settings.png"></div>
+      <div id="title">Twitch Comment Talker</div>
     </div>
-    <table id="table">
-    <tr><td>Password:</td><td><input type="password" id="password" disabled="disabled"></td></tr>
-    <tr><td>Username:</td><td><input type="text" id="name"></td></tr>
-    <tr><td>Channel:</td><td><input type="text" id="channel"></td></tr>
-    </table>
-    <hr>
-    <div class="button_wrapper">
-     <button onclick="Connect()" id="connButton">Connect</button>
+    <div class="main">
+      <div class="button_wrapper">
+      <button onclick="loginTwitch()" id="loginTwitch">Connect with Twitch</button>
+      </div>
+      <div id="connSettings">
+        <form id="connSets">
+          <label for="name"><img src="img/user.png"></label></span><input type="text" id="name" placeholder="Your Username">
+          <label for="channel"><img src="img/channel.png"></label><input type="text" id="channel" placeholder="Target Channel">
+        </form>
+        <div class="button_wrapper">
+          <button onclick="Connect()" id="connButton" from="connSets">Connect</button>
+        </div>
+      </div>
+      
+      <div class="description">
+        Twitch Talk App 1.0.0 status
+      </div>
+    </div>
+    <div id="sideMenu">
+      <div class="button_wrapper"><button onclick="showHelp('jp')"><img src="img/help.png"><br />Help</button></div>
+      <div class="button_wrapper"><button onclick="replaceSettings()"><img src="img/settingsRp.png"><br />Replacement</button></div>
+      <div class="button_wrapper"><button onclick="JPSettings()"><img src="img/settingsJP.png"><br />JP Voice</button></div>
+      <div class="button_wrapper"><button onclick="ENSettings()"><img src="img/settingsEN.png"><br />EN Voice</button></div>
+      <div class="button_wrapper"><input type="checkbox" id="ReadName" /><label for="ReadName" class="checkbox">Read Name</label></div>
+      <div class="button_wrapper"><input type="checkbox" id="ReadEmotes" /><label for="ReadEmotes" class="checkbox">Read Emotes</label></div>
+      <div class="button_wrapper"><input type="checkbox" id="UseNotify" /><label for="UseNotify" class="checkbox">Notification</label></div>
+      <div class="button_wrapper"><input type="checkbox" id="OutLog" /><label for="OutLog" class="checkbox">Log Output</label></div>
+      <div class="button_wrapper"><button onclick="resetSettings()" style="color:rgb(223, 86, 86);"><img src="img/delete.png"><br />Reset Settings</button></div>
     </div>
   </body>
 </html>

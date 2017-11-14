@@ -3,9 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <title>Replacement Settings</title>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
     <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/remodal.css">
+    <link rel="stylesheet" href="../css/remodal-default-theme.css">
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="../js/settings.js"></script>
+    <script src="../js/remodal.js"></script>
     <script>
       $(function(){
         $(".tab li").click(function(){
@@ -20,34 +24,57 @@
   </head>
 
   <body>
-    <H2>Replacement Settings</H2>
-		<ul class="tab">
-			<li id="jp_tab" class="selected">Japanese</li>
-			<li id="en_tab">English</li>
-		</ul>
+    <div class="remodal-bg">
+    <header>
+    <div id="title">Replacement Settings</div>
+    <p>When you finish setting, please close this window.<br />
+    設定が終了したら、このウィンドウは閉じて下さい。</p>
+      <ul class="tab">
+        <li id="jp_tab" class="selected">Japanese</li>
+        <li id="en_tab">English</li>
+      </ul>
+    </header>
     <div id="rep_jp" class="content">
-      <div id="newWord">
-          <label for="word1">New Word: </label><input type="text" id="word1"> -> <input type="text" id="word2">　<button onclick="addWord(0)" id="addWord">Add</button><br />
-          <i style="color: #FF3A3A;">When you finish setting, please close this window.</i>
-      </div> 
-      <hr />
       <div class="table_wrapper">
         <table id="list_jp" class="list">
-            <tr><th style="width: 180px">From</th><th style="width: 360px">To</th><th style="width: 40px">DEL</th></tr>
+            <tr><th style="width: 180px">Pattern</th><th style="width: 360px">Replacement</th><th style="width: 40px">DEL</th></tr>
         </table>
       </div>
+      <div id="newWord" onclick="location.href='#jp_add'">+</div>
     </div>
     <div id="rep_en" class="content" style="display: none;">
-      <div id="newWord">
-          <label for="word3">New Word: </label><input type="text" id="word3"> -> <input type="text" id="word4">　<button onclick="addWord(1)" id="addWord">Add</button><br />
-          <i style="color: #FF3A3A;">When you finish setting, please close this window.</i>
-      </div> 
-      <hr />
       <div class="table_wrapper">
         <table id="list_en" class="list">
-          <tr><th style="width: 180px">From</th><th style="width: 360px">To</th><th style="width: 40px">DEL</th></tr>
+          <tr><th style="width: 180px">Pattern</th><th style="width: 360px">Replacement</th><th style="width: 40px">DEL</th></tr>
         </table>
       </div>
+      <div id="newWord" onclick="location.href='#en_add'">+</div>
     </div>
+  </div>
+  
+  <div class="remodal" data-remodal-id="jp_add">
+      <h2>Add New Word</h2>
+      <p>
+      <input type="text" id="word1" class="rep_text" placeholder="Pattern word"><br />
+      <img src="../img/arrow.png"><br />
+      <input type="text" id="word2" class="rep_text" placeholder="Replacement Word">
+      </p>
+      <a class="remodal-cancel" href="#">Cancel</a>
+      <span style="padding-left: 1em;"></span>
+      <a class="remodal-confirm" href="#" onclick="addWord(0)">Add</a>
+  </div>
+
+  <div class="remodal" data-remodal-id="en_add">
+      <h1>Add New Word</h1>
+      <p>
+          <input type="text" id="word3" class="rep_text" placeholder="Pattern word"><br />
+          <img src="../img/arrow.png"><br />
+          <input type="text" id="word4" class="rep_text" placeholder="Replacement Word">
+      </p>
+      <a class="remodal-cancel" href="#">Cancel</a>　
+      <span style="padding-left: 1em;"></span>
+      <a class="remodal-confirm" href="#" onclick="addWord(1)">Add</a>
+  </div>
+
   </body>
 </html>

@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    background: rgb(236, 240, 241);
+    color: rgb(65, 67, 79);
+    overflow-y: hidden;
+    user-select: none;
+    display: none;
+}
+
+.tabs {
+    overflow: hidden;
+    width: 630px;
+    margin-left:5px;
+}
+
+.tabs div {
+    float: left;
+    box-sizing: border-box;
+    text-align: center;
+    width: 200px;
+    padding: 1em;
+    margin: 5px;
+    background: rgba(70, 74, 82, 0.8);
+    color: rgb(236, 240, 241);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background ease 0.2s;
+}
+
+.tabs div:hover {
+    background: rgba(70, 74, 82, 0.6);
+}
+
+.tabs div:active {
+    background: rgba(70, 74, 82, 1.0);
+}
+
+.selected {
+    background: rgb(230, 126, 34) !important;
+    cursor: default !important;
+}
+
+header {
+    overflow: hidden;
+}
+
+#langButton {
+    float: left;
+    background: rgb(65, 67, 79);
+    width: 58px;
+    height: 58px;
+    text-align: center;
+    cursor: pointer;
+    transition: background ease 0.2s;
+}
+
+#langButton:hover {
+    background: rgba(70, 74, 82, 1.0);
+}
+
+#langButton:active {
+    background: rgb(49, 52, 58);
+}
+#langButton img {
+    margin-top: 13px;
+}
+
+#title {
+    float: left;
+    background: rgb(65, 67, 79);
+    font-family: 'Passion One', cursive;
+    text-align: center;
+    width: calc(100% - 58px);
+    height: 58px;
+    font-size: 32px;
+    box-sizing: border-box;
+    background: rgb(65, 67, 79);
+    color: rgb(236, 240, 241);
+    margin-top: 0;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-right: 58px;
+}
+
+header p {
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 12px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 1ex;
+    width: 100%;
+    background: rgb(65, 67, 79);
+    color: rgb(236, 240, 241);
+}
+
+.content {
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border-radius: 4px;
+    margin: 0 auto;
+    width: 96%;
+    max-height: 330px;
+    padding: 1em;
+    overflow-y: scroll;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}

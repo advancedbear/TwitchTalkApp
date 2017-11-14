@@ -4,17 +4,41 @@
     <meta charset="UTF-8">
     <title>Help (English)</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/help.css">
     <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        $(function() {
+            $('body').fadeIn('fast');
+            $('.tabs div').click(function() {
+                var idx = $('.tabs div').index(this);
+                $('.content').fadeOut(150);
+                $('.content').eq(idx).delay(150).fadeIn(150);
+                $('.tabs div').removeClass('selected');
+                $(this).addClass('selected')
+            });
+        
+            $('#langButton').click(function(){
+                $('body').fadeOut('fast',function(){
+                    location.href = "help_jp.html";
+                });
+            })
+        });
+    </script>
   </head>
  
   <body>
-    <h1>Twitch Comment Talker</h1>
+        <header>
+            <div id="langButton"><img src="../img/settingsJP.png"></div>
+            <div id="title">Twitch Comment Talker Help</div>
+            <p>This software will send Twitch chat messages to TTS application "Bouyomi-chan".<br>
+                Japanese text will be read by "Bouyomi-chan", English text will be read by SpeechAPI.</p>
+        </header>
+        <div class="tabs">
+            <div class="selected">How to use</div>
+            <div>Settings</div>
+            <div>Update</div>
+        </div>
     <div class="content">
-        <p>This software will send Twitch chat messages to TTS application "Bouyomi-chan".<br>
-        Japanese text will be read by "Bouyomi-chan", English text will be read by SpeechAPI.</p>
-        <hr>
-        <H3>How to use</H3>
         <ol>
             <li>At first, launch "Bouyomi-chan".</li>
             <li>Click <img src="../img/Login.png" style="vertical-align: middle;"> and login to Twitch.</li>
@@ -24,8 +48,8 @@
                 * If you want to read other channel, enter the specific ID.</small></li>
             <li>After pressing the "Connect" button, voice robot will talk chat messages.</li>
         </ol>
-        <hr />
-        <H3>Settings</H3>
+    </div>
+    <div class="content" style="display: none;">
         <ul>
             <li>Replacement
                 <ul>
@@ -66,8 +90,8 @@
                 </ul>
             </li>
         </ul>
-        <hr />
-        <H3>Update</H3>
+    </div>
+    <div class="content" style="display: none;">
         <p>If new version is available, this app will notify it when you launch.<br />
         Please use latest version as much as possible.<br />
         You can overwrite new version.<br />

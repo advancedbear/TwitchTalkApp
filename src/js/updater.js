@@ -8,8 +8,10 @@ if(!gui.App.argv.length) {
         if (!error && newVersionExists) {
             alert("Update is available. Please use the latest version.\n新しいバージョンが利用可能です。最新版をご利用下さい。")
             gui.Shell.openExternal('https://advancedbear.github.io/products.html#TwitchTalkApp');
+            $('.loader').delay(1000).slideUp('slow');
         } else {
             console.log(error);
+            $('.loader').delay(1000).slideUp('slow');
         }
     });
 }

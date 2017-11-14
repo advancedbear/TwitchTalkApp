@@ -7,7 +7,7 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",
@@ -33,6 +33,8 @@
     "mac_icon": "img/icon.png",
     "max_height": 320,
     "max_width": 320,
+    "min_height": 320,
+    "min_width": 320,
     "resizable": false,
     "title": "TwitchTalkApp",
     "width": 320

@@ -16,9 +16,16 @@ nw.Window.get().on('loaded', function(){
             $("#list_en").append(createRow(key, repListEn[key], 'en'));
         }
     } else if (location.pathname == '/view/JPsettings.html'){
-        let bouyomi_s = JSON.parse(localStorage.bouyomiServer);
+        var bouyomi_s = JSON.parse(localStorage.bouyomiServer);
         $("#bouyomi_ip").val(bouyomi_s.host);
         $("#bouyomi_port").val(bouyomi_s.port);
+
+        $('#bouyomi_submit').on('click', function(){
+            bouyomi_s.host = $("#bouyomi_ip").val();
+            bouyomi_s.port = $("#bouyomi_port").val();
+            localStorage.bouyomiServer = JSON.stringify(bouyomi_s);
+        })
+
     } else if (location.pathname == '/view/ENsettings.html'){
         if(localStorage.volume!=null) $("#volume").val(localStorage.volume);
         if(localStorage.speed!=null) $("#speed").val(localStorage.speed);
@@ -48,7 +55,7 @@ nw.Window.get().on('loaded', function(){
 function createRow(key, val, lang){
     key = escapeHTML(key);
     val = escapeHTML(val);
-    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)">✕</button></div></td></tr>';
+    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)" class="delButton">✕</button></div></td></tr>';
     return row;
 }
 
@@ -69,6 +76,10 @@ function addWord(lang){
     if(lang==0){
         let word1 = $("#word1").val();
         let word2 = $("#word2").val();
+        if(word1=="" || word2=="") {
+            alert("Please enter words.");
+            return false;
+        }
         $("#word1").val("");
         $("#word2").val("");
         $("#list_jp").append(createRow(word1, word2, 'jp'));
@@ -77,6 +88,10 @@ function addWord(lang){
     } else {
         let word3 = $("#word3").val();
         let word4 = $("#word4").val();
+        if(word3=="" || word4=="") {
+            alert("Please enter words.");
+            return false;
+        }
         $("#word3").val("");
         $("#word4").val("");
         $("#list_en").append(createRow(word3, word4, 'en'));
