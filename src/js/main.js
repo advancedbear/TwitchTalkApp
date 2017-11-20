@@ -1,5 +1,6 @@
 var gui = require('nw.gui');
 var IRC = require('tmi.js');
+var path = require('path');
 var notifier = require('node-notifier');
 var Bouyomi = require('./js/bouyomi.js');
 var logger = require('./js/logger.js');
@@ -11,6 +12,7 @@ var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
 
 mainWindow.on('loaded', function(){
+    $('#webFont').attr('rel', 'stylesheet');
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
     if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
     if(localStorage.channel!=null) document.getElementById("channel").value = localStorage.channel;
@@ -178,7 +180,7 @@ function showNotification(from, message){
         title: from,
         message: message,
         sound: false,
-        icon: './img/icon.png'
+        icon: path.resolve('./img/icon.png')
     });
 }
 
@@ -193,5 +195,5 @@ function statusUpdate(message, code) {
     }
     let m = p+message+'</p>';
     $('.description').append(m);
-    $('.description').animate({scrollTop: $('.description')[0].scrollHeight}, 'fast');
+    $('.description').animate({scrollTop: $('.description').height()}, 'fast');
 }

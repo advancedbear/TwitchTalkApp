@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <title>Twitch Talk App</title>
-    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" id="webFont">
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="js/ui.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/ui.js" defer></script>
     <script src="js/main.js"></script>
-    <script src="js/updater.js"></script>
+    <script src="js/updater.js" defer></script>
   </head>
  
   <body>
@@ -32,7 +32,7 @@
       </div>
       
       <div class="description">
-        Twitch Talk App 1.0.0 status
+        Twitch Talk App <script>document.write(gui.App.manifest.version);</script> status
       </div>
     </div>
     <div id="sideMenu">

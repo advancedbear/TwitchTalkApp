@@ -13,7 +13,7 @@ $(function(){
     });
 })
 
-$(document).on('load', function(){    
+$(document).ready(function(){    
     $('#ReadName').prop('checked', JSON.parse(localStorage.readName));
     $('#ReadEmotes').prop('checked', JSON.parse(localStorage.readEmotes));
     $('#UseNotify').prop('checked', JSON.parse(localStorage.showNotify));

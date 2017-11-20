@@ -24,6 +24,7 @@ nw.Window.get().on('loaded', function(){
             bouyomi_s.host = $("#bouyomi_ip").val();
             bouyomi_s.port = $("#bouyomi_port").val();
             localStorage.bouyomiServer = JSON.stringify(bouyomi_s);
+            alert("Settings saved.")
         })
 
     } else if (location.pathname == '/view/ENsettings.html'){

@@ -244,11 +244,10 @@ button#bouyomi_submit{
     padding: 1em;
     cursor: pointer;
     border-radius: 6px;
-    box-shadow: 0 2px 0 0 rgba(0,0,0,0.4);
     transition: all ease 0.2s;
     font-size: 16px;
     width: 90%;
-    margin-top: 1ex;
+    margin-top: 1em;
 }
 
 button#bouyomi_submit:hover{
