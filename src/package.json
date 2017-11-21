@@ -1,13 +1,13 @@
 {
   "app_name": "TwitchTalkApp",
   "dependencies": {
-    "node-notifier": "^5.1.2",
     "node-webkit-updater": "^0.3.3",
     "tmi.js": "^1.2.1"
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
   "version": "1.0.4",
+  "description": "Win8.1以前のOSとWin10(1709)において通知機能が正常に動作しなかったため、通知システムを変更。",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",
