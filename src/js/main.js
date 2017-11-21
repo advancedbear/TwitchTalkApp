@@ -1,7 +1,6 @@
 var gui = require('nw.gui');
 var IRC = require('tmi.js');
 var path = require('path');
-var notifier = require('node-notifier');
 var Bouyomi = require('./js/bouyomi.js');
 var logger = require('./js/logger.js');
 var bouyomiServer = {};
@@ -176,12 +175,15 @@ function replaceEmote(message) {
 }
 
 function showNotification(from, message){
-    notifier.notify({
-        title: from,
-        message: message,
-        sound: false,
-        icon: path.resolve('./img/icon.png')
-    });
+    if("Notification" in window){
+        let n = new Notification(from, {
+            body: message,
+            tag: from,
+            icon: './img/icon.png',
+            silent: true
+        });
+        setTimeout(n.close.bind(n), 5000); 
+    }
 }
 
 function statusUpdate(message, code) {
@@ -195,5 +197,5 @@ function statusUpdate(message, code) {
     }
     let m = p+message+'</p>';
     $('.description').append(m);
-    $('.description').animate({scrollTop: $('.description').height()}, 'fast');
+    $('.description').animate({scrollTop: 999999}, 'fast');
 }
