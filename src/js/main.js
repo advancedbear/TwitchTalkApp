@@ -89,9 +89,7 @@ function Connect(){
                 showNotification(from, message);
                 logger.out("Notification popped up.");
             }
-            var uri = "(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)";
-            message = message.replace(new RegExp(uri, 'g'), ' (webURL) ');
-            logger.out("URL replaced: "+message);
+            message = replaceURL(message);
             statusUpdate(from + ": "+replaceEmote(message),0);
             if(!JSON.parse(localStorage.readEmotes)){
                 message = replaceEmote(message);
@@ -172,6 +170,13 @@ function replaceEmote(message) {
         message = message.replace(new RegExp(emote, 'g'), '');
     }
     return message;
+}
+
+function replaceURL(message){
+    var clipurl = new RegExp("(https?)(:\/\/clips\.twitch\.tv\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
+    var anyurl = new RegExp("(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
+    let replaced = message.replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
+    return replaced;
 }
 
 function showNotification(from, message){
