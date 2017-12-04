@@ -6,8 +6,8 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "1.0.5",
-  "description": "コメントにTwitchクリップのURLが含まれている場合、「Twitch Clip URL」と読み替えるように変更。",
+  "version": "1.0.6",
+  "description": "エモート専用の読み替え設定を追加しました。詳細は ヘルプ>設定項目 を参照して下さい。",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",

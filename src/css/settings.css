@@ -70,6 +70,24 @@ button.delButton:active {
     background: rgba(231, 76, 60, 1.0);
 }
 
+
+button.setButton{
+    border: none;
+    text-align: center;
+    height: 24px;
+    border-radius: 12px;
+    background: rgba(22, 160, 133, 0.8);
+}
+
+button.setButton:hover{
+    background: rgba(22, 160, 133, 0.6);
+}
+
+button.setButton:active {
+    background: rgba(22, 160, 133, 1);
+}
+
+
 .tab {
 	padding: 0;
 	margin: 0;
@@ -82,7 +100,7 @@ button.delButton:active {
 	font-size: 16px;
 	text-align: center;
 	line-height: 42px;
-	width: -webkit-calc(100% / 2);
+	width: -webkit-calc(100% / 3);
 	list-style-type: none;
     background: rgba(70, 74, 82, 0.8);
     color: rgb(236, 240, 241);
@@ -156,6 +174,17 @@ table.list {
 }
 .list tr td:nth-child(3) {
     width: 40px;
+}
+
+.pronInput {
+    outline: none;
+    box-sizing: border-box;
+    height: 32px;
+    border-radius:4px;
+    width: 100%;
+    padding: 1ex;
+    box-shadow:none;
+    background: #ECECEC;
 }
 
 #newWord {

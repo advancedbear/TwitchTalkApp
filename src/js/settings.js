@@ -2,7 +2,7 @@ var gui = require('nw.gui');
 
 var repList = {};
 var repListEn = {};
-
+var repListEmote = {};
 
 nw.Window.get().on('loaded', function(){
     if(location.pathname == '/view/replacement.html'){
@@ -11,10 +11,24 @@ nw.Window.get().on('loaded', function(){
         for (key in repList) {
             $("#list_jp").append(createRow(key, repList[key],'jp'));
         }
-        repListEn = JSON.parse(localStorage.replaceListEn)
+        repListEn = JSON.parse(localStorage.replaceListEn);
         for (key in repListEn) {
             $("#list_en").append(createRow(key, repListEn[key], 'en'));
         }
+        repListEmote = JSON.parse(localStorage.replaceListEmote);
+        $.ajax({
+            url: 'https://twitchemotes.com/api_cache/v3/global.json',
+            type:'GET',
+            dataType:'json',
+            timeout:2000
+        }).done(function(data){
+            for(var name in data) {
+                let id = data[name]['id'];
+                let code = data[name]['code'];
+                $("#list_emote").append(createRow2(id, code, repListEmote[code]));
+            }
+        });
+
     } else if (location.pathname == '/view/JPsettings.html'){
         var bouyomi_s = JSON.parse(localStorage.bouyomiServer);
         $("#bouyomi_ip").val(bouyomi_s.host);
@@ -58,6 +72,19 @@ function createRow(key, val, lang){
     val = escapeHTML(val);
     let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)" class="delButton">✕</button></div></td></tr>';
     return row;
+}
+
+function createRow2(id, code, pron){
+    let img = '<img src=\"https://static-cdn.jtvnw.net/emoticons/v1/'+id+'/1.0\">'
+    let row = '<tr id="'+id+'"><td style=\"text-align: center\">'+img+'</td><td>'+code+'</td><td><input type=\"text\" class=\"pronInput\" id=\"pron'+id+'\" value=\"'+pron+'\"></td><td><div class="button_wrapper"><button onclick=\"setEmoteReplace(\''+id+'\')" class="setButton">Apply</button></div></td></tr>';
+    return row;
+}
+
+function setEmoteReplace(id){
+    let origListEmote = JSON.parse(localStorage.origListEmote);
+    let code = origListEmote[id];
+    repListEmote[code] = $('#pron'+id).val();
+    localStorage.replaceListEmote = JSON.stringify(repListEmote);
 }
 
 function deleteRow(obj){

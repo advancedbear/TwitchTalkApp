@@ -31,6 +31,27 @@ mainWindow.on('loaded', function(){
         let newListEn ={replacementword: "SampleWordOfReplacement"};
         localStorage.replaceListEn = JSON.stringify(newListEn);
     }
+    if(localStorage.origListEmote==null){
+        var newListEmote = {};
+        var newListEmotes = {};
+        $.ajax({
+            url: 'https://twitchemotes.com/api_cache/v3/global.json',
+            type:'GET',
+            dataType:'json',
+            timeout:2000
+        }).done(function(data){
+            console.log(data);
+            for(var name in data) {
+                let id = data[name]['id'];
+                let code = data[name]['code'];
+                newListEmote[id] = code;
+                newListEmotes[code] = code;
+                console.log(id +": "+code);
+            }
+            localStorage.origListEmote = JSON.stringify(newListEmote);
+            localStorage.replaceListEmote = JSON.stringify(newListEmotes);
+        });
+    }
 
     if(localStorage.bouyomiServer==null){
         bouyomiServer.host = '127.0.0.1';
@@ -83,6 +104,7 @@ function Connect(){
             logger.out("Client event listner was set.")
             let replacementList = JSON.parse(localStorage.replaceList);
             let replacementListEn = JSON.parse(localStorage.replaceListEn);
+            let replacementListEmote = JSON.parse(localStorage.replaceListEmote);
             let from = userstate["username"];
             logger.out("message recieved-> from: "+from+" message: "+message);
             if(JSON.parse(localStorage.showNotify)){
@@ -93,7 +115,12 @@ function Connect(){
             statusUpdate(from + ": "+replaceEmote(message),0);
             if(!JSON.parse(localStorage.readEmotes)){
                 message = replaceEmote(message);
-                logger.out("Emotes were replaced.");
+                logger.out("Emotes were deleted.");
+            } else {
+                for(rKey in replacementListEmote){
+                    message = message.replace(new RegExp(rKey, 'g'), replacementListEmote[rKey]);
+                }
+                logger.out("Emotes were replaced. -> " +message);
             }
             let nMessage = message;
             if(JSON.parse(localStorage.readName)) nMessage = message+' ('+from+')';
