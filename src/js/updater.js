@@ -11,8 +11,8 @@ if(!gui.App.argv.length) {
                 + "【更新内容】\n"
                 + manifest.description;
             alert(mes)
-            gui.Shell.openExternal('https://advancedbear.github.io/products.html#TwitchTalkApp');
-            $('.loader').delay(1000).slideUp('slow');
+            gui.Shell.openExternal(path.join(path.dirname(process.execPath),'autoupdater.exe'));
+            setTimeout(function(){nw.Window.get().close()}, 1000);
         } else {
             $('.loader').delay(1000).slideUp('slow');
         }
