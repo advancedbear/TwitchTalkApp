@@ -13,10 +13,11 @@
 - 文字列置換機能
     - 棒読みちゃんの置換機能とは別に、文字列の読み替えが可能です。  
     英文の場合にも読み替えが可能になります。
+    - Twitchエモートを別に読み替え設定可能です。
 - コメント通知機能
     - コメントが投稿された際に、OS標準の通知ポップアップを用いて通知が可能です。  
     フルスクリーン時以外は、通知でコメント文を見ることが出来ます。
-- アップデート通知機能
+- 自動アップデート機能
     - 新バージョンが利用できる場合、起動時に通知を行います。
 
 
@@ -32,7 +33,8 @@
     - Chromeのインストールは不要ですが、Chromeが動作しないPCでは動作を保証できません。
 
 ## ライセンス
-本アプリケーションは**MITライセンス**のもと配布しています。  
+本アプリケーションは[MITライセンス](https://github.com/advancedbear/TwitchTalkApp/blob/master/LICENSE)のもと配布しています。  
+自動アップデートに利用している[autoupdater](https://github.com/advancedbear/tta-autoupdater)も[MITライセンス](https://github.com/advancedbear/tta-autoupdater/blob/master/LICENSE)が適用されています。
 
 ### 利用モジュール等
 - [NW.js](https://github.com/nwjs/nw.js)
