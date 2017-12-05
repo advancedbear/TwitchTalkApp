@@ -22,6 +22,7 @@ $(document).ready(function(){
 
 function replaceSettings(){
     gui.Window.open ('view/replacement.html', {
+        id: "replacement",
         width: 640,
         max_width: 640,
         min_width: 640,
@@ -35,6 +36,7 @@ function replaceSettings(){
 
 function JPSettings(){
     gui.Window.open ('view/JPsettings.html', {
+        id: "JPsettings",
         width: 240,
         max_width: 240,
         min_width: 240,
@@ -55,6 +57,7 @@ function JPSettings(){
 
 function ENSettings(){
     gui.Window.open ('view/ENsettings.html', {
+        id: "ENsettings",
         width: 240,
         height: 270,
         resizable: false
@@ -65,6 +68,7 @@ function ENSettings(){
 function showHelp(lang){
     let url='view/help_'+lang+'.html';
     gui.Window.open (url, {
+        id: "help",
         width: 640,
         max_width: 640,
         min_width: 640,

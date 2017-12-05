@@ -101,7 +101,6 @@ function Connect(){
         client = new IRC.client(tmi_options);
         client.on('chat', function(ch, userstate, message, self){
             bouyomiServer = JSON.parse(localStorage.bouyomiServer);
-            logger.out("Client event listner was set.")
             let replacementList = JSON.parse(localStorage.replaceList);
             let replacementListEn = JSON.parse(localStorage.replaceListEn);
             let replacementListEmote = JSON.parse(localStorage.replaceListEmote);
@@ -112,7 +111,7 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             message = replaceURL(message);
-            statusUpdate(from + ": "+deleteEmote(message),0);
+            statusUpdate(from + ": "+message,0);
             if(!JSON.parse(localStorage.readEmotes)){
                 message = deleteEmote(message);
                 logger.out("Emotes were deleted.");
