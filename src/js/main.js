@@ -112,26 +112,20 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             message = replaceURL(message);
-            statusUpdate(from + ": "+replaceEmote(message),0);
+            statusUpdate(from + ": "+deleteEmote(message),0);
             if(!JSON.parse(localStorage.readEmotes)){
-                message = replaceEmote(message);
+                message = deleteEmote(message);
                 logger.out("Emotes were deleted.");
             } else {
-                for(rKey in replacementListEmote){
-                    message = message.replace(new RegExp(rKey, 'g'), replacementListEmote[rKey]);
-                }
+                message = replaceMessage(message, replacementListEmote);
                 logger.out("Emotes were replaced. -> " +message);
             }
             let nMessage = message;
             if(JSON.parse(localStorage.readName)) nMessage = message+' ('+from+')';
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
-                for (rKey in replacementListEn){
-                    if(new RegExp(rKey, 'g').test(nMessage)){
-                        nMessage = nMessage.replace(new RegExp(rKey, 'g'), replacementListEn[rKey]);
-                    }
-                    logger.out("message replaced -> "+nMessage);
-                }
+                nMessage = replaceMessage(nMessage, replacementListEn);
+                logger.out("message replaced -> "+nMessage);
                 logger.out("Message is English. Try to use Speech API.");
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;
@@ -140,12 +134,8 @@ function Connect(){
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);
             } else {
-                for (rKey in replacementList){
-                    if(new RegExp(rKey, 'g').test(nMessage)){
-                        nMessage = nMessage.replace(new RegExp(rKey, 'g'), replacementList[rKey]);
-                    }
-                    logger.out("message replaced -> from: "+nMessage);
-                }
+                nMessage = replaceMessage(nMessage, replacementList);
+                logger.out("message replaced -> from: "+nMessage);
                 logger.out("Message is Japanese. Try to use Bouyomi-chan");
                 Bouyomi.read(bouyomiServer,nMessage);
             }
@@ -191,12 +181,20 @@ function isEnglish(message){
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true ;
 };
 
-function replaceEmote(message) {
-    let emotes = ["4Head","AMPTropPunch","ANELE","ArgieB8","ArigatoNas","ArsonNoSexy","AsianGlow","BCWarrior","BJBlazkowicz","BabyRage","BatChest","BegWan","BibleThump","BigBrother","BigPhish","BlargNaut","BlessRNG","BloodTrail","BrainSlug","BrokeBack","BudStar","BuddhaBar","CarlSmile","ChefFrank","CoolCat","CoolStoryBob","CorgiDerp","CrreamAwk","CurseLit","DAESuppy","DBstyle","DansGame","DatSheffy","DendiFace","DogFace","DoritosChip","DxCat","EleGiggle","EntropyWins","FUNgineer","FailFish","FrankerZ","FreakinStinkin","FunRun","FutureMan","GOWSkull","GingerPower","GivePLZ","GrammarKing","HassaanChop","HassanChop","HeyGuys","HotPokket","HumbleLife","InuyoFace","ItsBoshyTime","JKanStyle","Jebaited","JonCarnage","KAPOW","Kappa","KappaClaus","KappaPride","KappaRoss","KappaWealth","Kappu","Keepo","KevinTurtle","Kippa","KonCha","Kreygasm","MVGame","Mau5","MikeHogu","MingLee","MorphinTime","MrDestructoid","NinjaGrumpy","NomNom","NotATK","NotLikeThis","OSblob","OSfrog","OSkomodo","OSsloth","OhMyDog","OneHand","OpieOP","OptimizePrime","PJSalt","PJSugar","PMSTwin","PRChase","PanicVis","PartyTime","PeoplesChamp","PermaSmug","PicoMause","PipeHype","PogChamp","Poooound","PraiseIt","PrimeMe","PunOko","PunchTrees","QuadDamage","RaccAttack","RalpherZ","RedCoat","ResidentSleeper","RitzMitz","RlyTho","RuleFive","SMOrc","SSSsss","SabaPing","SeemsGood","ShadyLulu","ShazBotstix","SmoocherZ","SoBayed","SoonerLater","Squid1","Squid2","Squid3","Squid4","StinkyCheese","StoneLightning","StrawBeary","SuperVinlin","SwiftRage","TBAngel","TBCrunchy","TBTacoBag","TBTacoProps","TF2John","TPcrunchyroll","TTours","TakeNRG","TearGlove","TehePelo","ThankEgg","TheIlluminati","TheRinger","TheTarFu","TheThing","ThunBeast","TinyFace","TooSpicy","TriHard","TwitchLit","TwitchRPG","TwitchUnity","UWot","UnSane","UncleNox","VaultBoy","VoHiYo","VoteNay","VoteYea","WTRuck","WholeWheat","WutFace","YouDontSay","YouWHY","bleedPurple","cmonBruh","copyThis","duDudu","imGlitch","mcaT","panicBasket","pastaThat","riPepperonis","twitchRaid"];
+function deleteEmote(message) {
+    let emotes = Object.keys(JSON.parse(localStorage.replaceListEmote));
     for(emote of emotes){
         message = message.replace(new RegExp(emote, 'g'), '');
     }
     return message;
+}
+
+function replaceMessage(message, rList) {
+    let nMessage = message;
+    for(rKey in rList){
+        nMessage = nMessage.replace(new RegExp(rKey, 'g'), rList[rKey]);
+    }
+    return nMessage;
 }
 
 function replaceURL(message){

@@ -30,11 +30,6 @@ function replaceSettings(){
         min_height: 480,
         resizable: false
       }, function(tmi){
-        tmi.on ('loaded', function(){
-        });
-        tmi.on ('closed', function(){
-
-        })
     });
 }
 
@@ -48,8 +43,6 @@ function JPSettings(){
         min_height: 160,
         resizable: false
       }, function(tmi){
-        tmi.on ('loaded', function(){
-        });
         let tmiPage = tmi.window.document;
         $(tmiPage).on('click', '#bouyomi_submit', function(){
             bouyomiServer.port = tmiPage.getElementById("bouyomi_port").value;
@@ -66,8 +59,6 @@ function ENSettings(){
         height: 270,
         resizable: false
       }, function(tmi){
-        tmi.on ('loaded', function(){
-        });
     });
 }
 
@@ -82,8 +73,6 @@ function showHelp(lang){
         min_height: 480,
         resizable: false
       }, function(tmi){
-        tmi.on ('loaded', function(){
-        });
     });
 }
 
@@ -92,8 +81,5 @@ function resetSettings(){
         localStorage.clear();
         alert("All settings are cleared.\nすべての設定が消去されました。");
         chrome.runtime.reload();
-        //mainWindow.reload();
-    } else {
-
     }
 }
