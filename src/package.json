@@ -6,8 +6,8 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "1.1.0",
-  "description": "!!!!!!!!　重　要　!!!!!!!!\n・自動アップデート機能が実装されました。\n今後の確実なアップデートのため、必ずこの最新版（1.1.0）を利用して下さい。",
+  "version": "1.1.1",
+  "description": "・コメント言語の判定方式が修正されました。\n・グローバルエモートの仕様変更に対応\n・画面表示の修正",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",

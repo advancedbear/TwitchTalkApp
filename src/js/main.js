@@ -10,50 +10,63 @@ var mainWindow = nw.Window.get();
 
 var uttr = new SpeechSynthesisUtterance();
 
+// メイン画面のDOM読み込み完了後の初期化動作
 mainWindow.on('loaded', function(){
-    $('#webFont').attr('rel', 'stylesheet');
+    $('#webFont').attr('rel', 'stylesheet'); // ウェブフォントの遅延読み込み
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
     if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
     if(localStorage.channel!=null) document.getElementById("channel").value = localStorage.channel;
     if(localStorage.password!=null){
+        // localStorageにOAuthPasswordが存在する場合、Loginボタンを非表示に
         $("#loginTwitch").hide();
         statusUpdate("Already Logged in with Twitch.", 1);
     } else {
+        // localStorageにOAuthPasswordが存在しない場合、Connectボタンを非表示に
         $("#connSettings").hide();
         statusUpdate("Please connect with Twitch at first.", -1);
     }
 
     if(localStorage.replaceList==null){
+        // 初回起動時のデフォルト読み替えリストの設定
         let newList ={replacementwordテスト: "読み替え機能のテストです"};
         localStorage.replaceList = JSON.stringify(newList);
     }
     if(localStorage.replaceListEn==null){
+        // 初回起動時のデフォルト読み替えリストの設定
         let newListEn ={replacementword: "SampleWordOfReplacement"};
         localStorage.replaceListEn = JSON.stringify(newListEn);
     }
-    if(localStorage.origListEmote==null){
-        var newListEmote = {};
-        var newListEmotes = {};
-        $.ajax({
-            url: 'https://twitchemotes.com/api_cache/v3/global.json',
-            type:'GET',
-            dataType:'json',
-            timeout:2000
-        }).done(function(data){
-            console.log(data);
-            for(var name in data) {
-                let id = data[name]['id'];
-                let code = data[name]['code'];
-                newListEmote[id] = code;
-                newListEmotes[code] = code;
-                console.log(id +": "+code);
+    // エモートリストが空の場合、API経由で一覧を取得してリストに保存
+    var newOrigListEmotes = {};
+    var newRepListEmotes = {};
+    var RepListEmotes = JSON.parse(localStorage.replaceListEmote);
+    $.ajax({
+        url: 'https://twitchemotes.com/api_cache/v3/global.json',
+        type:'GET',
+        dataType:'json',
+        timeout:2000
+    }).done(function(data){
+        console.log(data);
+        for(let name in data) {
+            let id = data[name]['id'];
+            let code = data[name]['code'];
+            newOrigListEmotes[id] = code;
+            if(RepListEmotes[code]==null) RepListEmotes[code] = code;
+        }
+        // APIで取得した現在のエモート一覧に存在するエモートのみを、置換エモートリストへコピーする。
+        // 削除されたエモート等が破棄されるように。
+        for(let key in newOrigListEmotes){
+            if(RepListEmotes[newOrigListEmotes[key]]!=null){
+                newRepListEmotes[newOrigListEmotes[key]] = RepListEmotes[newOrigListEmotes[key]];
             }
-            localStorage.origListEmote = JSON.stringify(newListEmote);
-            localStorage.replaceListEmote = JSON.stringify(newListEmotes);
-        });
-    }
+        }
+        console.log(newRepListEmotes);
+        localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
+        localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
+    });
 
     if(localStorage.bouyomiServer==null){
+        // 棒読みちゃんの接続設定初期値
         bouyomiServer.host = '127.0.0.1';
         bouyomiServer.port = '50001';
         localStorage.bouyomiServer = JSON.stringify(bouyomiServer);
@@ -62,9 +75,10 @@ mainWindow.on('loaded', function(){
     }
 
     if(localStorage.volume==null || localStorage.speed==null || localStorage.pitch==null){
+        // Web Speech APIの音声設定の初期値
         localStorage.volume = localStorage.speed = localStorage.pitch = 1.0;
     }
-
+    // 各チェックボックスの初期化
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
@@ -124,7 +138,11 @@ function Connect(){
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
                 nMessage = replaceMessage(nMessage, replacementListEn);
-                logger.out("message replaced -> "+nMessage);
+            } else {
+                nMessage = replaceMessage(nMessage, replacementList);
+            }
+            logger.out("message replaced -> "+nMessage);
+            if(isEnglish(nMessage)){
                 logger.out("Message is English. Try to use Speech API.");
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;
@@ -133,14 +151,14 @@ function Connect(){
                 uttr.lang = 'en-US';
                 speechSynthesis.speak(uttr);
             } else {
-                nMessage = replaceMessage(nMessage, replacementList);
-                logger.out("message replaced -> from: "+nMessage);
                 logger.out("Message is Japanese. Try to use Bouyomi-chan");
                 Bouyomi.read(bouyomiServer,nMessage);
             }
         });
         document.getElementById("connButton").innerText = "Disconnect";
         $('#connButton').toggleClass('connected');
+        $('#name').prop('disabled', true);
+        $('#channel').prop('disabled', true);
         conn = true;
         client.connect();
         logger.out("Connected to Channel.");
@@ -148,6 +166,8 @@ function Connect(){
     } else {
         document.getElementById("connButton").innerText = "Connect";
         $('#connButton').toggleClass('connected');
+        $('#name').prop('disabled', false);
+        $('#channel').prop('disabled', false);
         conn = false;
         client.disconnect();
         logger.out("Disconnected from channel.");
