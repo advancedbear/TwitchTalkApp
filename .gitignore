@@ -5,3 +5,4 @@ icudtl.dat
 TwitchCommentTalker.exe
 .gitignore
 src/log*.log
+src/web2exe.json

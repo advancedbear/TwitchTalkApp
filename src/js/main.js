@@ -11,7 +11,7 @@ var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
 
 // メイン画面のDOM読み込み完了後の初期化動作
-mainWindow.on('loaded', function(){
+window.onload = function(){
     $('#webFont').attr('rel', 'stylesheet'); // ウェブフォントの遅延読み込み
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
     if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
@@ -35,37 +35,7 @@ mainWindow.on('loaded', function(){
         // 初回起動時のデフォルト読み替えリストの設定
         let newListEn ={replacementword: "SampleWordOfReplacement"};
         localStorage.replaceListEn = JSON.stringify(newListEn);
-    }
-    // エモートリストが空の場合、API経由で一覧を取得してリストに保存
-    var newOrigListEmotes = {};
-    var newRepListEmotes = {};
-    var RepListEmotes = JSON.parse(localStorage.replaceListEmote);
-    $.ajax({
-        url: 'https://twitchemotes.com/api_cache/v3/global.json',
-        type:'GET',
-        dataType:'json',
-        timeout:2000
-    }).done(function(data){
-        console.log(data);
-        for(let name in data) {
-            let id = data[name]['id'];
-            let code = data[name]['code'];
-            newOrigListEmotes[id] = code;
-            if(RepListEmotes[code]==null) RepListEmotes[code] = code;
-        }
-        // APIで取得した現在のエモート一覧に存在するエモートのみを、置換エモートリストへコピーする。
-        // 削除されたエモート等が破棄されるように。
-        for(let key in newOrigListEmotes){
-            if(RepListEmotes[newOrigListEmotes[key]]!=null){
-                newRepListEmotes[newOrigListEmotes[key]] = RepListEmotes[newOrigListEmotes[key]];
-            }
-        }
-        console.log(newRepListEmotes);
-        localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
-        localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
-    });
-
-    if(localStorage.bouyomiServer==null){
+    }if(localStorage.bouyomiServer==null){
         // 棒読みちゃんの接続設定初期値
         bouyomiServer.host = '127.0.0.1';
         bouyomiServer.port = '50001';
@@ -83,13 +53,43 @@ mainWindow.on('loaded', function(){
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
     if(localStorage.useLogger==null) localStorage.useLogger = false;
+
+    // エモートリストが空の場合、API経由で一覧を取得してリストに保存
+    var newOrigListEmotes = {};
+    var newRepListEmotes = {};
+    var RepListEmotes = {};
+    if(localStorage.replaceListEmote!=null) JSON.parse(localStorage.replaceListEmote);
+    $.ajax({
+        url: 'https://twitchemotes.com/api_cache/v3/global.json',
+        type:'GET',
+        dataType:'json',
+        timeout:2000
+    }).done(function(data){
+        for(let name in data) {
+            let id = data[name]['id'];
+            let code = data[name]['code'];
+            newOrigListEmotes[id] = code;
+            if(RepListEmotes[code]==null) RepListEmotes[code] = code;
+        }
+        // APIで取得した現在のエモート一覧に存在するエモートのみを、置換エモートリストへコピーする。
+        // 削除されたエモート等が破棄されるように。
+        for(let key in newOrigListEmotes){
+            if(RepListEmotes[newOrigListEmotes[key]]!=null){
+                newRepListEmotes[newOrigListEmotes[key]] = RepListEmotes[newOrigListEmotes[key]];
+            }
+        }
+        localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
+        localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
+    });
     logger.init(JSON.parse(localStorage.useLogger));
 
     $(document).on('click','#settingButton', function(){
+        let date = new Date();
+        console.log('設定パネルボタンが押されました。'+date.getTime());
         $('#sideMenu').toggleClass('opened');
     })
 
-});
+};
 
 function Connect(){
     logger.out("Connect button pressed.")
