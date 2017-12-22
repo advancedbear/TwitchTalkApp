@@ -98,7 +98,11 @@ function Connect(){
     let channel = document.getElementById("channel").value;
     localStorage.name = name;
     localStorage.channel = channel;
-
+    let channels = channel.split(',');
+    for(let chn in channels) {
+        channels[chn] = '#'+channels[chn];
+    }
+    console.log(channels);
     var tmi_options = {
         connection: {
             reconnect: true
@@ -107,7 +111,7 @@ function Connect(){
             username: name,
             password: pass
         },
-        channels: ["#"+channel]
+        channels: channels
     };
 
     if(!conn){
@@ -125,7 +129,7 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             message = replaceURL(message);
-            statusUpdate(from + ": "+message,0);
+            statusUpdate(from+' ['+ch+']' + ": "+message,0);
             if(!JSON.parse(localStorage.readEmotes)){
                 message = deleteEmote(message);
                 logger.out("Emotes were deleted.");
