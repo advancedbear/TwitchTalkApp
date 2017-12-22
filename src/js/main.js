@@ -7,7 +7,6 @@ var bouyomiServer = {};
 var conn = false;
 var client;
 var mainWindow = nw.Window.get();
-
 var uttr = new SpeechSynthesisUtterance();
 
 // メイン画面のDOM読み込み完了後の初期化動作
@@ -35,7 +34,8 @@ window.onload = function(){
         // 初回起動時のデフォルト読み替えリストの設定
         let newListEn ={replacementword: "SampleWordOfReplacement"};
         localStorage.replaceListEn = JSON.stringify(newListEn);
-    }if(localStorage.bouyomiServer==null){
+    }
+    if(localStorage.bouyomiServer==null){
         // 棒読みちゃんの接続設定初期値
         bouyomiServer.host = '127.0.0.1';
         bouyomiServer.port = '50001';
@@ -55,9 +55,9 @@ window.onload = function(){
     if(localStorage.useLogger==null) localStorage.useLogger = false;
 
     // エモートリストが空の場合、API経由で一覧を取得してリストに保存
-    var newOrigListEmotes = {};
-    var newRepListEmotes = {};
-    var RepListEmotes = {};
+    let newOrigListEmotes = {};
+    let newRepListEmotes = {};
+    let RepListEmotes = {};
     if(localStorage.replaceListEmote!=null) JSON.parse(localStorage.replaceListEmote);
     $.ajax({
         url: 'https://twitchemotes.com/api_cache/v3/global.json',
@@ -85,7 +85,6 @@ window.onload = function(){
 
     $(document).on('click','#settingButton', function(){
         let date = new Date();
-        console.log('設定パネルボタンが押されました。'+date.getTime());
         $('#sideMenu').toggleClass('opened');
     })
 
@@ -94,16 +93,16 @@ window.onload = function(){
 function Connect(){
     logger.out("Connect button pressed.")
     let pass = localStorage.password;
-    let name = document.getElementById("name").value;
-    let channel = document.getElementById("channel").value;
-    localStorage.name = name;
-    localStorage.channel = channel;
+    let name = localStorage.name = document.getElementById("name").value;
+    let channel = localStorage.channel = document.getElementById("channel").value;
     let channels = channel.split(',');
     for(let chn in channels) {
         channels[chn] = '#'+channels[chn];
     }
     console.log(channels);
-    var tmi_options = {
+    
+    bouyomiServer = JSON.parse(localStorage.bouyomiServer);
+    let tmi_options = {
         connection: {
             reconnect: true
         },
@@ -118,10 +117,6 @@ function Connect(){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC.client(tmi_options);
         client.on('chat', function(ch, userstate, message, self){
-            bouyomiServer = JSON.parse(localStorage.bouyomiServer);
-            let replacementList = JSON.parse(localStorage.replaceList);
-            let replacementListEn = JSON.parse(localStorage.replaceListEn);
-            let replacementListEmote = JSON.parse(localStorage.replaceListEmote);
             let from = userstate["username"];
             logger.out("message recieved-> from: "+from+" message: "+message);
             if(JSON.parse(localStorage.showNotify)){
@@ -134,16 +129,16 @@ function Connect(){
                 message = deleteEmote(message);
                 logger.out("Emotes were deleted.");
             } else {
-                message = replaceMessage(message, replacementListEmote);
+                message = replaceMessage(message, JSON.parse(localStorage.replaceListEmote));
                 logger.out("Emotes were replaced. -> " +message);
             }
             let nMessage = message;
             if(JSON.parse(localStorage.readName)) nMessage = message+' ('+from+')';
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
-                nMessage = replaceMessage(nMessage, replacementListEn);
+                nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceListEn));
             } else {
-                nMessage = replaceMessage(nMessage, replacementList);
+                nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceList));
             }
             logger.out("message replaced -> "+nMessage);
             if(isEnglish(nMessage)){
@@ -159,12 +154,12 @@ function Connect(){
                 Bouyomi.read(bouyomiServer,nMessage);
             }
         });
+        client.connect();
         document.getElementById("connButton").innerText = "Disconnect";
         $('#connButton').toggleClass('connected');
         $('#name').prop('disabled', true);
         $('#channel').prop('disabled', true);
         conn = true;
-        client.connect();
         logger.out("Connected to Channel.");
         statusUpdate("Connected to "+channel+"'s channel.",1);
     } else {
@@ -221,8 +216,8 @@ function replaceMessage(message, rList) {
 }
 
 function replaceURL(message){
-    var clipurl = new RegExp("(https?)(:\/\/clips\.twitch\.tv\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
-    var anyurl = new RegExp("(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
+    let clipurl = new RegExp("(https?)(:\/\/clips\.twitch\.tv\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
+    let anyurl = new RegExp("(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
     let replaced = message.replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
     return replaced;
 }
@@ -240,7 +235,7 @@ function showNotification(from, message){
 }
 
 function statusUpdate(message, code) {
-    var p;
+    let p;
     if(code==1){
         p = '<p class="d_text">';
     } else if(code==0){
