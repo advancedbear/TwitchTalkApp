@@ -49,6 +49,7 @@ window.onload = function(){
         localStorage.volume = localStorage.speed = localStorage.pitch = 1.0;
     }
     // 各チェックボックスの初期化
+    if(localStorage.useENvoice==null) localStorage.useENvoice = true;
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
@@ -124,7 +125,11 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             message = replaceURL(message);
-            statusUpdate(from+' ['+ch+']' + ": "+message,0);
+            if(channels.length == 1 ) {
+                statusUpdate(from+ ": "+message,0);
+            } else {
+                statusUpdate(from+' ['+ch+']' + ": "+message,0);
+            }
             if(!JSON.parse(localStorage.readEmotes)){
                 message = deleteEmote(message);
                 logger.out("Emotes were deleted.");
@@ -141,7 +146,7 @@ function Connect(){
                 nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceList));
             }
             logger.out("message replaced -> "+nMessage);
-            if(isEnglish(nMessage)){
+            if(isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)){
                 logger.out("Message is English. Try to use Speech API.");
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;

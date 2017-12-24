@@ -11,6 +11,9 @@
 
   <body>
     <p class="title">EN Voice Settings</p>
+    <div style="text-align: center">
+      <input type="checkbox" id="useEnglish"><label for="useEnglish">Use English Voice</label>
+    </div>
     <div class="options">
       Volume: <span id="volume_val"></span><br />
       <input type="range" id="volume" min="0" max="1.0" step="0.1" value="1.0">
@@ -18,8 +21,7 @@
       <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
       Pitch: <span id="pitch_val"></span><br />
       <input type="range" id="pitch" min="0" max="2.0" step="0.1" value="1.0">
-      <button onclick="enVoiceTest()" id="enVoiceTest" class="testButton">English Voice Test</button><br />
-      <small>Default: 1.0</small>
+      <button onclick="enVoiceTest()" id="enVoiceTest" class="testButton">English Voice Test</button>
     </div>
   </body>
 </html>

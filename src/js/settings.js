@@ -42,6 +42,7 @@ nw.Window.get().on('loaded', function(){
         })
 
     } else if (location.pathname == '/view/ENsettings.html'){
+        if(localStorage.useENvoice!=null) $("#useEnglish").prop('checked', JSON.parse(localStorage.useENvoice));
         if(localStorage.volume!=null) $("#volume").val(localStorage.volume);
         if(localStorage.speed!=null) $("#speed").val(localStorage.speed);
         if(localStorage.pitch!=null) $("#pitch").val(localStorage.pitch);
@@ -50,6 +51,9 @@ nw.Window.get().on('loaded', function(){
         $("#speed_val").text(parseFloat($("#speed").val()).toFixed(1));
         $("#pitch_val").text(parseFloat($("#pitch").val()).toFixed(1));
 
+        $('#useEnglish').change(function(){
+            localStorage.useENvoice = JSON.stringify($(this).prop('checked'));
+        })
         $('#volume').on('input', function(){
             $("#volume_val").text(parseFloat($(this).val()).toFixed(1));
             localStorage.volume = parseFloat($(this).val());
