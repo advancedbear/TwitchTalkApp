@@ -55,6 +55,8 @@ window.onload = function(){
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
     if(localStorage.useLogger==null) localStorage.useLogger = false;
 
+    speechSynthesis.getVoices();
+
     // エモートリストが空の場合、API経由で一覧を取得してリストに保存
     let newOrigListEmotes = {};
     let newRepListEmotes = {};
@@ -85,6 +87,8 @@ window.onload = function(){
     logger.init(JSON.parse(localStorage.useLogger));
 
     $(document).on('click','#settingButton', function(){
+        voices = speechSynthesis.getVoices();
+        sessionStorage.voices = JSON.stringify(voices);
         let date = new Date();
         $('#sideMenu').toggleClass('opened');
     })
@@ -101,6 +105,14 @@ function Connect(){
         channels[chn] = '#'+channels[chn];
     }
     console.log(channels);
+
+    let voices = speechSynthesis.getVoices()
+    for(let voice of voices){
+        if(localStorage.voiceType == voice.name){
+            uttr.voice = voice;
+        }
+    }
+    console.log(uttr.voice);
     
     bouyomiServer = JSON.parse(localStorage.bouyomiServer);
     let tmi_options = {
@@ -146,13 +158,13 @@ function Connect(){
                 nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceList));
             }
             logger.out("message replaced -> "+nMessage);
-            if(isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)){
+            if(isEnglish(nMessage) && localStorage.voiceType!='none'){
                 logger.out("Message is English. Try to use Speech API.");
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;
                 uttr.pitch = localStorage.pitch;
-                uttr.text = nMessage;
                 uttr.lang = 'en-US';
+                uttr.text = nMessage;
                 speechSynthesis.speak(uttr);
             } else {
                 logger.out("Message is Japanese. Try to use Bouyomi-chan");
@@ -249,6 +261,6 @@ function statusUpdate(message, code) {
         p = '<p class="d_text1">';
     }
     let m = p+message+'</p>';
-    $('.description').append(m);
-    $('.description').animate({scrollTop: 999999}, 'fast');
+    $('#description').append(m);
+    $('#description').animate({scrollTop: 999999}, 'fast');
 }

@@ -59,7 +59,11 @@ function ENSettings(){
     gui.Window.open ('view/ENsettings.html', {
         id: "ENsettings",
         width: 240,
-        height: 270,
+        max_width: 240,
+        min_width: 240,
+        height: 300,
+        max_height: 300,
+        min_height: 300,
         resizable: false
       }, function(tmi){
     });

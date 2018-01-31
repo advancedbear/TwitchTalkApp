@@ -42,7 +42,8 @@ nw.Window.get().on('loaded', function(){
         })
 
     } else if (location.pathname == '/view/ENsettings.html'){
-        if(localStorage.useENvoice!=null) $("#useEnglish").prop('checked', JSON.parse(localStorage.useENvoice));
+        speechSynthesis.getVoices();
+        if(localStorage.useENvoice!=null) //$("#useEnglish").prop('checked', JSON.parse(localStorage.useENvoice));
         if(localStorage.volume!=null) $("#volume").val(localStorage.volume);
         if(localStorage.speed!=null) $("#speed").val(localStorage.speed);
         if(localStorage.pitch!=null) $("#pitch").val(localStorage.pitch);
@@ -51,7 +52,7 @@ nw.Window.get().on('loaded', function(){
         $("#speed_val").text(parseFloat($("#speed").val()).toFixed(1));
         $("#pitch_val").text(parseFloat($("#pitch").val()).toFixed(1));
 
-        $('#useEnglish').change(function(){
+        $('#voiceType').click(function(){
             localStorage.useENvoice = JSON.stringify($(this).prop('checked'));
         })
         $('#volume').on('input', function(){
@@ -132,14 +133,48 @@ function addWord(lang){
     }
 }
 
+function chooseVoice(){
+    let current = localStorage.voiceType;
+    $('#voiceType').empty();
+    if(current == 'none'){
+        $('#voiceType').append('<option value="none" selected>Not Use</option>');
+    } else {
+        $('#voiceType').append('<option value="none" selected>Not Use</option>');
+    }
+    let voices = speechSynthesis.getVoices()
+    for(let voice of voices){
+        if(current == voice.name){
+            $('#voiceType').append('<option value="'+voice.name+'" selected>'+voice.name+'</option>');
+        } else {
+            $('#voiceType').append('<option value="'+voice.name+'">'+voice.name+'</option>');
+        }
+    }
+    location.href='#voiceList'
+}
+
+function confirmVoice(){
+    let val = $('#voiceType').val();
+    localStorage.voiceType = val;
+}
+
 function enVoiceTest(){
-    let uttr = new SpeechSynthesisUtterance;
-	uttr.text="This is the test message. Please check the voice quality.";
-    uttr.lang="en-US";
-    uttr.volume = localStorage.volume;
-    uttr.rate = localStorage.speed;
-    uttr.pitch = localStorage.pitch;
-	speechSynthesis.speak(uttr);
+    if(localStorage.voiceType!='none'){
+        let uttr = new SpeechSynthesisUtterance;
+        uttr.text="This is the test message. Please check the voice quality.";
+        //uttr.lang="en-US";
+        let voices = speechSynthesis.getVoices()
+        for(let voice of voices){
+            if(localStorage.voiceType == voice.name){
+                uttr.voice = voice;
+            }
+        }
+        uttr.volume = localStorage.volume;
+        uttr.rate = localStorage.speed;
+        uttr.pitch = localStorage.pitch;
+        speechSynthesis.speak(uttr);
+    } else {
+        alert('English voice is not used.')
+    }
 }
 
 var escapeHTML = function (str) {

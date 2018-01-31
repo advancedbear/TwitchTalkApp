@@ -323,6 +323,30 @@ input[type="range"]::-webkit-slider-thumb:active {
     background: rgba(22, 160, 133, 1);
 }
   
+#voiceType {
+    height: 32px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 75%;
+    height: 50%;
+    padding: 1ex;
+    box-shadow: none;
+    border: none;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    outline: 0;
+}
+
+#voiceType:focus{
+    outline: 0;
+}
+
+.remodal {
+    padding: 0 !important;
+    height: 95%;
+}
+
 
 .testButton{
     border: none;
