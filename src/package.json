@@ -6,7 +6,7 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "・英語音声の変更に対応\n・置換リストの出力に対応\n・Play YouTube機能を追加\n\n【お知らせ】\n起動に時間が掛かる方はインストーラ版をお試しください。\n詳細はダウンロードページをご覧ください。",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
