@@ -19,6 +19,7 @@ var hotkey1 = {
     },
     failed: function(){
         statusUpdate("Shortcut Key Failed.");
+        console.log("shorcut failed");
     }
 }
 var shortcut1 = new nw.Shortcut(hotkey1);
@@ -360,3 +361,8 @@ function statusUpdate(message, code) {
     $('#description').append(m);
     $('#description').animate({scrollTop: 999999}, 'fast');
 }
+
+mainWindow.on('close', function(){
+    nw.App.unregisterGlobalHotKey(shortcut1);
+    this.close(true);
+});
