@@ -6,8 +6,23 @@ var logger = require('./js/logger.js');
 var bouyomiServer = {};
 var conn = false;
 var client;
+var ytPlayer;
 var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
+var follows;
+
+
+var hotkey1 = {
+    key : "Ctrl+P",
+    active: function(){
+        stopYT();
+    },
+    failed: function(){
+        statusUpdate("Shortcut Key Failed.");
+    }
+}
+var shortcut1 = new nw.Shortcut(hotkey1);
+nw.App.registerGlobalHotKey(shortcut1);
 
 // メイン画面のDOM読み込み完了後の初期化動作
 window.onload = function(){
@@ -53,7 +68,8 @@ window.onload = function(){
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
-    if(localStorage.useLogger==null) localStorage.useLogger = false;
+    //if(localStorage.useLogger==null) localStorage.useLogger = false;
+    if(localStorage.playYoutube==null) localStorage.playYoutube = true;
 
     speechSynthesis.getVoices();
 
@@ -84,7 +100,26 @@ window.onload = function(){
         localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
         localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
     });
-    logger.init(JSON.parse(localStorage.useLogger));
+    if(nw.App.argv[0]=="-log"){
+        logger.init(true);
+    }
+
+    ytPlayer = new YT.Player(
+        'YTpos',
+        {
+            width: 0,
+            height: 0,
+            playerVars: {
+                autoplay: 1,
+                rel: 0,
+                controls: 0,
+                end: 65
+            },
+            events: {
+                'onReady': onPlayerReady
+            }
+        }
+    );
 
     $(document).on('click','#settingButton', function(){
         voices = speechSynthesis.getVoices();
@@ -106,13 +141,7 @@ function Connect(){
     }
     console.log(channels);
 
-    let voices = speechSynthesis.getVoices()
-    for(let voice of voices){
-        if(localStorage.voiceType == voice.name){
-            uttr.voice = voice;
-        }
-    }
-    console.log(uttr.voice);
+    var voices = speechSynthesis.getVoices();
     
     bouyomiServer = JSON.parse(localStorage.bouyomiServer);
     let tmi_options = {
@@ -129,14 +158,26 @@ function Connect(){
     if(!conn){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC.client(tmi_options);
+        client.api({
+            url: 'https://api.twitch.tv/kraken/users/'+name+'/follows/channels',
+            headers: {
+                "client-ID": "wrhsp3sdvz973mf4kg94ftm3cgjrsz"
+            }
+        }, function(err, res, body){
+            follows = body.follows;
+            console.log(follows);
+        })
         client.on('chat', function(ch, userstate, message, self){
             let from = userstate["username"];
             logger.out("message recieved-> from: "+from+" message: "+message);
+            if(message.startsWith('stopbgm')) {
+                stopYT();
+            }
             if(JSON.parse(localStorage.showNotify)){
                 showNotification(from, message);
                 logger.out("Notification popped up.");
             }
-            message = replaceURL(message);
+            message = replaceURL(message, from);
             if(channels.length == 1 ) {
                 statusUpdate(from+ ": "+message,0);
             } else {
@@ -160,6 +201,11 @@ function Connect(){
             logger.out("message replaced -> "+nMessage);
             if(isEnglish(nMessage) && localStorage.voiceType!='none'){
                 logger.out("Message is English. Try to use Speech API.");
+                for(let voice of voices){
+                    if(localStorage.voiceType == voice.name){
+                        uttr.voice = voice;
+                    }
+                }
                 uttr.volume = localStorage.volume;
                 uttr.rate = localStorage.speed;
                 uttr.pitch = localStorage.pitch;
@@ -232,11 +278,61 @@ function replaceMessage(message, rList) {
     return nMessage;
 }
 
-function replaceURL(message){
+function replaceURL(message, sender){
+    let yturl = new RegExp("(https?):\/\/((www|m)\.(youtube\.com)|youtu\.be)\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
+    if(yturl.test(message) && JSON.parse(localStorage.playYoutube)){
+        playYT(message.match(yturl)[0], sender);
+    }
     let clipurl = new RegExp("(https?)(:\/\/clips\.twitch\.tv\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
     let anyurl = new RegExp("(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
-    let replaced = message.replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
+    let replaced = message.replace(yturl, ' (YouTube URL)').replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
     return replaced;
+}
+
+function playYT(url, sender){
+    let flag = false;
+    for(user of follows){
+        if(user.channel.name == sender){
+            flag = true;
+        } else if (sender == client.username){
+            flag = true;
+        }
+    }
+    if(flag == false) return;
+
+    let spurl = url.split('/');
+    if(spurl[3].startsWith('watch?v=')){
+        vId = spurl[3].split('&')[0].slice(8);
+    } else {
+        vId = spurl[3].split('?')[0];
+    }
+    let startTime = 0;
+    for(let param of spurl[3].replace('?','&').split('&')){
+        console.log(param);
+        if(param.startsWith('t=')){
+            hms = param.slice(2);
+            hms = hms.replace(/h/g,'*3600+').replace(/m/g,'*60+').replace(/s/g,'');
+            console.log(hms);
+            startTime = eval(hms);
+            console.log(startTime);
+        }
+    }
+    ytPlayer.loadVideoById({
+        videoId: vId,
+        startSeconds: startTime,
+        endSeconds:startTime+60,
+        suggestedQuality: 'small'});
+    console.log('Activate YTPlayer url:'+vId);
+}
+
+function onPlayerReady(event){
+    ytPlayer.setVolume(35);
+    ytPlayer.playVideo();
+}
+
+function stopYT(){
+    ytPlayer.stopVideo();
+    ytPlayer.clearVideo();
 }
 
 function showNotification(from, message){

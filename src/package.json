@@ -7,7 +7,7 @@
   "main": "index.html",
   "name": "TwitchTalkApp",
   "version": "1.1.3",
-  "description": "・EN Voice設定内に英語音声の利用をオフに出来る設定を追加。\nカンマ区切りで複数チャンネルを同時受信出来る機能を追加。",
+  "description": "・英語音声の変更に対応\n・置換リストの出力に対応\n・",
   "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
   "webexe_settings": {
     "blacklist": "",

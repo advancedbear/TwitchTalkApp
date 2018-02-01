@@ -8,8 +8,8 @@ $(function(){
     $('#UseNotify').on('change', function(){
         localStorage.showNotify = $(this).prop('checked');
     });
-    $('#OutLog').on('change', function(){
-        localStorage.useLogger = $(this).prop('checked');
+    $('#PlayYouTube').on('change', function(){
+        localStorage.playYoutube = $(this).prop('checked');
     });
 })
 
@@ -17,7 +17,7 @@ $(document).ready(function(){
     $('#ReadName').prop('checked', JSON.parse(localStorage.readName));
     $('#ReadEmotes').prop('checked', JSON.parse(localStorage.readEmotes));
     $('#UseNotify').prop('checked', JSON.parse(localStorage.showNotify));
-    $('#OutLog').prop('checked', JSON.parse(localStorage.useLogger));
+    $('#PlayYouTube').prop('checked', JSON.parse(localStorage.playYoutube));
 });
 
 function replaceSettings(){

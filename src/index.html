@@ -9,6 +9,7 @@
     <script src="js/ui.js" defer></script>
     <script src="js/main.js"></script>
     <script src="js/updater.js" defer></script>
+    <script src="https://www.youtube.com/iframe_api" defer></script>
   </head>
  
   <body>
@@ -43,8 +44,12 @@
       <div class="button_wrapper"><input type="checkbox" id="ReadName" /><label for="ReadName" class="checkbox">Read Name</label></div>
       <div class="button_wrapper"><input type="checkbox" id="ReadEmotes" /><label for="ReadEmotes" class="checkbox">Read Emotes</label></div>
       <div class="button_wrapper"><input type="checkbox" id="UseNotify" /><label for="UseNotify" class="checkbox">Notification</label></div>
-      <div class="button_wrapper"><input type="checkbox" id="OutLog" /><label for="OutLog" class="checkbox">Log Output</label></div>
+      <div class="button_wrapper"><input type="checkbox" id="PlayYouTube" /><label for="PlayYouTube" class="checkbox">Play YouTube</label></div>
       <div class="button_wrapper"><button onclick="resetSettings()" style="color:rgb(223, 86, 86);"><img src="img/delete.png"><br />Reset Settings</button></div>
+    </div>
+
+    <div class="YTarea" style="visibility: hidden;">
+      <div id="YTpos"></div>
     </div>
   </body>
 </html>
