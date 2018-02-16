@@ -6,6 +6,7 @@ var logger = require('./js/logger.js');
 var bouyomiServer = {};
 var conn = false;
 var client;
+var tray;
 var ytPlayer;
 var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
@@ -130,6 +131,21 @@ window.onload = function(){
     })
 
 };
+
+mainWindow.on('minimize', function(){
+    this.hide();
+    tray = new gui.Tray({icon: 'img/icon.png'});
+    tray.on('click', function(){
+        mainWindow.show();
+        this.remove();
+        tray = null;
+    })
+})
+
+mainWindow.on('restore', function(){
+    mainWindow.width = 320;
+    mainWindow.height = 320;
+})
 
 function Connect(){
     logger.out("Connect button pressed.")

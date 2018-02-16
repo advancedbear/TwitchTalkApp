@@ -16,6 +16,8 @@ if(!gui.App.argv.length) {
             } else {
                 $('.loader').delay(1000).slideUp('slow');
             }
+        } else if(error){
+            $('.loader').delay(1000).slideUp('slow');
         } else {
             $('.loader').delay(1000).slideUp('slow');
         }
