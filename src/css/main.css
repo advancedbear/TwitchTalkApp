@@ -34,7 +34,7 @@ input[type="text"]:focus,button:focus {
 
 #title {
     font-family: 'Passion One', cursive;
-    width: calc(100% - 48px - 44px);
+    width: calc(100% - 96px - 44px);
     font-size: 24px;
     background: rgb(65, 67, 79);
     color: rgb(236, 240, 241);
@@ -140,7 +140,7 @@ input[type="text"]{
 }
 
 .description {
-    width: 88%;
+    width: 90%;
     height: 90px;
     margin: 0 auto;
     border-radius: 4px;

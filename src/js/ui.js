@@ -40,9 +40,9 @@ function JPSettings(){
         width: 240,
         max_width: 240,
         min_width: 240,
-        height: 160,
-        max_height: 160,
-        min_height: 160,
+        height: 260,
+        max_height: 200,
+        min_height: 200,
         resizable: false
       }, function(tmi){
         let tmiPage = tmi.window.document;

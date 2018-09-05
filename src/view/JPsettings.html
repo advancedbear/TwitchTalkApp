@@ -5,16 +5,34 @@
     <title>JP Voice Settings</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="preload" as="style" onload="this.rel='stylesheet'">
     <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/remodal.css">
+    <link rel="stylesheet" href="../css/remodal-default-theme.css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/settings.js"></script>
+    <script src="../js/remodal.js"></script>
   </head>
 
   <body>
     <p class="title">JP Voice Settings</p>
+    <div style="text-align: center">
+    </div>
     <div id="bouyomiSettings">
-        <label for="bouyomi_port"><span>Port</span></label><input type="number" id="bouyomi_port" placeholder="50001">
-        <label for="bouyomi_ip"><span>IP</span></label><input type="text" id="bouyomi_ip" placeholder="127.0.0.1">
-        <div class="button_wrapper"><button id="bouyomi_submit">Save</button></div>
+        <input type="radio" name="voice_type" value="bouyomi" checked id="radio1"><label for="radio1">棒読みちゃん</label><br />
+        <label for="bouyomi_port" class="textlabel"><span>Port</span></label><input type="number" id="bouyomi_port" placeholder="50001">
+        <label for="bouyomi_ip" class="textlabel"><span>IP</span></label><input type="text" id="bouyomi_ip" placeholder="127.0.0.1">
+        <hr />
+        <input type="radio" name="voice_type" value="sapi5" id="radio2"><label for="radio2">その他(SAPI5)</label><br />
+        <div style="text-align: center; margin-bottom: 1em;">
+          <button onclick="chooseJPVoice()" id="voiceTypeButton" class="testButton">Choose Voice</button>
+        </div>
+    </div>
+
+    <div class="remodal" data-remodal-id="voiceList">
+      <H3 style="margin-bottom: 1ex;">Choose Voice Type</H3>
+      <select name="voiceType" id="voiceType" size="4" style="width:90%; ">
+        <option value="none">Not Use</option>
+      </select>
+      <a class="remodal-confirm" href="#" onclick="confirmJPVoice()" style="padding: 6px">OK</a>
     </div>
   </body>
 </html>

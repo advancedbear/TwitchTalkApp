@@ -30,9 +30,26 @@ nw.Window.get().on('loaded', function(){
         });
 
     } else if (location.pathname == '/view/JPsettings.html'){
+        speechSynthesis.getVoices();
         var bouyomi_s = JSON.parse(localStorage.bouyomiServer);
         $("#bouyomi_ip").val(bouyomi_s.host);
         $("#bouyomi_port").val(bouyomi_s.port);
+
+        if(localStorage.voiceJPType != 'bouyomi'){
+            $("#radio1").prop('checked', false);
+            $("#radio2").prop('checked', true);
+        }
+        $('input[name="voice_type"]').on('change', function(){
+            console.log($(this).val());
+            switch($(this).val()) {
+                case 'bouyomi':
+                    localStorage.voiceJPType = 'bouyomi';
+                    break;
+                case 'sapi5':
+                    localStorage.voiceJPType = 'Microsoft Haruka Desktop - Japanese';
+                    break;
+            }
+        })
 
         $('#bouyomi_submit').on('click', function(){
             bouyomi_s.host = $("#bouyomi_ip").val();
@@ -75,7 +92,7 @@ nw.Window.get().on('loaded', function(){
 function createRow(key, val, lang){
     key = escapeHTML(key);
     val = escapeHTML(val);
-    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)" class="delButton">✕</button></div></td></tr>';
+    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)" class="delButton">âœ•</button></div></td></tr>';
     return row;
 }
 
@@ -139,7 +156,7 @@ function chooseVoice(){
     if(current == 'none'){
         $('#voiceType').append('<option value="none" selected>Not Use</option>');
     } else {
-        $('#voiceType').append('<option value="none" selected>Not Use</option>');
+        $('#voiceType').append('<option value="none">Not Use</option>');
     }
     let voices = speechSynthesis.getVoices()
     for(let voice of voices){
@@ -151,10 +168,36 @@ function chooseVoice(){
     }
     location.href='#voiceList'
 }
-
+function chooseJPVoice(){
+    let current = localStorage.voiceJPType;
+    $('#voiceType').empty();
+    if(current == 'none'){
+        $('#voiceType').append('<option value="bouyomi" selected>Not Use</option>');
+    } else {
+        $('#voiceType').append('<option value="bouyomi">Not Use</option>');
+    }
+    let voices = speechSynthesis.getVoices()
+    for(let voice of voices){
+        if(current == voice.name){
+            $('#voiceType').append('<option value="'+voice.name+'" selected>'+voice.name+'</option>');
+        } else {
+            $('#voiceType').append('<option value="'+voice.name+'">'+voice.name+'</option>');
+        }
+    }
+    location.href='#voiceList'
+}
 function confirmVoice(){
     let val = $('#voiceType').val();
     localStorage.voiceType = val;
+}
+function confirmJPVoice(){
+    let val = $('#voiceType').val();
+    if($('input[name="voice_type"]:checked').val() == 'sapi5'){
+        localStorage.voiceJPType = val;
+    } else {
+        localStorage.voiceJPType = 'bouyomi';
+        alert("「棒読みちゃん」が選択されています。");
+    }
 }
 
 function enVoiceTest(){

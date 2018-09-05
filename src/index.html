@@ -17,6 +17,7 @@
     <div class="header">
       <div id="settingButton" class="headerButton"><img src="img/settings.png"></div>
       <div id="title">Twitch Talk App</div>
+      <div id="helpButton" class="headerButton"><img src="img/help.png"></div>
     </div>
     <div class="main">
       <div class="button_wrapper">
@@ -31,13 +32,14 @@
           <button onclick="Connect()" id="connButton" from="connSets">Connect</button>
         </div>
       </div>
-      
-      <div class="description" id="description">
-        Twitch Talk App <script>document.write(gui.App.manifest.version);</script> status
+      <div style="text-align: center;">
+        <select size="6" class="description" id="description">
+          <option>Twitch Talk App <script>document.write(gui.App.manifest.version);</script> status</option>
+        </select>
       </div>
     </div>
     <div id="sideMenu">
-      <div class="button_wrapper"><button onclick="showHelp('jp')"><img src="img/help.png"><br />Help</button></div>
+      <div class="button_wrapper"><button onclick=""><img src="img/help.png"><br />Help</button></div>
       <div class="button_wrapper"><button onclick="replaceSettings()"><img src="img/settingsRp.png"><br />Replacement</button></div>
       <div class="button_wrapper"><button onclick="JPSettings()"><img src="img/settingsJP.png"><br />JP Voice</button></div>
       <div class="button_wrapper"><button onclick="ENSettings()"><img src="img/settingsEN.png"><br />EN Voice</button></div>

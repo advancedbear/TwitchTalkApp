@@ -232,7 +232,7 @@ p.title {
     display: block;
 }
 
-#bouyomiSettings label{
+#bouyomiSettings label.textlabel{
     float: left;
     text-align: center;
     vertical-align: bottom;
@@ -253,7 +253,7 @@ label span{
     font-size: 14px;
 }
 
-#bouyomiSettings input{
+#bouyomiSettings input[type="text"],input[type="number"]{
     box-sizing: border-box;
     width: 65%;
     height: 32px;
@@ -264,6 +264,10 @@ label span{
     border-bottom-right-radius: 4px;
     box-shadow: none;
     border: none;
+}
+
+#bouyomiSettings input[type="radio"]{
+    margin-left: 16px;
 }
 
 button#bouyomi_submit{

@@ -72,6 +72,8 @@ window.onload = function(){
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
     //if(localStorage.useLogger==null) localStorage.useLogger = false;
     if(localStorage.playYoutube==null) localStorage.playYoutube = true;
+    if(localStorage.voiceJPType==null) localStorage.voiceJPType = 'bouyomi';
+    if(localStorage.blockUser==null) localStorage.blockUser = JSON.stringify(['Nightbot']);
 
     speechSynthesis.getVoices();
 
@@ -128,6 +130,9 @@ window.onload = function(){
         sessionStorage.voices = JSON.stringify(voices);
         let date = new Date();
         $('#sideMenu').toggleClass('opened');
+    })
+    $(document).on('click','#helpButton', function(){
+        showHelp('jp');
     })
 
 };
@@ -216,22 +221,38 @@ function Connect(){
                 nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceList));
             }
             logger.out("message replaced -> "+nMessage);
-            if(isEnglish(nMessage) && localStorage.voiceType!='none'){
-                logger.out("Message is English. Try to use Speech API.");
-                for(let voice of voices){
-                    if(localStorage.voiceType == voice.name){
-                        uttr.voice = voice;
+            if(JSON.parse(localStorage.blockUser).indexOf(from) == -1){
+                if(isEnglish(nMessage) && localStorage.voiceType!='none'){
+                    logger.out("Message is English. Try to use Speech API.");
+                    for(let voice of voices){
+                        if(localStorage.voiceType == voice.name){
+                            uttr.voice = voice;
+                        }
+                    }
+                    uttr.volume = localStorage.volume;
+                    uttr.rate = localStorage.speed;
+                    uttr.pitch = localStorage.pitch;
+                    uttr.lang = 'en-US';
+                    uttr.text = nMessage;
+                    speechSynthesis.speak(uttr);
+                } else {
+                    logger.out("Message is Japanese. Try to use Bouyomi-chan");
+                    if(localStorage.voiceJPType == 'bouyomi') {
+                        Bouyomi.read(bouyomiServer,nMessage);
+                    } else {
+                        for(let voice of voices){
+                            if(localStorage.voiceJPType == voice.name){
+                                uttr.voice = voice;
+                            }
+                        }
+                        uttr.volume = localStorage.volume;
+                        uttr.rate = localStorage.speed;
+                        uttr.pitch = localStorage.pitch;
+                        uttr.lang = 'ja-JP';
+                        uttr.text = nMessage;
+                        speechSynthesis.speak(uttr);
                     }
                 }
-                uttr.volume = localStorage.volume;
-                uttr.rate = localStorage.speed;
-                uttr.pitch = localStorage.pitch;
-                uttr.lang = 'en-US';
-                uttr.text = nMessage;
-                speechSynthesis.speak(uttr);
-            } else {
-                logger.out("Message is Japanese. Try to use Bouyomi-chan");
-                Bouyomi.read(bouyomiServer,nMessage);
             }
         });
         client.connect();
@@ -367,16 +388,34 @@ function showNotification(from, message){
 function statusUpdate(message, code) {
     let p;
     if(code==1){
-        p = '<p class="d_text">';
+        p = '<option style="color:rgb(46, 204, 113);">';
     } else if(code==0){
-        p = '<p class="d_text0">';
+        p = '<option style="color: rgb(236, 240, 241)" class="d_text0">';
     } else if(code==-1){
-        p = '<p class="d_text1">';
+        p = '<option style="color: rgb(231, 76, 60);">';
     }
     let m = p+message+'</p>';
-    $('#description').append(m);
+    $('#description').append(m+'</option>');
     $('#description').animate({scrollTop: 999999}, 'fast');
 }
+
+$(document).on('dblclick', '.d_text0', function(){
+    let block_user= $(this).text().split(':')[0];
+    let blocklist = JSON.parse(localStorage.blockUser);
+    if(blocklist.indexOf(block_user) == -1){ 
+        if(confirm(block_user + 'さんを読み上げ対象から除外しますか？')){
+            blocklist.push(block_user)
+            localStorage.blockUser = JSON.stringify(blocklist)
+            alert(block_user + 'さんを読み上げ対象から除外しました')
+        };
+    } else {
+        if(confirm(block_user + 'さんを読み上げ対象に戻しますか？')){
+            blocklist.splice(blocklist.indexOf(block_user),1);
+            localStorage.blockUser = JSON.stringify(blocklist)
+            alert(block_user + 'さんを読み上げ対象に戻しました')
+        };
+    }
+})
 
 mainWindow.on('close', function(){
     nw.App.unregisterGlobalHotKey(shortcut1);
