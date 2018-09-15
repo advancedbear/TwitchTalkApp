@@ -176,7 +176,7 @@ function Connect(){
                 logger.out("Emotes were replaced. -> " +message);
             }
             let nMessage = message;
-            if(JSON.parse(localStorage.readName)) nMessage = message+' ('+from+')';
+            if(JSON.parse(localStorage.readName)) nMessage = message+', '+from+'';
             logger.out("Readable nMessage was made. -> "+nMessage);
             if(isEnglish(message)){
                 nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceListEn));
@@ -222,6 +222,8 @@ function Connect(){
                         console.log(uttr);
                     }
                 }
+                M.Toast.dismissAll();
+                M.toast({html: `<span class="small">${from}: ${message}</span>`})
             }
         });
         client.connect();
