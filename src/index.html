@@ -2,56 +2,153 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Twitch Talk App</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" id="webFont">
-    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/materialize.css" type="text/css" media="screen,projection"/>
     <script src="js/jquery.min.js"></script>
-    <script src="js/ui.js" defer></script>
     <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/updater.js"></script>
-    <script src="https://www.youtube.com/iframe_api" defer></script>
+    <script src="js/materialize.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });
+    </script>
   </head>
  
   <body>
-    <div class="loader"><img src="img/loader.gif"><br/><br/>LOADING...</div>
-    <div class="header">
-      <div id="settingButton" class="headerButton"><img src="img/settings.png"></div>
-      <div id="title">Twitch Talk App</div>
-      <div id="helpButton" class="headerButton"><img src="img/help.png"></div>
-    </div>
-    <div class="main">
-      <div class="button_wrapper">
-      <button onclick="loginTwitch()" id="loginTwitch">Connect with Twitch</button>
-      </div>
-      <div id="connSettings">
-        <form id="connSets">
-          <label for="name"><img src="img/user.png"></label></span><input type="text" id="name" placeholder="Your Username">
-          <label for="channel"><img src="img/channel.png"></label><input type="text" id="channel" placeholder="Target Channels">
-        </form>
-        <div class="button_wrapper">
-          <button onclick="Connect()" id="connButton" from="connSets">Connect</button>
+    <div class="loader">
+      <div class="container">
+        <p class="center-align" id="loading_text">LOADING...</p><br>
+        <div class="progress">
+            <div class="indeterminate"></div>
         </div>
       </div>
-      <div style="text-align: center;">
-        <select size="6" class="description" id="description">
-          <option>Twitch Talk App <script>document.write(gui.App.manifest.version);</script> status</option>
-        </select>
+    </div>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="#" class="brand-logo" style="font-family: 'Passion One', cursive;">TwitchTalkApp</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#"><i class="material-icons">settings</i></a></li>
+          <li><a href="#"><i class="material-icons">info</i></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+      </div>
+      <div class="row" id="loginTwitch">
+        <div class="col center">
+          <button class="btn waves-effect waves-light btn-large purple darken-4" onclick="loginTwitch()">
+            Connect with Twitch
+            <i class="material-icons left">vpnkey</i>
+          </button>
+        </div>
+      </div>
+      <div class="row" id="connSettings">
+        <div class="input-field col s12">
+          <input placeholder="Enter channel name" id="channels_name" type="text" class="validate" required="required">
+          <label for="channels_name">Channels</label>
+          <span class="helper-text" data-error="Empty is not allowed.">You can set multipul channels with comma.</span>
+        </div>
+        <button class="col s10 offset-s1 btn waves-effect waves-light btn-large orange darken-3" id="connButton" onclick="Connect()">
+          Connect
+        </button>
       </div>
     </div>
-    <div id="sideMenu">
-      <div class="button_wrapper"><button onclick=""><img src="img/help.png"><br />Help</button></div>
-      <div class="button_wrapper"><button onclick="replaceSettings()"><img src="img/settingsRp.png"><br />Replacement</button></div>
-      <div class="button_wrapper"><button onclick="JPSettings()"><img src="img/settingsJP.png"><br />JP Voice</button></div>
-      <div class="button_wrapper"><button onclick="ENSettings()"><img src="img/settingsEN.png"><br />EN Voice</button></div>
-      <div class="button_wrapper"><input type="checkbox" id="ReadName" /><label for="ReadName" class="checkbox">Read Name</label></div>
-      <div class="button_wrapper"><input type="checkbox" id="ReadEmotes" /><label for="ReadEmotes" class="checkbox">Read Emotes</label></div>
-      <div class="button_wrapper"><input type="checkbox" id="UseNotify" /><label for="UseNotify" class="checkbox">Notification</label></div>
-      <div class="button_wrapper"><input type="checkbox" id="PlayYouTube" /><label for="PlayYouTube" class="checkbox">Play YouTube</label></div>
-      <div class="button_wrapper"><button onclick="resetSettings()" style="color:rgb(223, 86, 86);"><img src="img/delete.png"><br />Reset Settings</button></div>
-    </div>
 
-    <div class="YTarea" style="visibility: hidden; height:0px;">
-      <div id="YTpos"></div>
-    </div>
+    <ul class="sidenav collapsible" id="mobile-demo">
+      <div class="container">
+          <p class="flow-text">
+            <i class="material-icons left">help</i>Help
+          </p>
+          <li>
+            <a href="#!" onclick="showHelp('jp');return false">
+              日本語
+            </a>
+          </li>
+          <li>
+            <a href="#!" onclick="showHelp('en');return false">
+              English
+            </a>
+          </li>
+        <li><div class="divider"></div></li>
+        <p class="flow-text">
+          <i class="material-icons left">build</i>Settings
+        </p>
+        <li>
+          <a href="#!" onclick="replaceSettings();return false">
+            Replacement
+          </a>
+        </li>
+        <li>
+          <a href="#!" onclick="JPSettings();return false">
+            JP Voice Settings
+          </a>
+        </li>
+        <li>
+          <a href="#!" onclick="ENSettings();return false" id="ENSettingBtn">
+            EN Voice Settings
+          </a>
+        </li>
+        <li>
+          <a href="#!" onclick="BlockList();return false">
+            Edit Blocked Users
+          </a>
+        </li>
+        <li><div class="divider"></div></li>
+        <p class="flow-text"><i class="material-icons left">settings</i>Options</p>
+        <div class="switch hoverable">
+          <label>
+            <li>
+              <input type="checkbox" id="ReadName">
+              <span class="lever"></span>
+              Read Username
+            </li>
+          </label>
+        </div>
+        <div class="switch hoverable">
+          <label>
+            <li>
+              <input type="checkbox" id="ReadEmotes">
+              <span class="lever"></span>
+              Read Emoticons
+            </li>
+          </label>
+        </div>
+        <div class="switch hoverable">
+          <label>
+            <li>
+              <input type="checkbox" id="UseEnglish">
+              <span class="lever"></span>
+              Use English Voice
+            </li>
+          </label>
+        </div>
+        <div class="switch hoverable">
+          <label>
+            <li>
+              <input type="checkbox" id="UseNotify">
+              <span class="lever"></span>
+              Use Notification
+            </li>
+          </label>
+        </div>
+        <li><div class="divider"></div></li>
+        <p class="flow-text"><i class="material-icons left">restore</i>Reset</p>
+        <li>
+          <a href="#!" onclick="resetSettings()" style="color:rgb(223, 86, 86);">
+            Reset All Settings
+          </a>
+        </li>
+        <li><div class="divider"></div></li>
+      </div>
+    </ul>
   </body>
 </html>

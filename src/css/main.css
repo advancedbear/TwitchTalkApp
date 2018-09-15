@@ -1,160 +1,26 @@
 body {
-    background: rgb(189, 195, 199);
     margin: 0;
-    color: rgb(65, 67, 79);
     overflow-y: hidden;
     user-select: none;
 }
 
-input[type="text"]:focus,button:focus {
-    outline: 0;
-}
-
-.header {
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.headerButton{
-    text-align: center;
-    width: 48px;
-    height: 48px;
-    background: rgb(65, 67, 79);
-    cursor:pointer;
-}
-
-.headerButton:hover {
-    background: rgba(65, 67, 79, 0.8);
-}
-
-.headerButton img{
-    width: 50%;
-    margin-top: 12px;
-}
-
-#title {
-    font-family: 'Passion One', cursive;
-    width: calc(100% - 96px - 44px);
-    font-size: 24px;
-    background: rgb(65, 67, 79);
-    color: rgb(236, 240, 241);
-    margin-top: 0;
-    padding-top: 11px;
-    padding-bottom: 11px;
-    padding-left: 44px;
+.sidenav::-webkit-scrollbar {
+    display: none;
 }
 
 .loader {
-    background: rgb(65, 67, 79);
+    background: #37474f;
     color: rgb(236, 240, 241);
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 9999;
     padding-top: 40%;
     text-align: center;
     overflow-y: hidden;
 }
-
-.header div {
-    float: left;
-}
-
-.button_wrapper {
-    text-align: center;
-}
-
-#connSettings {
-    margin-top: 1em;
-}
-
-.main button {
-    border: none;
-    background: rgba(230, 126, 34, 0.8);
-    color: #FFFFFF;
-    padding: 1em;
-    cursor: pointer;
-    border-radius: 6px;
-    box-shadow: 0 2px 0 0 rgba(0,0,0,0.4);
-    transition: all ease 0.2s;
-    font-size: 16px;
-    padding: 12px;
-    width: 90%;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.main button:hover{
-    background: rgba(230, 126, 34,0.6);
-}
-
-.main button:active{
-    background: rgba(230, 126, 34,1);
-    box-shadow: none;
-}
-
-.connected {
-    background: rgba(22, 160, 133, 0.8) !important;
-}
-
-.connected:hover {
-    background: rgba(22, 160, 133, 0.6) !important;
-}
-
-.connected:active {
-    background: rgba(22, 160, 133, 1) !important;
-    box-shadow: none;
-}
-
-#connSettings label {
-    text-align: center;
-    width: 15%;
-    height: 48px;
-    background: #FFFFFF;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    float: left;
-    margin-bottom: 2px;
-    margin-top: 2px;
-    margin-left: 5%;
-}
-
-#connSettings label img{
-    margin-top: 8px;
-}
-
-input[type="text"]{
-    float: left;
-    box-sizing: border-box;
-    height: 48px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    width: 75%;
-    padding:1ex;
-    box-shadow: none;
-    margin-bottom: 2px;
-    margin-top: 2px;
-    border: none;
-    background: #FFF;
-}
-
-.description {
-    width: 90%;
-    height: 90px;
-    margin: 0 auto;
-    border-radius: 4px;
-    background: rgb(33, 33, 33);
-    color: rgb(236, 240, 241);
-    padding: 4px;
-    overflow-y: scroll;
-    transition: all ease 0.3s;
-    font-size: 8px;
-}
-
-.description::-webkit-scrollbar {
-    display: none;
-  }
 
 .d_text {
     color: rgb(46, 204, 113);
@@ -169,90 +35,6 @@ input[type="text"]{
     margin: 0;
 }
 
-.d_text::before, .d_text0::before, .d_text1::before {
-    content: "> ";
-}
-
-#sideMenu {
-    position: fixed;
-    top: 49px;
-    left: -100vw;
-    width: 100vw;
-    height: calc(100vh - 48px);
-    background: rgb(70,74,82);
-    color: rgb(236, 240, 241);
-    transition: all ease 0.5s;
-    overflow: hidden;
-}
-
-#sideMenu.opened {
-    left: 0;
-}
-
-#sideMenu .button_wrapper{
-    width: 33%;
-    height: 33%;
-    float: left;
-}
-
-#sideMenu button, #sideMenu label{
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: transparent;
-    color: rgb(236, 240, 241);
-    transition: background ease 0.2s;
-    cursor: pointer;
-}
-
-#sideMenu button:hover{
-    background: rgba(255,255,255,0.1);
-}
-
-#sideMenu button:active{
-    background: rgba(0,0,0,0.1);
-}
-
-#sideMenu input[type="checkbox"] {
-    display: none;
-}
-
-#sideMenu label {
-    display: block;
-    font-size: 14px;
-    position:relative;
-    padding-top: 58px;
-    height: calc( 100% - 58px );
-}
-
-#sideMenu label:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-#sideMenu label:active {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-
-#sideMenu input[type="checkbox"] ~ label:before {
-    content: "";
-    display: block;
-    position: absolute;
-    background: transparent;
-    top: 30px;
-    left: 40px;
-    transform: rotate(-50deg);
-    width: 23px;
-    height: 10px;
-    border-bottom: 5px solid rgba(255,255,255,0.1);
-    border-left: 5px solid rgba(255,255,255,0.1);
-}
-
-#sideMenu input[type="checkbox"]:checked ~ label:before {
-    transform: rotate(310deg);
-    width: 23px;
-    height: 10px;
-    border-bottom: 5px solid rgb(39, 174, 96);
-    border-left: 5px solid rgb(39, 174, 96);
-    transition: all ease 0.2s;
+.switch label {
+    color: rgb(0, 0, 0);
 }

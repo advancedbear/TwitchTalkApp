@@ -2,130 +2,242 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Help (English)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Help (Japanese)</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/help.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection"/>
     <script src="../js/jquery.min.js"></script>
-    <script>
-        $(function() {
-            $('body').fadeIn('fast');
-            $('.tabs div').click(function() {
-                var idx = $('.tabs div').index(this);
-                $('.content').fadeOut(150);
-                $('.content').eq(idx).delay(150).fadeIn(150);
-                $('.tabs div').removeClass('selected');
-                $(this).addClass('selected')
-            });
-        
-            $('#langButton').click(function(){
-                $('body').fadeOut('fast',function(){
-                    location.href = "help_jp.html";
-                });
-            })
-        });
-    </script>
+    <script src="../js/materialize.js"></script>
+    <script>var gui = require('nw.gui');</script>
   </head>
  
   <body>
-        <header>
-            <div id="langButton"><img src="../img/settingsJP.png"></div>
-            <div id="title">Twitch Talk App Help</div>
-            <p>This software will send Twitch chat messages to TTS application "Bouyomi-chan".<br>
-                Japanese text will be read by "Bouyomi-chan", English text will be read by SpeechAPI.</p>
-        </header>
-        <div class="tabs">
-            <div class="selected">How to use</div>
-            <div>Settings</div>
-            <div>Update</div>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper blue-grey darken-3">
+            <a href="#" class="brand-logo">
+                TwitchTalkApp Help
+            </a>
+            </div>
+            <div class="col s12 blue-grey lighten-4">
+                <ul class="tabs blue-grey lighten-4">
+                <li class="tab col s3 blue-grey lighten-4"><a class="active blue-grey lighten-4" href="#howto">How To Use</a></li>
+                <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#settings">Settings / Options</a></li>
+                <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#update">Information</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="howto" class="col s12 container">
+        <div class="section">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Basic Usage</span>
+                    <p>
+                        <ol>
+                                <li>At first, launch "Bouyomi-chan".</li>
+                                <li>Click [Connect with Twitch] and login to Twitch.</li>
+                                <li>Enter your username to "Username" box.<br /><small>* username means your login ID.</small></li>
+                                <li>Enter channel ID that you want to read.<br /><small>
+                                    * If you want to read own channel, enter your own ID.<br />
+                                    * If you want to read other channel, enter the specific ID.<br />
+                                    * You can set multiple channels with comma delimited.</small></li>
+                                <li>After pressing the "Connect" button, voice robot will talk chat messages.</li>
+                            </ol>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Export Debug Log</span>
+                    <p>
+                        <ol>
+                            <li>When you set "-log" launch option of TwitchTalkApp.exe, logfile will be export.</li>
+                            <li>You can easily set launch option in command prompt or create shortcut link.</li>
+                        </ol>
+                    </p>
+                </div>
+            </div>
         </div>
-    <div class="content">
-        <ol>
-            <li>At first, launch "Bouyomi-chan".</li>
-            <li>Click [Connect with Twitch] and login to Twitch.</li>
-            <li>Enter your username to "Username" box.<br /><small>* username means your login ID.</small></li>
-            <li>Enter channel ID that you want to read.<br /><small>
-                * If you want to read own channel, enter your own ID.<br />
-                * If you want to read other channel, enter the specific ID.<br />
-                * You can set multiple channels with comma delimited.</small></li>
-            <li>After pressing the "Connect" button, voice robot will talk chat messages.</li>
-        </ol>
-        <ol>
-            <li>When you set "-log" launch option of TwitchTalkApp.exe, logfile will be make.</li>
-            <li>You can easily set launch option in command prompt or create shortcut link.</li>
-        </ol>
     </div>
-    <div class="content" style="display: none;">
-        <ul>
-            <li>Replacement
-                <ul>
-                    <li>Before reading, you can replace specific words in message.</li>
-                    <li>Replacement settings is separated between Japanese and English.</li>
-                    <li>If you replace English word to Japanese word, SpeechAPI won't read it.</li>
-                    <li>You can set Emoticon Replacement separately from previous replacement.
-                        <ul>
-                            <li>Emotes will be replaced before Japanese/English replacement.</li>
-                            <li>Input specific pronunciation into "Pronunciation", and press Apply button.</li>
-                            <li>When replaced emote is Japanese, it will be read by Bouyomi-chan.</li>
-                            <li>Japanese/English replacement will be also applied to replaced emotes.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>JP Voice
-                <ul>
-                    <li>You can change connection settings to "Bouyomi-chan".</li>
-                    <li>If your "Bouyomi-chan" socket port is not 50001, you can change in here.</li>
-                    <li>If you launch "Bouyomi-chan" in other PC, you can change host address in here.</li>
-                </ul>
-            </li>
-            <li>EN Voice
-                <ul>
-                    <li>You can change English voice volume, speed and pitch.</li>
-                    <li>If you un-checked "Use English Voice", English message will be read by Bouyomi-chan.</li>
-                    <li>This options may be no effect on some PC.</li>
-                </ul>
-            </li>
-            <li>Read Name
-                <ul>
-                    <li>If you check this, username who posts comment will be read after message.</li>
-                    <li>Username also be replaced.</li>
-                </ul>
-            </li>
-            <li>Read Emotes
-                <ul>
-                    <li>If you check this, emotes in the message will be read.</li>
-                </ul>
-            </li>
-            <li>Notification
-                <ul>
-                    <li>If you check this, notificate comment with popup.</li>
-                    <li>When you play a game with fullscreen, notification won't be shown.</li>
-                    <li>A few games with borderless screen, also won't be shown.</li>
-                </ul>
-            </li>
-            <li>Play YouTube
-                <ul>
-                    <li>When the following user submits the YouTube URL, the audio will be played.</li>
-                    <li>Audio will be played for 60 seconds, or you can stop with "stopbgm" comment or Ctrl+P.</li>
-                    <li>If URL contains start time, the audio will be started from there.</li>
-                    <li>A few videos are forbidden to play outside of YouTube website.</li>
-                </ul>
-            </li>
-        </ul>
+    <div id="settings" class="col s12 container">
+        <div class="section">
+            <h4 class="center-align">Settings</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Replacement</span>
+                    <p>
+                        Before reading, you can replace specific words in message.<br />
+                        Replacement settings is separated between Japanese and English.<br />
+                        If you replace English word to Japanese word, SpeechAPI won't read it.<br />
+                        You can set Emoticon Replacement separately from previous replacement.
+                        <div style="margin-left: 2ex; font-size: 75%;">
+                        Emotes will be replaced before Japanese/English replacement.<br />
+                        Input specific pronunciation into "Pronunciation", and press Apply button.<br />
+                        When replaced emote is Japanese, it will be read by Bouyomi-chan.<br />
+                        Japanese/English replacement will be also applied to replaced emotes.</div>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">JP Voice Settings</span>
+                    <p>
+                        You can change connection settings to "Bouyomi-chan".<br />
+                        If your "Bouyomi-chan" socket port is not 50001, you can change in here.<br />
+                        If you launch "Bouyomi-chan" in other PC, you can change host address in here.<br />
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">EN Voice Settings</span>
+                    <p>
+                        You can change English voice volume, speed and pitch.<br />
+                        If you un-checked "Use English Voice", English message will be read by Bouyomi-chan.<br />
+                        This options may be no effect on some PC.<br />
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Edit Blocked Users</span>
+                    <p>
+                        You can edit Blocked Users. Choosed user' comment won't be read.<br />
+                        Nightbot is set in default.<br />
+                        When comment posted, the user will listed up automatically.<br />
+                        If you toggle to "Unread", comments which posted by specific user won't be read.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h4 class="center-align">Options</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Read Username</span>
+                    <p>
+                        If you check this, username who posts comment will be read after message.<br />
+                        Username also be replaced.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Read Emoticons</span>
+                    <p>
+                        If you check this, emotes in the message will be read.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Use English Voice</span>
+                    <p>
+                        If you check this, English message will be read by SAPI5 voice which set in EN Voice Settings.<br/>
+                        When this is unchecked, English message will be read by same voice as Japanese message.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Use Notification</span>
+                    <p>
+                        If you check this, notificate comment with popup.<br />
+                        When you play a game with fullscreen, notification won't be shown.<br />
+                        A few games with borderless screen, also won't be shown.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h4 class="center-align">Reset</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title red-text text-darken-2">Reset All Settings</span>
+                    <p>
+                        Cleanup all saved settings, and restart TwitchTalkApp as default.<br />
+                        Voice settings, Replacement Settings, Blocked List, Login State, all of them will erased.
+                        You can't restore them after reset.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="content" style="display: none;">
-        <p>If new version is available, this app will notify it when you launch.<br />
-            When you press "OK" button, autoupdate will start.
-            Please use latest version as much as possible.<br />
-            If you failed autoupdate, please download manually and overwrite it.<br />
-            Saved password and settings won't be erased by overwriting.</p>
-        <hr />
-        <p>Contact:
-            <ul>
-                <li><a href="#" onClick="nw.Shell.openExternal('https://twitter.com/advanced_bear'); return false;">@advanced_bear</a></li>
-                <li><a href="#" onClick="nw.Shell.openExternal('http://advancedbear.blogspot.jp/2017/11/twitch-talk-app.html#comments'); return false;">BlogPost comment field</a></li>
-            </ul>
-        </p>
+    <div id="update" class="col s12 container">
+        <div class="section">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">TwitchTalkApp Version <script>document.write(gui.App.manifest.version);</script> Release Note</span>
+                    <p class="red-text">ONLY IN JAPANESE. (sorry)</p>
+                    <p class="description">
+                        <script>$(".description").html((gui.App.manifest.description).replace(/\n/g, '<br />'))</script>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Auto Update</span>
+                    <p>
+                        If new version is available, this app will notify it when you launch.<br />
+                        When you press "OK" button, autoupdate will start.
+                        Please use latest version as much as possible.<br />
+                        If you failed autoupdate, please download manually and overwrite it.<br />
+                        Saved password and settings won't be erased by overwriting.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Contact</span>
+                    <p>
+                        <li><a href="#" onClick="nw.Shell.openExternal('https://twitter.com/advanced_bear'); return false;">
+                            @advanced_bear
+                        </a></li>
+                        <li><a href="#" onClick="nw.Shell.openExternal('https://blog.advbear.cf/2017/11/twitch-talk-app.html#comments'); return false;">
+                            BlogPost comment field
+                        </a></li>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">LICENSE</span>
+                    <p>
+                        The MIT License (MIT)
+                    </p><br />
+                    <p>
+                        Copyright (c) 2017 @advancedbear
+                    </p><br />
+                    <p>
+                        Permission is hereby granted, free of charge, to any person obtaining a copy
+                        of this software and associated documentation files (the "Software"), to deal
+                        in the Software without restriction, including without limitation the rights
+                        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                        copies of the Software, and to permit persons to whom the Software is
+                        furnished to do so, subject to the following conditions:
+                    </p><br />
+                    <p>
+                        The above copyright notice and this permission notice shall be included in
+                        all copies or substantial portions of the Software.
+                    </p><br />
+                    <p>
+                        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                        THE SOFTWARE.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>$('.tabs').tabs();</script>
   </body>
 </html>

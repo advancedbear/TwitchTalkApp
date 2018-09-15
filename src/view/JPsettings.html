@@ -2,37 +2,58 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>JP Voice Settings</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="preload" as="style" onload="this.rel='stylesheet'">
-    <link rel="stylesheet" href="../css/settings.css">
-    <link rel="stylesheet" href="../css/remodal.css">
-    <link rel="stylesheet" href="../css/remodal-default-theme.css">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection"/>
+    <link rel="stylesheet" href="../css/settings.css" type="text/css"/>
+    <script>speechSynthesis.getVoices();</script>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/settings.js"></script>
-    <script src="../js/remodal.js"></script>
+    <script src="../js/materialize.js"></script>
   </head>
 
   <body>
-    <p class="title">JP Voice Settings</p>
-    <div style="text-align: center">
-    </div>
-    <div id="bouyomiSettings">
-        <input type="radio" name="voice_type" value="bouyomi" checked id="radio1"><label for="radio1">棒読みちゃん</label><br />
-        <label for="bouyomi_port" class="textlabel"><span>Port</span></label><input type="number" id="bouyomi_port" placeholder="50001">
-        <label for="bouyomi_ip" class="textlabel"><span>IP</span></label><input type="text" id="bouyomi_ip" placeholder="127.0.0.1">
-        <hr />
-        <input type="radio" name="voice_type" value="sapi5" id="radio2"><label for="radio2">その他(SAPI5)</label><br />
-        <div style="text-align: center; margin-bottom: 1em;">
-          <button onclick="chooseJPVoice()" id="voiceTypeButton" class="testButton">Choose Voice</button>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="#" class="brand-logo">
+          JP Voice
+        </a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row" style="margin-bottom: 0;">
+        <p>
+          <label>
+            <input class="with-gap" name="voice_type" id="radio_bouyomi" value="bouyomi" type="radio" checked />
+            <span>棒読みちゃん</span>
+          </label>
+        </p>
+        <div class="input-field col s6" style="margin-bottom: 0;">
+          <input placeholder="(eg. 127.0.0.1)" id="bouyomi_ip" type="text" class="validate" pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}">
+          <label for="first_name">IP Address</label>
         </div>
-    </div>
-
-    <div class="remodal" data-remodal-id="voiceList">
-      <H3 style="margin-bottom: 1ex;">Choose Voice Type</H3>
-      <select name="voiceType" id="voiceType" size="4" style="width:90%; ">
-        <option value="none">Not Use</option>
-      </select>
-      <a class="remodal-confirm" href="#" onclick="confirmJPVoice()" style="padding: 6px">OK</a>
+        <div class="input-field col s6" style="margin-bottom: 0;">
+          <input placeholder="(eg. 50001)" id="bouyomi_port" type="number" class="validate">
+          <label for="first_name">Port</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <p>
+          <label>
+            <input class="with-gap" name="voice_type" id="radio_sapi5"  value="sapi5" type="radio"/>
+            <span>SAPI5</span>
+          </label>
+        </p>
+        <label>Choose Voice Type</label>
+        <select name="voiceType" id="voiceType" class="browser-default">
+        </select>
+      </div>
+      <a id="saveJP" class="btn-floating btn-large waves-effect waves-light teal">
+        <i class="material-icons">save</i>
+      </a>
     </div>
   </body>
 </html>

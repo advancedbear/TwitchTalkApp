@@ -9,7 +9,7 @@
         "nw_compression_level": 0,
         "nw_version": "0.26.6",
         "output_pattern": "%(app_name)_%(version)/",
-        "sdk_build": true,
+        "sdk_build": false,
         "uncompressed_folder": false,
         "whitelist": "",
         "windows-x32": true,

@@ -17,8 +17,14 @@ if(!gui.App.argv.length) {
                 $('.loader').delay(1000).slideUp('slow');
             }
         } else if(error){
+            $('.progress').delay(300).fadeOut(200);
+            $('#loading_text').delay(500).fadeOut(200);
+            $('#loading_text').text("DONE!")
             $('.loader').delay(1000).slideUp('slow');
         } else {
+            $('.progress').delay(300).fadeOut(200);
+            $('#loading_text').delay(500).fadeOut(200);
+            $('#loading_text').text("DONE!")
             $('.loader').delay(1000).slideUp('slow');
         }
     });

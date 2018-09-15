@@ -2,41 +2,54 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>EN Voice Settings</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/settings.css">
-    <link rel="stylesheet" href="../css/remodal.css">
-    <link rel="stylesheet" href="../css/remodal-default-theme.css">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection"/>
+    <link rel="stylesheet" href="../css/settings.css" type="text/css"/>
+    <script>speechSynthesis.getVoices();</script>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/settings.js"></script>
-    <script src="../js/remodal.js"></script>
+    <script src="../js/materialize.js"></script>
   </head>
 
   <body>
-    <div class="remodal-bg">
-      <p class="title">EN Voice Settings</p>
-      <div style="text-align: center; margin-bottom: 1em;">
-        <button onclick="chooseVoice()" id="voiceTypeButton" class="testButton">Choose Voice</button>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="#" class="brand-logo">
+          EN Voice
+        </a>
       </div>
-      
-      <hr />
-      <div class="options">
-        Volume: <span id="volume_val"></span><br />
-        <input type="range" id="volume" min="0" max="1.0" step="0.1" value="1.0">
-        Speed: <span id="speed_val"></span><br />
-        <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
-        Pitch: <span id="pitch_val"></span><br />
-        <input type="range" id="pitch" min="0" max="2.0" step="0.1" value="1.0">
-        <button onclick="enVoiceTest()" id="enVoiceTest" class="testButton">English Voice Test</button>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <label>Choose Voice Type</label>
+        <select name="voiceType" id="voiceType" class="browser-default">
+        </select>
+        <label>
+          Volume: <span id="volume_val"></span>
+          <div class="range-field">
+            <input type="range" id="volume" min="0" max="1.0" step="0.1" value="1.0" />
+          </div>
+        </label>
+        <label>
+          Speed: <span id="speed_val"></span>
+          <div class="range-field">
+            <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0" />
+          </div>
+        </label>
+        <label>
+          Pitch: <span id="pitch_val"></span>
+          <div class="range-field">
+            <input type="range" id="pitch" min="0" max="2.0" step="0.1" value="1.0" />
+          </div>
+        </label>
       </div>
-    </div>
-
-    <div class="remodal" data-remodal-id="voiceList">
-      <H3>Choose Voice Type</H3>
-      <select name="voiceType" id="voiceType" size="4">
-        <option value="none">Not Use</option>
-      </select>
-      <a class="remodal-confirm" href="#" onclick="confirmVoice()">OK</a>
+      <a class="waves-effect waves-light btn" onclick="enVoiceTest();return false"><i class="material-icons left">volume_up</i>Voice Test</a>
+      <a id="saveBtn" class="btn-floating btn-large waves-effect waves-light teal">
+        <i class="material-icons">save</i>
+      </a>
     </div>
   </body>
 </html>

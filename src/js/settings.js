@@ -28,7 +28,8 @@ nw.Window.get().on('loaded', function(){
                 $("#list_emote").append(createRow2(id, code, repListEmote[code]));
             }
         });
-
+        $('.modal').modal();
+        $('.tabs').tabs();
     } else if (location.pathname == '/view/JPsettings.html'){
         speechSynthesis.getVoices();
         var bouyomi_s = JSON.parse(localStorage.bouyomiServer);
@@ -36,21 +37,36 @@ nw.Window.get().on('loaded', function(){
         $("#bouyomi_port").val(bouyomi_s.port);
 
         if(localStorage.voiceJPType != 'bouyomi'){
-            $("#radio1").prop('checked', false);
-            $("#radio2").prop('checked', true);
+            $("#radio_bouyomi").prop('checked', false);
+            $("#radio_sapi5").prop('checked', true);
+            $('#bouyomi_ip').prop('disabled',true);
+            $('#bouyomi_port').prop('disabled',true);
+            $('#voiceType').prop('disabled',false);
+        } else {
+            $("#radio_bouyomi").prop('checked', true);
+            $("#radio_sapi5").prop('checked', false);
+            $('#bouyomi_ip').prop('disabled',false);
+            $('#bouyomi_port').prop('disabled',false);
+            $('#voiceType').prop('disabled',true);
         }
         $('input[name="voice_type"]').on('change', function(){
             console.log($(this).val());
             switch($(this).val()) {
                 case 'bouyomi':
                     localStorage.voiceJPType = 'bouyomi';
+                    $('#bouyomi_ip').prop('disabled',false);
+                    $('#bouyomi_port').prop('disabled',false);
+                    $('#voiceType').prop('disabled',true);
                     break;
                 case 'sapi5':
                     localStorage.voiceJPType = 'Microsoft Haruka Desktop - Japanese';
+                    $('#bouyomi_ip').prop('disabled',true);
+                    $('#bouyomi_port').prop('disabled',true);
+                    $('#voiceType').prop('disabled',false);
                     break;
             }
         })
-
+        chooseJPVoice()
         $('#bouyomi_submit').on('click', function(){
             bouyomi_s.host = $("#bouyomi_ip").val();
             bouyomi_s.port = $("#bouyomi_port").val();
@@ -60,17 +76,18 @@ nw.Window.get().on('loaded', function(){
 
     } else if (location.pathname == '/view/ENsettings.html'){
         speechSynthesis.getVoices();
-        if(localStorage.useENvoice!=null) //$("#useEnglish").prop('checked', JSON.parse(localStorage.useENvoice));
         if(localStorage.volume!=null) $("#volume").val(localStorage.volume);
         if(localStorage.speed!=null) $("#speed").val(localStorage.speed);
         if(localStorage.pitch!=null) $("#pitch").val(localStorage.pitch);
     
+        chooseVoice()
+
         $("#volume_val").text(parseFloat($("#volume").val()).toFixed(1));
         $("#speed_val").text(parseFloat($("#speed").val()).toFixed(1));
         $("#pitch_val").text(parseFloat($("#pitch").val()).toFixed(1));
 
-        $('#voiceType').click(function(){
-            localStorage.useENvoice = JSON.stringify($(this).prop('checked'));
+        $("#voiceType").on('change', function(){
+            localStorage.voiceType = $(this).val();
         })
         $('#volume').on('input', function(){
             $("#volume_val").text(parseFloat($(this).val()).toFixed(1));
@@ -84,21 +101,48 @@ nw.Window.get().on('loaded', function(){
             $("#pitch_val").text(parseFloat($(this).val()).toFixed(1));
             localStorage.pitch = parseFloat($(this).val());
         })
-    } else if (location.pathname == '/view/help.html'){
-
+    } else if (location.pathname == '/view/blocklist.html'){
+        let blockedUser = JSON.parse(localStorage.blockUser);
+        for (key in blockedUser){
+            let row = `<tr name="${key}"><td>
+            <div class="switch">
+                <label>
+                UnRead
+                <input type="checkbox" id="${key}" ${blockedUser[key] ? 'checked' : null}>
+                <span class="lever"></span>
+                Read
+                </label>
+            </div><td>${key}</td></td></tr>`
+            $('#blocked_list').append(row);
+        }
+        $('input[type="checkbox"]').on('change', function(){
+            blockedUser[$(this).attr('id')] =  $(this).prop('checked');
+            localStorage.blockUser = JSON.stringify(blockedUser);
+        });
     }
 })
 
 function createRow(key, val, lang){
     key = escapeHTML(key);
     val = escapeHTML(val);
-    let row = '<tr id="'+key+'"><td>'+key+'</td><td>'+val+'</td><td><div class="button_wrapper"><button lang="'+lang+'" onclick="deleteRow(this)" class="delButton">âœ•</button></div></td></tr>';
+    let row = `<tr id="${key}">
+        <td>${key}</td><td>${val}</td><td>
+            <a lang="${lang}" onclick="deleteRow(this);return false" class="btn-floating btn-large waves-effect waves-light btn-small red">
+                <i class="material-icons">close</i>
+            </a>
+        </td></tr>`;
     return row;
 }
 
 function createRow2(id, code, pron){
-    let img = '<img src=\"https://static-cdn.jtvnw.net/emoticons/v1/'+id+'/1.0\">'
-    let row = '<tr id="'+id+'"><td style=\"text-align: center\">'+img+'</td><td>'+code+'</td><td><input type=\"text\" class=\"pronInput\" id=\"pron'+id+'\" value=\"'+pron+'\"></td><td><div class="button_wrapper"><button onclick=\"setEmoteReplace(\''+id+'\')" class="setButton">Apply</button></div></td></tr>';
+    let img = `<img src=\"https://static-cdn.jtvnw.net/emoticons/v1/${id}/1.0\">`
+    let row = `<tr id="${id}">
+        <td style=\"text-align: center\">${img}</td><td>${code}</td>
+            <td><input type=\"text\" class=\"pronInput\" id=\"pron${id}\" value=\"${pron}\"></td>
+            <td><a onclick=\"setEmoteReplace(\'${id}\')" class="btn-floating btn-large waves-effect waves-light btn-small teal">
+                <i class="material-icons">check</i>
+            </a></div></td>
+        </tr>`;
     return row;
 }
 
@@ -110,7 +154,7 @@ function setEmoteReplace(id){
 }
 
 function deleteRow(obj){
-    let delKey = escapeJs(unEscapeHTML($(obj).parent().parent().parent().attr("id")));
+    let delKey = escapeJs(unEscapeHTML($(obj).parent().parent().attr("id")));
     console.log(delKey);
     if($(obj).attr("lang") == 'jp'){
     delete repList[delKey];
@@ -119,7 +163,7 @@ function deleteRow(obj){
     delete repListEn[delKey];
     localStorage.replaceListEn = JSON.stringify(repListEn);
     }
-    $(obj).parent().parent().parent().remove();
+    $(obj).parent().parent().remove();
 }
 
 function addWord(lang){
@@ -153,11 +197,6 @@ function addWord(lang){
 function chooseVoice(){
     let current = localStorage.voiceType;
     $('#voiceType').empty();
-    if(current == 'none'){
-        $('#voiceType').append('<option value="none" selected>Not Use</option>');
-    } else {
-        $('#voiceType').append('<option value="none">Not Use</option>');
-    }
     let voices = speechSynthesis.getVoices()
     for(let voice of voices){
         if(current == voice.name){
@@ -171,11 +210,6 @@ function chooseVoice(){
 function chooseJPVoice(){
     let current = localStorage.voiceJPType;
     $('#voiceType').empty();
-    if(current == 'none'){
-        $('#voiceType').append('<option value="bouyomi" selected>Not Use</option>');
-    } else {
-        $('#voiceType').append('<option value="bouyomi">Not Use</option>');
-    }
     let voices = speechSynthesis.getVoices()
     for(let voice of voices){
         if(current == voice.name){
@@ -185,6 +219,8 @@ function chooseJPVoice(){
         }
     }
     location.href='#voiceList'
+    
+    $('select').formSelect();
 }
 function confirmVoice(){
     let val = $('#voiceType').val();

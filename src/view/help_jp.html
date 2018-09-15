@@ -2,129 +2,243 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Help (Japanese)</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/help.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection"/>
     <script src="../js/jquery.min.js"></script>
-    <script>
-        $(function() {
-            $('body').fadeIn('fast');
-            $('.tabs div').click(function() {
-                var idx = $('.tabs div').index(this);
-                $('.content').fadeOut(150);
-                $('.content').eq(idx).delay(150).fadeIn(150);
-                $('.tabs div').removeClass('selected');
-                $(this).addClass('selected')
-            });
-
-            $('#langButton').click(function(){
-                $('body').fadeOut('fast',function(){
-                    location.href = "help_en.html";
-                });
-            })
-        });
-    </script>
+    <script src="../js/materialize.js"></script>
+    <script>var gui = require('nw.gui');</script>
   </head>
  
   <body>
-    <header>
-        <div id="langButton"><img src="../img/settingsEN.png"></div>
-        <div id="title">Twitch Talk App Help</div>
-        <p>Twitchに投稿されたコメントを、棒読みちゃんとSpeechAPIで読み上げ可能にします。<br>
-        和文は棒読みちゃんで、英文はSpeechAPIで読み上げられます。</p>
-    </header>
-    <div class="tabs">
-        <div class="selected">使い方</div>
-        <div>設定項目</div>
-        <div>アプリ更新</div>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper blue-grey darken-3">
+            <a href="#" class="brand-logo">
+                TwitchTalkApp Help
+            </a>
+            </div>
+            <div class="col s12 blue-grey lighten-4">
+                <ul class="tabs blue-grey lighten-4">
+                <li class="tab col s3 blue-grey lighten-4"><a class="active blue-grey lighten-4" href="#howto">使い方</a></li>
+                <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#settings">設定項目</a></li>
+                <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#update">アプリ情報</a></li>
+                </ul>
+            </div>
+        </nav>
     </div>
-    <div class="content">
-        <ol>
-            <li>棒読みちゃんを起動しておきます。</li>
-            <li>Connect with Twitchをクリックして、Twitchにログインします。</li>
-            <li>Username欄に自分のユーザーIDを入力します。<br /><small>※ログイン時に入力するIDです</small></li>
-            <li>Channel欄に読み上げたいチャンネルIDを入力します。<br />
-                <small>※自分のチャンネルであれば自分のユーザーID、他人のチャンネルであれば相手のユーザーIDです</small></li>
-                <small>※カンマ区切りで複数チャンネルを同時受信可能です。例：channel1,channel2,channel3</small></li>
-            <li>Connectボタンを押すと読み上げが開始されます。</li>
-        </ol>
-        <ol>
-            <li>TwitchTalkApp.exeの起動オプションに「-log」を指定すると動作ログが出力されます。</li>
-            <li>起動オプションの指定は、コマンドプロンプトから実行するか、ショートカットの作成が簡単です。</li>
-        </ol>
+    <div id="howto" class="col s12 container">
+        <div class="section">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">基本の使い方</span>
+                    <p>
+                        <ol>
+                            <li>棒読みちゃんを起動しておきます。</li>
+                            <li>Connect with Twitchをクリックして、Twitchにログインします。</li>
+                            <li>Channel欄に読み上げたいチャンネルIDを入力します。<br />
+                                <small>※自分のチャンネルであれば自分のチャンネルID、他人のチャンネルであれば相手のチャンネルIDです</small><br />
+                                <small>※カンマ区切りで複数チャンネルを同時受信可能です。例：channel1,channel2,channel3</small></li>
+                            <li>Connectボタンを押すと読み上げが開始されます。</li>
+                            <li>Disconnectボタンを押すと読み上げが終了されます。<br />
+                                <small>※PCをスリープする際などはDisconnectしてからスリープしてください。再接続できなくなります。</small></li>
+                        </ol>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">動作ログの出し方（デバッグ用）</span>
+                    <p>
+                        <ol>
+                            <li>TwitchTalkApp.exeの起動オプションに「-log」を指定すると動作ログが出力されます。</li>
+                            <li>起動オプションの指定は、コマンドプロンプトから実行するか、ショートカットの作成が簡単です。</li>
+                        </ol>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="content" style="display: none;">
-        <ul>
-            <li>Replacement
-                <ul>
-                    <li>読み上げ時、棒読みちゃん側の置換設定とは別に文字列を読み替えます。</li>
-                    <li>和文と英文、それぞれに別の置換設定が適用されます。</li>
-                    <li>英単語を日本語に読み替えると、英語音声では再生されなくなります。</li>
-                    <li>Emoticonsでは、エモートの読み替えを設定できます。
-                        <ul>
-                            <li>エモートの読み替えは、和文・英文の読み替えの前に行われます。</li>
-                            <li>「Pronunciation」欄に読み上げ方を入力し、Applyボタンで適用されます。</li>
-                            <li>読み替え後の単語が和文ならば棒読みちゃんで、英文ならば英語音声で読み上げます。</li>
-                            <li>和文・英文で置換設定された単語に置き換えた場合、読み替えがされます。</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>JP Voice
-                <ul>
-                    <li>棒読みちゃんとの接続設定ができます。</li>
-                    <li>棒読みちゃんのSocket通信ポートが50001ではない場合に変更ができます。</li>
-                    <li>棒読みちゃんを別PCで実行している場合、ホストアドレスを変更できます。</li>
-                </ul>
-            </li>
-            <li>EN Voice
-                <ul>
-                    <li>英語音声の音量、再生速度、音程を変更できます。</li>
-                    <li>Use English Voiceのチェックを外すと、英文も棒読みちゃんで読み上げされます。</li>
-                    <li>PCの環境によっては変更が反映されない場合もあります。</li>
-                </ul>
-            </li>
-            <li>Read Name
-                <ul>
-                    <li>チェックが付いている時、コメント投稿者のユーザー名を読み上げます。</li>
-                    <li>ユーザー名も読み替えの対象です。</li>
-                </ul>
-            </li>
-            <li>Read Emotes
-                <ul>
-                    <li>チェックが付いている時、コメント本文に含まれるエモートを読み上げます。</li>
-                </ul>
-            </li>
-            <li>Notification
-                <ul>
-                    <li>チェックが付いている時、コメントをポップアップ通知します。</li>
-                    <li>フルスクリーンゲームをプレー中はポップアップは表示されません。</li>
-                    <li>一部のボーダレスフルスクリーンでも表示されないことがあります。</li>
-                </ul>
-            </li>
-            <li>Play YouTube
-                <ul>
-                    <li>チェックが付いている時、コメントにYouTubeのURLが含まれる場合音声が再生されます。</li>
-                    <li>音声は約60秒間再生され、「stopbgm」コメントか、Ctrl+\のショートカットキーで停止できます。</li>
-                    <li>URLに開始時間（t=1h23m45s形式）が含まれている場合、開始時間から約60秒再生されます。</li>
-                    <li>一部の動画はアップロード者の都合により再生が禁止されている場合があります。</li>
-                </ul>
-            </li>
-        </ul>
+    <div id="settings" class="col s12 container">
+        <div class="section">
+            <h4 class="center-align">Settings</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Replacement</span>
+                    <p>
+                        コメント内の特定文字列を、別に言葉に読み替えます。<br />
+                        和文と英文、それぞれに別の置換設定が適用されます。<br />
+                        英単語を日本語に読み替えると、英語専用音声では再生されなくなります。<br />
+                        Emoticonsでは、Twitchデフォルトエモートの読み替えを設定できます。<br />
+                        <div style="margin-left: 2em;text-indent: -1em; font-size: 75%;">※エモートの読み替えは、和文・英文の読み替えの前に行われます。<br />
+                        Pronunciation欄に読み上げ方を入力し、Applyボタンで適用されます。<br />
+                        読み替え後の単語が和文ならば棒読みちゃんで、英文ならば英語音声で読み上げます。<br />
+                        和文・英文で置換設定された単語に置き換えた場合、読み替えがされます。
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">JP Voice Settings</span>
+                    <p>
+                        棒読みちゃんとの接続設定ができます。<br />
+                        棒読みちゃんのSocket通信ポートが50001ではない場合に変更ができます。<br />
+                        棒読みちゃんを別PCで実行している場合、ホストアドレスを変更できます。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">EN Voice Settings</span>
+                    <p>
+                        英語音声の音量、再生速度、音程を変更できます。<br />
+                        Use English Voiceのチェックを外すと、英文も棒読みちゃんで読み上げされます。<br />
+                        PCの環境によっては変更が反映されない場合もあります。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Edit Blocked Users</span>
+                    <p>
+                        コメント読み上げを行わないユーザーを指定できます。<br />
+                        初期段階では、BOTアカウントであるNightbotが設定されています。<br />
+                        コメントが投稿されると、該当ユーザーが自動でリストアップされます。<br />
+                        Status列のトグルスイッチをUnRead側に入れると読み上げされなくなります。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h4 class="center-align">Options</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Read Username</span>
+                    <p>
+                        チェックが付いている時、コメント投稿者のユーザー名を読み上げます。<br />
+                        ユーザー名も読み替えの対象です。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Read Emoticons</span>
+                    <p>
+                        チェックが付いている時、コメント本文に含まれるデフォルトエモートを読み上げます。<br />
+                        デフォルトエモート以外のエモートは常時読み上げられます。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Use English Voice</span>
+                    <p>
+                        チェックが付いている時、英語音声をSAPI5で読み上げます。<br />
+                        未チェック時は日本語と同じ設定で英文が読み上げられます。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Use Notification</span>
+                    <p>
+                        チェックが付いている時、コメントをポップアップ通知します。<br />
+                        フルスクリーンゲームをプレー中はポップアップは表示されません。<br />
+                        一部のボーダレスフルスクリーンでも表示されないことがあります。
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h4 class="center-align">Reset</h4>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title red-text text-darken-2">Reset All Settings</span>
+                    <p>
+                        保存されている設定を全て消去し、初期化状態でTwitchTalkAppsを再起動します。<br />
+                        音声設定、読み替え設定、ブロックリスト、ログイン情報などの全てが消去されます。<br />
+                        消去したデータは復元できません。
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="content" style="display: none;">
-        <p>アプリ起動時、新しいバージョンが利用できる場合は通知されます。<br />
-        OKボタンを押すと自動アップデートが開始されます。<br />
-        自動アップデートに失敗した場合は、手動でダウンロードしてファイルを上書きしてください。<br />
-        保存されたパスワードや設定などは消去されません。</p>
-        <hr />
-        <p>ご意見、ご要望、お問い合わせ等は
-            <ul>
-                <li><a href="#" onClick="nw.Shell.openExternal('https://twitter.com/advanced_bear'); return false;">@advanced_bear</a></li>
-                <li><a href="#" onClick="nw.Shell.openExternal('http://advancedbear.blogspot.jp/2017/11/twitch-talk-app.html#comments'); return false;">ブログ記事コメント欄</a></li>
-            </ul>
-            へお願いします。
-        </p>
+    <div id="update" class="col s12 container">
+        <div class="section">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">TwitchTalkApp Version <script>document.write(gui.App.manifest.version);</script> Release Note</span>
+                    <p class="description">
+                        <script>$(".description").html((gui.App.manifest.description).replace(/\n/g, '<br />'))</script>
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Auto Update</span>
+                    <p>
+                        アプリ起動時、新しいバージョンが利用できる場合は通知されます。<br />
+                        OKボタンを押すと自動アップデートが開始されます。<br />
+                        自動アップデートに失敗した場合は、手動でダウンロードしてファイルを上書きしてください。<br />
+                        保存されたパスワードや設定などは消去されません。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Contact</span>
+                    <p>
+                        ご意見、ご要望、お問い合わせ等は
+                        <li><a href="#" onClick="nw.Shell.openExternal('https://twitter.com/advanced_bear'); return false;">
+                            @advanced_bear
+                        </a></li>
+                        <li><a href="#" onClick="nw.Shell.openExternal('https://blog.advbear.cf/2017/11/twitch-talk-app.html#comments'); return false;">
+                            ブログ記事コメント欄
+                        </a></li>
+                        へお願いします。
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">LICENSE</span>
+                    <p>
+                        The MIT License (MIT)
+                    </p><br />
+                    <p>
+                        Copyright (c) 2017 @advancedbear
+                    </p><br />
+                    <p>
+                        Permission is hereby granted, free of charge, to any person obtaining a copy
+                        of this software and associated documentation files (the "Software"), to deal
+                        in the Software without restriction, including without limitation the rights
+                        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                        copies of the Software, and to permit persons to whom the Software is
+                        furnished to do so, subject to the following conditions:
+                    </p><br />
+                    <p>
+                        The above copyright notice and this permission notice shall be included in
+                        all copies or substantial portions of the Software.
+                    </p><br />
+                    <p>
+                        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                        THE SOFTWARE.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>$('.tabs').tabs();</script>
   </body>
 </html>

@@ -2,87 +2,109 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Replacement Settings</title>
     <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
-    <link rel="stylesheet" href="../css/settings.css">
-    <link rel="stylesheet" href="../css/remodal.css">
-    <link rel="stylesheet" href="../css/remodal-default-theme.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection"/>
+    <link rel="stylesheet" href="../css/settings.css" type="text/css"/>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/settings.js"></script>
-    <script src="../js/remodal.js"></script>
-    <script>
-      $(function(){
-        $(".tab li").click(function(){
-              var idx = $(".tab li").index(this);
-              $(".content").hide();
-              $(".content").eq(idx).show();
-              $(".tab li").removeClass('selected');
-              $(this).addClass('selected');
-        });
-      });
-      </script>
+    <script src="../js/materialize.js"></script>
   </head>
 
   <body>
-    <div class="remodal-bg">
-    <header>
-    <div id="title">Replacement Settings</div>
-    <p>When you finish setting, please close this window.<br />
-    設定が終了したら、このウィンドウは閉じて下さい。</p>
-      <ul class="tab">
-        <li id="jp_tab" class="selected">Japanese</li>
-        <li id="en_tab">English</li>
-        <li id="emote_tab">Emoticons</li>
+    <nav>
+      <div class="nav-wrapper blue-grey darken-3">
+        <a href="#" class="brand-logo">
+          Replacement Setting
+        </a>
+      </div>
+    </nav>
+    <div class="col s12 blue-grey lighten-4">
+      <ul class="tabs blue-grey lighten-4">
+        <li class="tab col s3 blue-grey lighten-4"><a class="active blue-grey lighten-4" href="#rep_jp">Japanese</a></li>
+        <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_en">English</a></li>
+        <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_emote">Emoticons</a></li>
       </ul>
-    </header>
-    <div id="rep_jp" class="content">
-      <div class="table_wrapper">
-        <table id="list_jp" class="list">
-            <tr><th style="width: 180px">Pattern</th><th style="width: 360px">Replacement</th><th style="width: 40px">DEL</th></tr>
-        </table>
-      </div>
-      <div id="newWord" onclick="location.href='#jp_add'">+</div>
     </div>
-    <div id="rep_en" class="content" style="display: none;">
-      <div class="table_wrapper">
-        <table id="list_en" class="list">
-          <tr><th style="width: 180px">Pattern</th><th style="width: 360px">Replacement</th><th style="width: 40px">DEL</th></tr>
-        </table>
-      </div>
-      <div id="newWord" onclick="location.href='#en_add'">+</div>
+    <div id="rep_jp" class="col s12">
+      <table id="list_jp">
+        <thead>
+          <tr>
+            <th style="width: 180px">Pattern</th>
+            <th style="width: 400px">Replacement</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <a class="btn-floating btn-large waves-effect waves-light modal-trigger teal add-btn" href="#jp_add"><i class="material-icons">add</i></a>
     </div>
-    <div id="rep_emote" class="content" style="display: none;">
-      <div class="table_wrapper">
-        <table id="list_emote" class="list">
-          <tr><th style="width: 40px"></th><th style="width: 180px">Emoticon</th><th style="width: 280px">Pronunciation</th><th style="width: 40px">Apply</th></tr>
-        </table>
-      </div>
+    <div id="rep_en" class="col s12">
+      <table id="list_en">
+        <thead>
+          <tr>
+            <th style="width: 180px">Pattern</th>
+            <th style="width: 400px">Replacement</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <a class="btn-floating btn-large waves-effect waves-light modal-trigger teal add-btn" href="#en_add"><i class="material-icons">add</i></a>
     </div>
-  </div>
-  
-  <div class="remodal" data-remodal-id="jp_add">
-      <h2>Add New Word</h2>
-      <p>
-      <input type="text" id="word1" class="rep_text" placeholder="Pattern word"><br />
-      <img src="../img/arrow.png"><br />
-      <input type="text" id="word2" class="rep_text" placeholder="Replacement Word">
-      </p>
-      <a class="remodal-cancel" href="#">Cancel</a>
-      <span style="padding-left: 1em;"></span>
-      <a class="remodal-confirm" href="#" onclick="addWord(0)">Add</a>
-  </div>
+    <div id="rep_emote" class="col s12">
+      <table id="list_emote">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Emoticon</th>
+            <th>Pronunciation</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="remodal" data-remodal-id="en_add">
-      <h1>Add New Word</h1>
-      <p>
-          <input type="text" id="word3" class="rep_text" placeholder="Pattern word"><br />
-          <img src="../img/arrow.png"><br />
-          <input type="text" id="word4" class="rep_text" placeholder="Replacement Word">
-      </p>
-      <a class="remodal-cancel" href="#">Cancel</a>　
-      <span style="padding-left: 1em;"></span>
-      <a class="remodal-confirm" href="#" onclick="addWord(1)">Add</a>
-  </div>
 
+    <div id="jp_add" class="modal">
+      <div class="modal-content">
+        <h4>Add New Replacement</h4>
+        <p>
+          <label for="word1">Pattern Word</label>
+          <input placeholder="(eg. Apple)" id="word1" type="text" class="validate" pattern="\w+">
+        </p>
+        <div class="col s12 center-align"><i class="material-icons">arrow_downward</i></div>
+        <p>
+          <label for="word2">Replacement Word</label>
+          <input placeholder="(eg. りんご)" id="word2" type="text" class="validate" pattern="\w+">
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-small" onclick="addWord(0);return false"><i class="material-icons left">check</i>OK</a>
+      </div>
+    </div>
+    <div id="en_add" class="modal">
+      <div class="modal-content">
+        <h4>Add New Replacement</h4>
+        <p>
+          <label for="word1">Pattern Word</label>
+          <input placeholder="(eg. Apple)" id="word3" type="text" class="validate" pattern="\w+">
+        </p>
+        <div class="col s12 center-align"><i class="material-icons">arrow_downward</i></div>
+        <p>
+          <label for="word2">Replacement Word</label>
+          <input placeholder="(eg. Lemon)" id="word4" type="text" class="validate" pattern="\w+">
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-small" onclick="addWord(1);return false"><i class="material-icons left">check</i>OK</a>
+      </div>
+    </div>
   </body>
 </html>

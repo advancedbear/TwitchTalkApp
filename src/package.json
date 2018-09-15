@@ -1,7 +1,9 @@
 {
   "app_name": "TwitchTalkApp",
   "dependencies": {
+    "materialize-css": "^1.0.0-rc.2",
     "node-webkit-updater": "^0.3.3",
+    "say": "^0.15.0",
     "tmi.js": "^1.2.1"
   },
   "main": "index.html",

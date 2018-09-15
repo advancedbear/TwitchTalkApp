@@ -7,31 +7,15 @@ var bouyomiServer = {};
 var conn = false;
 var client;
 var tray;
-var ytPlayer;
 var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
 var follows;
-
-
-var hotkey1 = {
-    key : "Ctrl+P",
-    active: function(){
-        stopYT();
-    },
-    failed: function(){
-        statusUpdate("Shortcut Key Failed.");
-        console.log("shorcut failed");
-    }
-}
-var shortcut1 = new nw.Shortcut(hotkey1);
-nw.App.registerGlobalHotKey(shortcut1);
 
 // メイン画面のDOM読み込み完了後の初期化動作
 window.onload = function(){
     $('#webFont').attr('rel', 'stylesheet'); // ウェブフォントの遅延読み込み
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
-    if(localStorage.name!=null) document.getElementById("name").value = localStorage.name;
-    if(localStorage.channel!=null) document.getElementById("channel").value = localStorage.channel;
+    if(localStorage.channel!=null) document.getElementById("channels_name").value = localStorage.channel;
     if(localStorage.password!=null){
         // localStorageにOAuthPasswordが存在する場合、Loginボタンを非表示に
         $("#loginTwitch").hide();
@@ -66,14 +50,13 @@ window.onload = function(){
         localStorage.volume = localStorage.speed = localStorage.pitch = 1.0;
     }
     // 各チェックボックスの初期化
-    if(localStorage.useENvoice==null) localStorage.useENvoice = true;
+    if(localStorage.useENvoice==null||localStorage.useENvoice===undefined) localStorage.useENvoice = true;
     if(localStorage.showNotify==null) localStorage.showNotify = false;
     if(localStorage.readName==null) localStorage.readName = false;
     if(localStorage.readEmotes==null) localStorage.readEmotes = false;
-    //if(localStorage.useLogger==null) localStorage.useLogger = false;
-    if(localStorage.playYoutube==null) localStorage.playYoutube = true;
+    if(localStorage.voiceType==null) localStorage.voiceType = 'none';
     if(localStorage.voiceJPType==null) localStorage.voiceJPType = 'bouyomi';
-    if(localStorage.blockUser==null) localStorage.blockUser = JSON.stringify(['Nightbot']);
+    if(localStorage.blockUser==null || JSON.parse(localStorage.blockUser)[0]!=undefined) localStorage.blockUser = JSON.stringify({'Nightbot':false});
 
     speechSynthesis.getVoices();
 
@@ -108,23 +91,6 @@ window.onload = function(){
         logger.init(true);
     }
 
-    ytPlayer = new YT.Player(
-        'YTpos',
-        {
-            width: 0,
-            height: 0,
-            playerVars: {
-                autoplay: 1,
-                rel: 0,
-                controls: 0,
-                end: 65
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        }
-    );
-
     $(document).on('click','#settingButton', function(){
         voices = speechSynthesis.getVoices();
         sessionStorage.voices = JSON.stringify(voices);
@@ -134,7 +100,6 @@ window.onload = function(){
     $(document).on('click','#helpButton', function(){
         showHelp('jp');
     })
-
 };
 
 mainWindow.on('minimize', function(){
@@ -155,8 +120,8 @@ mainWindow.on('restore', function(){
 function Connect(){
     logger.out("Connect button pressed.")
     let pass = localStorage.password;
-    let name = localStorage.name = document.getElementById("name").value;
-    let channel = localStorage.channel = document.getElementById("channel").value;
+    let name = localStorage.name;
+    let channel = localStorage.channel = document.getElementById("channels_name").value;
     let channels = channel.split(',');
     for(let chn in channels) {
         channels[chn] = '#'+channels[chn];
@@ -191,10 +156,8 @@ function Connect(){
         })
         client.on('chat', function(ch, userstate, message, self){
             let from = userstate["username"];
+            let blockedUserList = JSON.parse(localStorage.blockUser);
             logger.out("message recieved-> from: "+from+" message: "+message);
-            if(message.startsWith('stopbgm')) {
-                stopYT();
-            }
             if(JSON.parse(localStorage.showNotify)){
                 showNotification(from, message);
                 logger.out("Notification popped up.");
@@ -221,7 +184,11 @@ function Connect(){
                 nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceList));
             }
             logger.out("message replaced -> "+nMessage);
-            if(JSON.parse(localStorage.blockUser).indexOf(from) == -1){
+            if(blockedUserList[from] === undefined)  {
+                blockedUserList[from] = true;
+                localStorage.blockUser = JSON.stringify(blockedUserList);
+            }
+            if(JSON.parse(localStorage.blockUser)[from] == true){
                 if(isEnglish(nMessage) && localStorage.voiceType!='none'){
                     logger.out("Message is English. Try to use Speech API.");
                     for(let voice of voices){
@@ -235,6 +202,7 @@ function Connect(){
                     uttr.lang = 'en-US';
                     uttr.text = nMessage;
                     speechSynthesis.speak(uttr);
+                    console.log(uttr);
                 } else {
                     logger.out("Message is Japanese. Try to use Bouyomi-chan");
                     if(localStorage.voiceJPType == 'bouyomi') {
@@ -247,31 +215,32 @@ function Connect(){
                         }
                         uttr.volume = localStorage.volume;
                         uttr.rate = localStorage.speed;
-                        uttr.pitch = localStorage.pitch;
                         uttr.lang = 'ja-JP';
+                        uttr.pitch = 100;
                         uttr.text = nMessage;
                         speechSynthesis.speak(uttr);
+                        console.log(uttr);
                     }
                 }
             }
         });
         client.connect();
-        document.getElementById("connButton").innerText = "Disconnect";
-        $('#connButton').toggleClass('connected');
-        $('#name').prop('disabled', true);
-        $('#channel').prop('disabled', true);
+        $("#connButton").html("Disconnect");
+        $('#connButton').attr('class', 'col s10 offset-s1 btn waves-effect waves-light btn-large teal darken-2');
+        $('#channels_name').prop('disabled', true);
         conn = true;
         logger.out("Connected to Channel.");
         statusUpdate("Connected to "+channel+"'s channel.",1);
+        console.log(conn)
     } else {
-        document.getElementById("connButton").innerText = "Connect";
-        $('#connButton').toggleClass('connected');
-        $('#name').prop('disabled', false);
-        $('#channel').prop('disabled', false);
+        $("#connButton").html("Connect");
+        $('#connButton').attr('class', 'col s10 offset-s1 btn waves-effect waves-light btn-large orange darken-3');
+        $('#channels_name').prop('disabled', false);
         conn = false;
         client.disconnect();
         logger.out("Disconnected from channel.");
         statusUpdate("Disconnected from "+channel+"'s channel.",-1);
+        console.log(conn)
     }
 };
 
@@ -317,60 +286,10 @@ function replaceMessage(message, rList) {
 }
 
 function replaceURL(message, sender){
-    let yturl = new RegExp("(https?):\/\/((www|m)\.(youtube\.com)|youtu\.be)\/([-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
-    if(yturl.test(message) && JSON.parse(localStorage.playYoutube)){
-        playYT(message.match(yturl)[0], sender);
-    }
     let clipurl = new RegExp("(https?)(:\/\/clips\.twitch\.tv\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
     let anyurl = new RegExp("(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)", 'g');
-    let replaced = message.replace(yturl, ' (YouTube URL)').replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
+    let replaced = message.replace(clipurl, ' (Twitch Clip URL)').replace(anyurl, ' (webURL) ');
     return replaced;
-}
-
-function playYT(url, sender){
-    let flag = false;
-    for(user of follows){
-        if(user.channel.name == sender){
-            flag = true;
-        } else if (sender == client.username){
-            flag = true;
-        }
-    }
-    if(flag == false) return;
-
-    let spurl = url.split('/');
-    if(spurl[3].startsWith('watch?v=')){
-        vId = spurl[3].split('&')[0].slice(8);
-    } else {
-        vId = spurl[3].split('?')[0];
-    }
-    let startTime = 0;
-    for(let param of spurl[3].replace('?','&').split('&')){
-        console.log(param);
-        if(param.startsWith('t=')){
-            hms = param.slice(2);
-            hms = hms.replace(/h/g,'*3600+').replace(/m/g,'*60+').replace(/s/g,'');
-            console.log(hms);
-            startTime = eval(hms);
-            console.log(startTime);
-        }
-    }
-    ytPlayer.loadVideoById({
-        videoId: vId,
-        startSeconds: startTime,
-        endSeconds:startTime+60,
-        suggestedQuality: 'small'});
-    console.log('Activate YTPlayer url:'+vId);
-}
-
-function onPlayerReady(event){
-    ytPlayer.setVolume(35);
-    ytPlayer.playVideo();
-}
-
-function stopYT(){
-    ytPlayer.stopVideo();
-    ytPlayer.clearVideo();
 }
 
 function showNotification(from, message){
@@ -416,8 +335,3 @@ $(document).on('dblclick', '.d_text0', function(){
         };
     }
 })
-
-mainWindow.on('close', function(){
-    nw.App.unregisterGlobalHotKey(shortcut1);
-    this.close(true);
-});
