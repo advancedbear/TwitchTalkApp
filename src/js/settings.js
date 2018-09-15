@@ -104,13 +104,13 @@ nw.Window.get().on('loaded', function(){
     } else if (location.pathname == '/view/blocklist.html'){
         let blockedUser = JSON.parse(localStorage.blockUser);
         for (key in blockedUser){
-            let row = `<tr name="${key}"><td>
+            let row = `<tr name="${key}"><td class="center-align">
             <div class="switch">
-                <label>
+                <label class="black-text">
                 UnRead
                 <input type="checkbox" id="${key}" ${blockedUser[key] ? 'checked' : null}>
                 <span class="lever"></span>
-                Read
+                Read 　
                 </label>
             </div><td>${key}</td></td></tr>`
             $('#blocked_list').append(row);
