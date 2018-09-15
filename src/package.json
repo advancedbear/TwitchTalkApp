@@ -10,7 +10,7 @@
   "name": "TwitchTalkApp",
   "version": "1.2.0",
   "description": "【Update: 2018/09/15】\n・ユーザインタフェースの刷新\n　基本的な使い方は変わっていませんが、メニュー項目の表示が変わっています。\n・ユーザーブロックシステムを変更（Read/UnReadの切り替え方式に）\n・名前読み上げ時にユーザ名によって棒読みちゃんの配信機能が誤作動する不具合を修正\n\n刷新された機能の利用方法についてはアプリ内HELPをご確認ください。",
-  "manifestUrl": "https://dl.dropboxusercontent.com/s/eehhui10t8efq4r/package.json",
+  "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
   "webexe_settings": {
     "blacklist": "",
     "custom_script": "",
