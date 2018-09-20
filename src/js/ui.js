@@ -20,7 +20,7 @@ $(function(){
     });
 })
 
-$(document).ready(function(){    
+$(document).ready(function(){
     $('#ReadName').prop('checked', JSON.parse(localStorage.readName));
     $('#ReadEmotes').prop('checked', JSON.parse(localStorage.readEmotes));
     $('#UseEnglish').prop('checked', JSON.parse(localStorage.useENvoice));

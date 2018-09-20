@@ -13,7 +13,6 @@ var follows;
 
 // メイン画面のDOM読み込み完了後の初期化動作
 window.onload = function(){
-    $('#webFont').attr('rel', 'stylesheet'); // ウェブフォントの遅延読み込み
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
     if(localStorage.channel!=null) document.getElementById("channels_name").value = localStorage.channel;
     if(localStorage.password!=null){
@@ -90,6 +89,9 @@ window.onload = function(){
     if(nw.App.argv[0]=="-log"){
         logger.init(true);
     }
+    let script = document.createElement("script");
+    script.src = "js/ui.js";
+    document.head.appendChild(script);
 
     $(document).on('click','#settingButton', function(){
         voices = speechSynthesis.getVoices();

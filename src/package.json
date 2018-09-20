@@ -8,8 +8,8 @@
   },
   "main": "index.html",
   "name": "TwitchTalkApp",
-  "version": "1.2.0",
-  "description": "【お知らせ】\nDropboxの転送量制限の影響でアップデートが出来ない場合があります。\n最新版を手動でダウンロードするようにお願いします。\n\n【Update: 2018/09/15】\n・ユーザインタフェースの刷新\n　基本的な使い方は変わっていませんが、メニュー項目の表示が変わっています。\n・ユーザーブロックシステムを変更（Read/UnReadの切り替え方式に）\n・名前読み上げ時にユーザ名によって棒読みちゃんの配信機能が誤作動する不具合を修正\n\n刷新された機能の利用方法についてはアプリ内HELPをご確認ください。",
+  "version": "1.2.1",
+  "description": "【Update: 2018/09/21】\n・1.2.0よりユーザインタフェースが刷新されました\n・起動時にメニューが開けない不具合を修正\n\n詳しい利用方法はアプリ内HELPをご確認ください。",
   "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
   "webexe_settings": {
     "blacklist": "",
