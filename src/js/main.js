@@ -191,7 +191,7 @@ function Connect(){
                 localStorage.blockUser = JSON.stringify(blockedUserList);
             }
             if(JSON.parse(localStorage.blockUser)[from] == true){
-                if(isEnglish(nMessage) && localStorage.voiceType!='none'){
+                if(isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)){
                     logger.out("Message is English. Try to use Speech API.");
                     for(let voice of voices){
                         if(localStorage.voiceType == voice.name){
