@@ -3,7 +3,7 @@
 
 ## 対応するText-To-Speech
 - 棒読みちゃん
-    - 和文コメントは棒読みちゃんで読み上げされます
+    - 和文コメントは棒読みちゃん、SAPI5で読み上げされます
 - Web Speech API
     - 英文コメントはWebSpeechAPIを介してOS標準音声で読み上げされます
 
@@ -42,3 +42,4 @@
 - [node-webkit-updater](https://github.com/edjafarov/node-webkit-updater)
 - [tmi.js](https://github.com/tmijs/tmi.js)
 - [node_bouyomiConnect](https://github.com/thakyuu/node_bouyomiConnect)
+- [Mateiralize](https://materializecss.com/)
