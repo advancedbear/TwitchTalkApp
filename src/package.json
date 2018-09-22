@@ -9,7 +9,7 @@
   "main": "index.html",
   "name": "TwitchTalkApp",
   "version": "1.2.3",
-  "description": "【Update: 2018/09/22】\n・Use EN Voiceオプションが機能していなかった不具合を修正\n・メニューのボタンが押せない不具合を修正\n\n詳しい利用方法はアプリ内HELPをご確認ください。",
+  "description": "【Update: 2018/09/22】\n・Use EN Voiceオプションが機能していなかった不具合を修正\n・メニューのボタンが押せない不具合を修正\n\n詳しい利用方法はアプリ内HELPをご確認ください。\n\n【お知らせ】\n自動アップデート時に画面が進まない不具合が発生する場合があります。\nautoupdater.exeを手動実行することでアップデート可能です。\nご迷惑おかけしますがよろしくお願いします。",
   "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
   "webexe_settings": {
     "blacklist": "",

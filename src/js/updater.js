@@ -13,15 +13,23 @@ upd.checkNewVersion(function(error, newVersionExists, manifest) {
     $("#materialIcons").prop("rel", "stylesheet");
     if (!error && newVersionExists) {
         let mes = `Update is available. Please use the latest version.\n
-            新しいバージョンが利用可能です。OKを押すとアップデートが開始されます。\n\n
-            【更新内容】\n
-            ${manifest.description}`;
+新しいバージョンが利用可能です。OKを押すとアップデートが開始されます。\n\n
+【更新内容】\n
+${manifest.description}`;
         if(confirm(mes)){
             let url="https://www.advbear.cf/TwitchTalkApp/autoupdater.exe"
             let execPath = path.join(path.dirname(process.execPath),"autoupdater.exe");
             let cws = fs.createWriteStream(execPath);
+            $(".indeterminate").prop("class", "determinate");
             https.get(url, (res)=>{
+                var totalLength = 0;
                 res.pipe(cws);
+                res.on('data', (chunk)=> {
+                    totalLength += chunk.length;
+                    current = (chunk.length/res.headers['content-length'])*100;
+                    $("#loading_text").text(`${current}%`);
+                    $(".determinate").css("width", `${current}%`);
+                })
                 res.on('end', ()=>{
                     cws.end();
                     setTimeout(()=>{
