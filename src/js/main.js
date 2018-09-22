@@ -89,9 +89,6 @@ window.onload = function(){
     if(nw.App.argv[0]=="-log"){
         logger.init(true);
     }
-    let script = document.createElement("script");
-    script.src = "js/ui.js";
-    document.head.appendChild(script);
 
     $(document).on('click','#settingButton', function(){
         voices = speechSynthesis.getVoices();
@@ -226,6 +223,7 @@ function Connect(){
                 }
                 M.Toast.dismissAll();
                 M.toast({html: `<span class="small">${from}: ${message}</span>`})
+                console.log(speechSynthesis.pending);
             }
         });
         client.connect();

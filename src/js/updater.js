@@ -6,7 +6,12 @@ var updater = require('node-webkit-updater');
 var upd = new updater(pkg);
 
 upd.checkNewVersion(function(error, newVersionExists, manifest) {
+    $("#webFont").prop("rel", "stylesheet");
+    $("#materialIcons").prop("rel", "stylesheet");
     if (!error && newVersionExists) {
+        let script = document.createElement("script");
+        script.src = "js/ui.js";
+        document.head.appendChild(script);
         let mes = `Update is available. Please use the latest version.\n
             新しいバージョンが利用可能です。OKを押すとアップデートが開始されます。\n\n
             【更新内容】\n
