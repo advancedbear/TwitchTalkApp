@@ -14,21 +14,23 @@
   </head>
 
   <body>
-    <nav>
-      <div class="nav-wrapper blue-grey darken-3">
-        <a href="#" class="brand-logo">
-          Replacement Setting
-        </a>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper blue-grey darken-3">
+          <a href="#" class="brand-logo">
+            Replacement Setting
+          </a>
+        </div>
+      <div class="col s12 blue-grey lighten-4">
+        <ul class="tabs blue-grey lighten-4">
+          <li class="tab col s3 blue-grey lighten-4"><a class="active blue-grey lighten-4" href="#rep_jp">Japanese</a></li>
+          <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_en">English</a></li>
+          <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_emote">Emoticons</a></li>
+        </ul>
       </div>
     </nav>
-    <div class="col s12 blue-grey lighten-4">
-      <ul class="tabs blue-grey lighten-4">
-        <li class="tab col s3 blue-grey lighten-4"><a class="active blue-grey lighten-4" href="#rep_jp">Japanese</a></li>
-        <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_en">English</a></li>
-        <li class="tab col s3 blue-grey lighten-4"><a class="blue-grey lighten-4" href="#rep_emote">Emoticons</a></li>
-      </ul>
     </div>
-    <div id="rep_jp" class="col s12">
+    <div id="rep_jp" class="col s12 container">
       <table id="list_jp">
         <thead>
           <tr>
@@ -42,7 +44,7 @@
       </table>
       <a class="btn-floating btn-large waves-effect waves-light modal-trigger teal add-btn" href="#jp_add"><i class="material-icons">add</i></a>
     </div>
-    <div id="rep_en" class="col s12">
+    <div id="rep_en" class="col s12 container">
       <table id="list_en">
         <thead>
           <tr>
@@ -56,7 +58,7 @@
       </table>
       <a class="btn-floating btn-large waves-effect waves-light modal-trigger teal add-btn" href="#en_add"><i class="material-icons">add</i></a>
     </div>
-    <div id="rep_emote" class="col s12">
+    <div id="rep_emote" class="col s12 container">
       <table id="list_emote">
         <thead>
           <tr>
@@ -77,12 +79,12 @@
         <h4>Add New Replacement</h4>
         <p>
           <label for="word1">Pattern Word</label>
-          <input placeholder="(eg. Apple)" id="word1" type="text" class="validate" pattern="\w+">
+          <input placeholder="(eg. Apple)" id="word1" type="text">
         </p>
         <div class="col s12 center-align"><i class="material-icons">arrow_downward</i></div>
         <p>
           <label for="word2">Replacement Word</label>
-          <input placeholder="(eg. りんご)" id="word2" type="text" class="validate" pattern="\w+">
+          <input placeholder="(eg. りんご)" id="word2" type="text">
         </p>
       </div>
       <div class="modal-footer">
