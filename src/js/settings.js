@@ -112,7 +112,7 @@ nw.Window.get().on('loaded', function(){
                 <span class="lever"></span>
                 Read 　
                 </label>
-            </div><td>${key}</td></td></tr>`
+            </div><td class="username_cell">${key}</td></td></tr>`
             $('#blocked_list').append(row);
         }
         $('input[type="checkbox"]').on('change', function(){
