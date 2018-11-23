@@ -10,11 +10,31 @@ var tray;
 var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
 var follows;
+var channel_chips, chip_data = [];
 
 // メイン画面のDOM読み込み完了後の初期化動作
 window.onload = function(){
     if(localStorage.password==null) document.getElementById("connButton").disabled = true;
-    if(localStorage.channel!=null) document.getElementById("channels_name").value = localStorage.channel;
+    if(localStorage.channel!=null) {
+        try{
+            if(typeof JSON.parse(localStorage.channel) == "object"){
+                chip_data = JSON.parse(localStorage.channel)
+            } 
+        } catch {
+            let ch_spl = localStorage.channel.split(/\s*,\s*/);
+            for(ch of ch_spl) {
+                chip_data.push({tag: ch})
+            }
+        }
+    }
+    M.Chips.init($(".chips-placeholder"),{
+        placeholder: 'Channel name',
+        secondaryPlaceholder: '+Channels',
+        limit: 4,
+        onChipAdd: ()=>{localStorage.channel = JSON.stringify(channel_chips.chipsData)},
+        onChipDelete: ()=>{localStorage.channel = JSON.stringify(channel_chips.chipsData)},
+        data: chip_data
+    });
     if(localStorage.password!=null){
         // localStorageにOAuthPasswordが存在する場合、Loginボタンを非表示に
         $("#loginTwitch").hide();
@@ -89,6 +109,20 @@ window.onload = function(){
     if(nw.App.argv[0]=="-log"){
         logger.init(true);
     }
+    channel_chips = M.Chips.getInstance($('#channels_name'))
+    $('#chips_input')
+        .focusout(function(){
+            channel_chips.addChip(
+                {tag: $('#chips_input').val()}
+                )
+            $('#chips_input').val("")
+        })
+        .blur(function(){
+            channel_chips.addChip(
+                {tag: $('#chips_input').val()}
+                )
+            $('#chips_input').val("")
+        })
 
     $(document).on('click','#settingButton', function(){
         voices = speechSynthesis.getVoices();
@@ -99,6 +133,7 @@ window.onload = function(){
     $(document).on('click','#helpButton', function(){
         showHelp('jp');
     })
+
 };
 
 mainWindow.on('minimize', function(){
@@ -120,12 +155,13 @@ function Connect(){
     logger.out("Connect button pressed.")
     let pass = localStorage.password;
     let name = localStorage.name;
-    let channel = localStorage.channel = document.getElementById("channels_name").value;
-    let channels = channel.split(',');
+    let channel = [];
+    localStorage.channel = JSON.stringify(channel_chips.chipsData);
+    let channels = channel_chips.chipsData
     for(let chn in channels) {
-        channels[chn] = '#'+channels[chn];
+        channel[chn] = '#'+channels[chn].tag;
     }
-    console.log(channels);
+    console.log(channel);
 
     var voices = speechSynthesis.getVoices();
     
@@ -138,7 +174,7 @@ function Connect(){
             username: name,
             password: pass
         },
-        channels: channels
+        channels: channel
     };
 
     if(!conn){
@@ -162,7 +198,7 @@ function Connect(){
                 logger.out("Notification popped up.");
             }
             message = replaceURL(message, from);
-            if(channels.length == 1 ) {
+            if(channel.length == 1 ) {
                 statusUpdate(from+ ": "+message,0);
             } else {
                 statusUpdate(from+' ['+ch+']' + ": "+message,0);
@@ -221,8 +257,6 @@ function Connect(){
                         console.log(uttr);
                     }
                 }
-                M.Toast.dismissAll();
-                M.toast({html: `<span class="small">${from}: ${message}</span>`})
                 console.log(speechSynthesis.pending);
             }
         });
@@ -307,17 +341,18 @@ function showNotification(from, message){
 }
 
 function statusUpdate(message, code) {
+    M.Toast.dismissAll();
     let p;
     if(code==1){
-        p = '<option style="color:rgb(46, 204, 113);">';
+        p = '<span class="small" style="color:rgb(46, 204, 113);">';
     } else if(code==0){
-        p = '<option style="color: rgb(236, 240, 241)" class="d_text0">';
+        p = '<span class="small" style="color: rgb(236, 240, 241)">';
     } else if(code==-1){
-        p = '<option style="color: rgb(231, 76, 60);">';
+        p = '<span class="small" style="color: rgb(231, 76, 60);">';
     }
     let m = p+message+'</p>';
-    $('#description').append(m+'</option>');
-    $('#description').animate({scrollTop: 999999}, 'fast');
+    
+    M.toast({html: m})
 }
 
 $(document).on('dblclick', '.d_text0', function(){
