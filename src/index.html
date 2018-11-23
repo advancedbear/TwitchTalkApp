@@ -40,10 +40,8 @@
     </nav>
 
     <div class="container">
-      <div class="row">
-      </div>
       <div class="row" id="loginTwitch">
-        <div class="col center">
+        <div class="col center"style="margin-top: 2rem;">
           <button class="btn waves-effect waves-light btn-large purple darken-4" onclick="loginTwitch()">
             Connect with Twitch
             <i class="material-icons left">vpnkey</i>
@@ -52,9 +50,16 @@
       </div>
       <div class="row" id="connSettings">
         <div class="input-field col s12">
+          <!--
           <input placeholder="Enter channel name" id="channels_name" type="text" class="validate" required="required">
           <label for="channels_name">Channels</label>
           <span class="helper-text" data-error="Empty is not allowed.">You can set multiple channels with comma.</span>
+          -->
+            <!-- Default with no input (automatically generated)  -->
+          <div class="chips chips-placeholder validate" id="channels_name">
+            <input id="chips_input" class="custom-class" maxlength="20" style="width: 100% !important">
+          </div>
+          <span class="helper-text" data-error="Empty is not allowed.">You can set multiple channels up to 4.</span>
         </div>
         <button class="col s10 offset-s1 btn waves-effect waves-light btn-large orange darken-3" id="connButton" onclick="Connect()">
           Connect
