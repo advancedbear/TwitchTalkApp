@@ -9,7 +9,7 @@
   "main": "index.html",
   "name": "TwitchTalkApp",
   "version": "1.2.5",
-  "description": "【Update: 2018/11/23】\n・取得チャンネルをタグ形式に変更\n・各種通知が表示されるように修正\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。",
+  "description": "【Update: 2018/11/23】\n・取得チャンネルをタグ形式に変更\n・各種通知が表示されるように修正\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。\n\nアプデが進まない場合は、アプリを管理者として起動してください。",
   "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
   "webexe_settings": {
     "blacklist": "",
