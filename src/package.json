@@ -1,44 +1,45 @@
 {
-  "app_name": "TwitchTalkApp",
-  "dependencies": {
-    "materialize-css": "^1.0.0-rc.2",
-    "node-webkit-updater": "^0.3.3",
-    "say": "^0.15.0",
-    "tmi.js": "^1.2.1"
-  },
-  "main": "index.html",
-  "name": "TwitchTalkApp",
-  "version": "1.2.5",
-  "description": "【Update: 2018/11/23】\n・取得チャンネルをタグ形式に変更\n・各種通知が表示されるように修正\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。\n\nアプデが進まない場合は、アプリを管理者として起動してください。",
-  "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
-  "webexe_settings": {
-    "blacklist": "",
-    "custom_script": "",
-    "download_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\NWjs",
-    "export_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\Output",
-    "force_download": false,
-    "nw_compression_level": 0,
-    "nw_version": "0.26.0",
-    "output_pattern": "%(app_name)_%(version)/",
-    "sdk_build": false,
-    "uncompressed_folder": false,
-    "whitelist": "",
-    "windows-x32": true,
-    "windows-x64": false
-  },
-  "webkit": {},
-  "window": {
-    "exe_icon": "img\\icon.png",
-    "height": 320,
-    "icon": "img/icon.png",
-    "id": "TwitchTalkApp",
-    "mac_icon": "img/icon.png",
-    "max_height": 320,
-    "max_width": 320,
-    "min_height": 320,
-    "min_width": 320,
-    "resizable": false,
-    "title": "TwitchTalkApp",
-    "width": 320
-  }
+    "app_name": "TwitchTalkApp",
+    "dependencies": {
+        "materialize-css": "^1.0.0-rc.2",
+        "node-webkit-updater": "^0.3.3",
+        "say": "^0.15.0",
+        "tmi.js": "^1.2.1"
+    },
+    "description": "【Update: 2019/06/01】\n・初回ログイン時にボタンが表示されない不具合を修正\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。\n\nアプデが進まない場合は、アプリを管理者として起動してください。",
+    "main": "index.html",
+    "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
+    "name": "TwitchTalkApp",
+    "version": "1.2.6",
+    "webexe_settings": {
+        "blacklist": "",
+        "custom_script": "",
+        "download_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\NWjs",
+        "export_dir": "E:\\Users\\advanced_bear\\Documents\\Web2ExeWin\\Output",
+        "force_download": false,
+        "mac-x64": false,
+        "nw_compression_level": 0,
+        "nw_version": "0.26.6",
+        "output_pattern": "%(app_name)_%(version)/",
+        "sdk_build": false,
+        "uncompressed_folder": false,
+        "whitelist": "",
+        "windows-x32": true,
+        "windows-x64": false
+    },
+    "webkit": {},
+    "window": {
+        "exe_icon": "img\\icon.png",
+        "height": 320,
+        "icon": "img/icon.png",
+        "id": "TwitchTalkApp",
+        "mac_icon": "img/icon.png",
+        "max_height": 320,
+        "max_width": 320,
+        "min_height": 320,
+        "min_width": 320,
+        "resizable": false,
+        "title": "TwitchTalkApp",
+        "width": 320
+    }
 }

@@ -284,7 +284,7 @@ function Connect(){
 
 function loginTwitch() {
     logger.out("Connect with Twitch button pressed.");
-    gui.Window.open ('http://www.twitchapps.com/tmi/', {
+    gui.Window.open ('https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=wrhsp3sdvz973mf4kg94ftm3cgjrsz&redirect_uri=https://twitchapps.com/tmi/&scope=chat:read+chat:edit+channel:moderate+whispers:read+whispers:edit+channel_editor', {
         width: 640,
         height: 480
       }, function(tmi){
