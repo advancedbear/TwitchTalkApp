@@ -17,11 +17,12 @@ nw.Window.get().on('loaded', function(){
         }
         repListEmote = JSON.parse(localStorage.replaceListEmote);
         $.ajax({
-            url: 'https://twitchemotes.com/api_cache/v3/global.json',
+            url: 'https://api.twitchemotes.com/api/v4/channels/0',
             type:'GET',
             dataType:'json',
             timeout:2000
-        }).done(function(data){
+        }).done(function(response){
+            data = response.emotes
             for(var name in data) {
                 let id = data[name]['id'];
                 let code = data[name]['code'];
