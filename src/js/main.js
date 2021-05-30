@@ -311,7 +311,10 @@ function isEnglish(message){
 function deleteEmote(message) {
     let emotes = Object.keys(JSON.parse(localStorage.replaceListEmote));
     for(emote of emotes){
-        message = message.replace(new RegExp(emote, 'g'), '');
+        _emote = emote.replace("\\", '\\\\').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]')
+        .replace('+', '\\+').replace('.', '\\.').replace('?', '\\?').replace('{','\\{').replace('}','\\}').replace('*','\\*')
+        .replace('^', '\\^').replace('$', '\\$').replace('-', '\\-').replace('|', '\\|')
+        message = message.replace(new RegExp(_emote, 'g'), '');
     }
     return message;
 }
@@ -319,7 +322,10 @@ function deleteEmote(message) {
 function replaceMessage(message, rList) {
     let nMessage = message;
     for(rKey in rList){
-        nMessage = nMessage.replace(new RegExp(rKey, 'g'), rList[rKey]);
+        _rKey = rKey.replace("\\", '\\\\').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]')
+            .replace('+', '\\+').replace('.', '\\.').replace('?', '\\?').replace('{','\\{').replace('}','\\}').replace('*','\\*')
+            .replace('^', '\\^').replace('$', '\\$').replace('-', '\\-').replace('|', '\\|')
+        nMessage = nMessage.replace(new RegExp(_rKey, 'g'), rList[rKey]);
     }
     return nMessage;
 }
