@@ -1,15 +1,14 @@
-var gui = require('nw.gui');
-var IRC = require('tmi.js');
-var path = require('path');
-var Bouyomi = require('./js/bouyomi.js');
-var logger = require('./js/logger.js');
+const gui = require('nw.gui');
+const IRC = require('tmi.js');
+const Bouyomi = require('./js/bouyomi.js');
+const logger = require('./js/logger.js');
+const escRegex = require('regexp.escape');
 var bouyomiServer = {};
 var conn = false;
 var client;
 var tray;
 var mainWindow = nw.Window.get();
 var uttr = new SpeechSynthesisUtterance();
-var follows;
 var channel_chips, chip_data = [];
 
 // メイン画面のDOM読み込み完了後の初期化動作
@@ -183,15 +182,6 @@ function Connect(){
     if(!conn){
         logger.out("Try to connect to "+channel+" channel as "+name+" account.");
         client = new IRC.client(tmi_options);
-        client.api({
-            url: 'https://api.twitch.tv/kraken/users/'+name+'/follows/channels',
-            headers: {
-                "client-ID": "wrhsp3sdvz973mf4kg94ftm3cgjrsz"
-            }
-        }, function(err, res, body){
-            follows = body.follows;
-            console.log(follows);
-        })
         client.on('chat', function(ch, userstate, message, self){
             let from = userstate["username"];
             let blockedUserList = JSON.parse(localStorage.blockUser);
@@ -311,10 +301,7 @@ function isEnglish(message){
 function deleteEmote(message) {
     let emotes = Object.keys(JSON.parse(localStorage.replaceListEmote));
     for(emote of emotes){
-        _emote = emote.replace("\\", '\\\\').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]')
-        .replace('+', '\\+').replace('.', '\\.').replace('?', '\\?').replace('{','\\{').replace('}','\\}').replace('*','\\*')
-        .replace('^', '\\^').replace('$', '\\$').replace('-', '\\-').replace('|', '\\|')
-        message = message.replace(new RegExp(_emote, 'g'), '');
+        message = message.replace(new RegExp(escRegex(emote), 'g'), '');
     }
     return message;
 }
@@ -322,10 +309,7 @@ function deleteEmote(message) {
 function replaceMessage(message, rList) {
     let nMessage = message;
     for(rKey in rList){
-        _rKey = rKey.replace("\\", '\\\\').replace('(', '\\(').replace(')', '\\)').replace('[', '\\[').replace(']', '\\]')
-            .replace('+', '\\+').replace('.', '\\.').replace('?', '\\?').replace('{','\\{').replace('}','\\}').replace('*','\\*')
-            .replace('^', '\\^').replace('$', '\\$').replace('-', '\\-').replace('|', '\\|')
-        nMessage = nMessage.replace(new RegExp(_rKey, 'g'), rList[rKey]);
+        nMessage = nMessage.replace(new RegExp(escRegex(rKey), 'g'), rList[rKey]);
     }
     return nMessage;
 }
