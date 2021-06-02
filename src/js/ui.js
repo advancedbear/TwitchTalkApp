@@ -1,4 +1,5 @@
 $(function(){
+    nw.Window.get().width = 480
     $('#ReadName').on('change', function(){
         localStorage.readName = $(this).prop('checked');
     });
@@ -89,12 +90,12 @@ function JPSettings(){
 function ENSettings(){
     gui.Window.open ('view/ENsettings.html', {
         id: "ENsettings",
-        width: 320,
-        max_width: 320,
-        min_width: 320,
-        height: 320,
-        max_height: 320,
-        min_height: 320,
+        width: 400,
+        max_width: 400,
+        min_width: 400,
+        height: 400,
+        max_height: 400,
+        min_height: 400,
         resizable: false
       }, function(tmi){
         let tmiPage = tmi.window.document;
@@ -120,8 +121,31 @@ function showHelp(lang){
     });
 }
 
+function exportSettings() {
+    let date = new Date()
+    let YMD = date.getFullYear()+("00" + (date.getMonth()+1)).slice(-2)+("00" + date.getDate()).slice(-2)
+    $("#export_settings").prop('download', `tta_settings_${YMD}.bak`)
+    let export_data = btoa(encodeURIComponent(JSON.stringify(localStorage)))
+    let blob = new Blob([export_data], { "type" : "text/plain" })
+    $("#export_settings").prop('href', window.URL.createObjectURL(blob))
+}
+
+function importSettings() {
+    gui.Window.open ('view/import.html', {
+        id: "import",
+        width: 520,
+        max_width: 520,
+        min_width: 520,
+        height: 320,
+        max_height: 320,
+        min_height: 320,
+        resizable: false
+      }, function(tmi){
+    });    
+}
+
 function resetSettings(){
-    if(window.confirm('Are you sure?\n設定が全て消去されます、よろしいですか？')){
+    if(window.confirm('Are you sure?\n設定が全て消去されます\nよろしいですか？\n\nEscキー: cancel')){
         localStorage.clear();
         alert("All settings are cleared.\nすべての設定が消去されました。");
         chrome.runtime.reload();

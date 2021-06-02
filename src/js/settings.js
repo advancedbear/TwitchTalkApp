@@ -1,8 +1,10 @@
 var gui = require('nw.gui');
+var fs = require('fs');
 
 var repList = {};
 var repListEn = {};
 var repListEmote = {};
+var importData = null;
 
 nw.Window.get().on('loaded', function(){
     if(location.pathname == '/view/replacement.html'){
@@ -254,6 +256,37 @@ function enVoiceTest(){
         speechSynthesis.speak(uttr);
     } else {
         alert('English voice is not used.')
+    }
+}
+
+function fileSelected(input){
+    if(!input.files[0].name.match(/^tta_settings_\d{8}\.bak$/)) {
+        alert("選択されたファイルが間違っています。\n\"tta_settings_YYYYMMDD.bak\" を指定してください。")
+    } else {
+        data = fs.readFileSync(input.files[0].path, 'utf8');
+        try {
+            importData = JSON.parse(decodeURIComponent(atob(data)))
+            delete importData.password
+            $("#import_btn").toggleClass("disabled")
+        } catch {
+            alert("選択したファイルが間違っています。\n\"tta_settings_YYYYMMDD.bak\" を指定してください。")
+        }
+    }
+}
+
+function fileImport() {
+    if(!importData){
+        alert("ファイルが選択されていません。")
+        return -1;
+    }
+    if(confirm("ファイルをインポートしてよろしいですか？")) {
+        for(key in importData) {
+            localStorage[key] = importData[key]
+        }
+        setTimeout(()=>{
+            alert("インポートが完了しました。\nTwitchTalkAppを再起動します。")
+            chrome.runtime.reload();
+        }, 500);
     }
 }
 

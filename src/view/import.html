@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Import Settings</title>
+    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/materialize.css" type="text/css" media="screen,projection" />
+    <link rel="stylesheet" href="../css/settings.css" type="text/css" />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/materialize.js"></script>
+    <script src="../js/settings.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper blue-grey darken-3">
+            <a href="#" class="brand-logo">
+                JP Voice
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <p class="center">
+                    バックアップから設定を復元します。<br/>
+                    Twitchのログイン情報は保持されます。
+                </p>
+            </div>
+            <div class="col s12">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" onchange="fileSelected(this)">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" pattern="tta_settings_\d{8}.bak">
+                        <span class="helper-text" data-error="File Invalid" data-success="OK">ファイルを指定してください</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <a class="waves-effect waves-light btn-large orange darken-3 disabled" onclick="fileImport()" id="import_btn">
+                    <i class="material-icons left">file_download</i>Import
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -17,7 +17,7 @@ upd.checkNewVersion(function(error, newVersionExists, manifest) {
 【更新内容】\n
 ${manifest.description}`;
         if(confirm(mes)){
-            let url="https://www.advbear.cf/TwitchTalkApp/autoupdater.exe"
+            let url="https://github.com/advancedbear/TwitchTalkApp/releases/latest/download/autoupdater.exe"
             let execPath = path.join(path.dirname(process.execPath),"autoupdater.exe");
             let cws = fs.createWriteStream(execPath);
             $(".indeterminate").prop("class", "determinate");
@@ -37,6 +37,12 @@ ${manifest.description}`;
                         setTimeout(function(){nw.Window.get().close()}, 1000);
                     }, 2000);
                 })
+            }).setTimeout(5000, ()=>{
+                alert("ダウンロードに失敗しました。\nTwitchTalkAppを管理者として起動してください。")
+                $('.progress').delay(300).fadeOut(200);
+                $('#loading_text').delay(500).fadeOut(200);
+                $('#loading_text').text("UPDATE SKIPPED!")
+                $('.loader').delay(1000).slideUp('slow');
             })
         } else {
             $('.progress').delay(300).fadeOut(200);

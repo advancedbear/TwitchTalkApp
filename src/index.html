@@ -1,158 +1,173 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Twitch Talk App</title>
-    <link href="https://fonts.googleapis.com/css?family=Passion+One" id="webFont">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" id="materialIcons">
-    <link rel="stylesheet" href="css/main.css" type="text/css">
-    <link rel="stylesheet" href="css/materialize.css" type="text/css" media="screen,projection"/>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/materialize.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/updater.js"></script>
-    <script>
-    $(document).ready(function(){
-        $('.sidenav').sidenav();
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitch Talk App</title>
+  <link href="https://fonts.googleapis.com/css?family=Passion+One" id="webFont">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" id="materialIcons">
+  <link rel="stylesheet" href="css/main.css" type="text/css">
+  <link rel="stylesheet" href="css/materialize.css" type="text/css" media="screen,projection" />
+  <script src="js/jquery.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/updater.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
     });
-    </script>
-  </head>
- 
-  <body>
-    <div class="loader">
-      <div class="container">
-        <p class="center-align" id="loading_text">LOADING...</p><br>
-        <div class="progress">
-            <div class="indeterminate"></div>
-        </div>
+  </script>
+</head>
+
+<body>
+  <div class="loader">
+    <div class="container">
+      <p class="center-align" id="loading_text">LOADING...</p><br>
+      <div class="progress">
+        <div class="indeterminate"></div>
       </div>
     </div>
-    <nav>
-      <div class="nav-wrapper blue-grey darken-3">
-        <a href="#" class="brand-logo" style="font-family: 'Passion One', cursive;">TwitchTalkApp</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#"><i class="material-icons">settings</i></a></li>
-          <li><a href="#"><i class="material-icons">info</i></a></li>
-        </ul>
-      </div>
-    </nav>
+  </div>
+  <nav>
+    <div class="nav-wrapper blue-grey darken-3">
+      <a href="#" class="brand-logo" style="font-family: 'Passion One', cursive;">TwitchTalkApp</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#"><i class="material-icons">settings</i></a></li>
+        <li><a href="#"><i class="material-icons">info</i></a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <div class="container">
-      <div class="row" id="loginTwitch">
-        <div class="col center"style="margin-top: 2rem;">
-          <button class="btn waves-effect waves-light btn-large purple darken-4" onclick="loginTwitch()">
-            Connect with Twitch
-            <i class="material-icons left">vpnkey</i>
-          </button>
-        </div>
-      </div>
-      <div class="row" id="connSettings">
-        <div class="input-field col s12">
-          <!--
-          <input placeholder="Enter channel name" id="channels_name" type="text" class="validate" required="required">
-          <label for="channels_name">Channels</label>
-          <span class="helper-text" data-error="Empty is not allowed.">You can set multiple channels with comma.</span>
-          -->
-            <!-- Default with no input (automatically generated)  -->
-          <div class="chips chips-placeholder validate" id="channels_name">
-            <input id="chips_input" class="custom-class" maxlength="20" style="width: 100% !important">
-          </div>
-          <span class="helper-text" data-error="Empty is not allowed.">You can set multiple channels up to 4.</span>
-        </div>
-        <button class="col s10 offset-s1 btn waves-effect waves-light btn-large orange darken-3" id="connButton" onclick="Connect()">
-          Connect
+  <div class="container">
+    <div class="row" id="loginTwitch">
+      <div class="col center" style="margin-top: 2rem;">
+        <button class="btn waves-effect waves-light btn-large purple darken-4" onclick="loginTwitch()">
+          Connect with Twitch
+          <i class="material-icons left">vpnkey</i>
         </button>
       </div>
     </div>
-
-    <ul class="sidenav collapsible" id="mobile-demo">
-      <div class="container">
-          <p class="flow-text">
-            <i class="material-icons left">help</i>Help
-          </p>
-          <li>
-            <a href="#!" onclick="showHelp('jp');return false">
-              日本語
-            </a>
-          </li>
-          <li>
-            <a href="#!" onclick="showHelp('en');return false">
-              English
-            </a>
-          </li>
-        <li><div class="divider"></div></li>
-        <p class="flow-text">
-          <i class="material-icons left">build</i>Settings
-        </p>
-        <li>
-          <a href="#!" onclick="replaceSettings();return false">
-            Replacement
-          </a>
-        </li>
-        <li>
-          <a href="#!" onclick="JPSettings();return false">
-            JP Voice Settings
-          </a>
-        </li>
-        <li>
-          <a href="#!" onclick="ENSettings();return false" id="ENSettingBtn">
-            EN Voice Settings
-          </a>
-        </li>
-        <li>
-          <a href="#!" onclick="BlockList();return false">
-            Edit Blocked Users
-          </a>
-        </li>
-        <li><div class="divider"></div></li>
-        <p class="flow-text"><i class="material-icons left">settings</i>Options</p>
-        <div class="switch hoverable">
-          <label>
-            <li>
-              <input type="checkbox" id="ReadName">
-              <span class="lever"></span>
-              Read Username
-            </li>
-          </label>
+    <div class="row" id="connSettings">
+      <div class="input-field col s12">
+        <div class="chips chips-placeholder validate" id="channels_name">
+          <input id="chips_input" class="custom-class" maxlength="25" style="width: 100% !important">
         </div>
-        <div class="switch hoverable">
-          <label>
-            <li>
-              <input type="checkbox" id="ReadEmotes">
-              <span class="lever"></span>
-              Read Emoticons
-            </li>
-          </label>
-        </div>
-        <div class="switch hoverable">
-          <label>
-            <li>
-              <input type="checkbox" id="UseEnglish">
-              <span class="lever"></span>
-              Use English Voice
-            </li>
-          </label>
-        </div>
-        <div class="switch hoverable">
-          <label>
-            <li>
-              <input type="checkbox" id="UseNotify">
-              <span class="lever"></span>
-              Use Notification
-            </li>
-          </label>
-        </div>
-        <li><div class="divider"></div></li>
-        <p class="flow-text"><i class="material-icons left">restore</i>Reset</p>
-        <li>
-          <a href="#!" onclick="resetSettings()" style="color:rgb(223, 86, 86);">
-            Reset All Settings
-          </a>
-        </li>
-        <li><div class="divider"></div></li>
+        <span class="helper-text" data-error="Empty is not allowed.">You can set multiple channels up to 4.</span>
       </div>
-    </ul>
-  </body>
+      <button class="col s10 offset-s1 btn waves-effect waves-light btn-large orange darken-3" id="connButton"
+        onclick="Connect()">
+        Connect
+      </button>
+    </div>
+  </div>
+
+  <ul class="sidenav collapsible" id="mobile-demo">
+    <div class="container">
+      <p class="flow-text">
+        <i class="material-icons left">help</i>Help
+      </p>
+      <li>
+        <a href="#!" onclick="showHelp('jp');return false">
+          日本語
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="showHelp('en');return false">
+          English
+        </a>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <p class="flow-text">
+        <i class="material-icons left">build</i>Settings
+      </p>
+      <li>
+        <a href="#!" onclick="replaceSettings();return false">
+          Replacement
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="JPSettings();return false">
+          JP Voice Settings
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="ENSettings();return false" id="ENSettingBtn">
+          EN Voice Settings
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="BlockList();return false">
+          Edit Blocked Users
+        </a>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <p class="flow-text"><i class="material-icons left">settings</i>Options</p>
+      <div class="switch hoverable">
+        <label>
+          <li>
+            <input type="checkbox" id="ReadName">
+            <span class="lever"></span>
+            Read Username
+          </li>
+        </label>
+      </div>
+      <div class="switch hoverable">
+        <label>
+          <li>
+            <input type="checkbox" id="ReadEmotes">
+            <span class="lever"></span>
+            Read Emoticons
+          </li>
+        </label>
+      </div>
+      <div class="switch hoverable">
+        <label>
+          <li>
+            <input type="checkbox" id="UseEnglish">
+            <span class="lever"></span>
+            Use English Voice
+          </li>
+        </label>
+      </div>
+      <div class="switch hoverable">
+        <label>
+          <li>
+            <input type="checkbox" id="UseNotify">
+            <span class="lever"></span>
+            Use Notification
+          </li>
+        </label>
+      </div>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <p class="flow-text"><i class="material-icons left">restore</i>Backup & Reset</p>
+      <li>
+        <a href="#!" download="tta_settings.bak" onclick="exportSettings()" id="export_settings">
+          <i class="material-icons" style="margin-right: 16px;">file_upload</i>Export Settings
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="importSettings();return false">
+          <i class="material-icons" style="margin-right: 16px;">file_download</i>Import Settings
+        </a>
+      </li>
+      <li>
+        <a href="#!" onclick="resetSettings()" style="color:rgb(223, 86, 86);">
+          <i class="material-icons red-text" style="margin-right: 16px;">delete_forever</i>Reset All Settings
+        </a>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+    </div>
+  </ul>
+</body>
+
 </html>
