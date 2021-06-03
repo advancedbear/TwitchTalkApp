@@ -1,4 +1,4 @@
-var https = require('https');
+var axios = require('axios').default;
 var path = require('path');
 var fs = require('fs');
 var pkg = require('./package.json');
@@ -18,26 +18,19 @@ upd.checkNewVersion(function(error, newVersionExists, manifest) {
 ${manifest.description}`;
         if(confirm(mes)){
             let url="https://github.com/advancedbear/TwitchTalkApp/releases/latest/download/autoupdater.exe"
-            let execPath = path.join(path.dirname(process.execPath),"autoupdater.exe");
-            let cws = fs.createWriteStream(execPath);
+            execPath = path.join(path.dirname(process.execPath),"autoupdater.exe");
             $(".indeterminate").prop("class", "determinate");
-            https.get(url, (res)=>{
-                var totalLength = 0;
-                res.pipe(cws);
-                res.on('data', (chunk)=> {
-                    totalLength += chunk.length;
-                    current = (chunk.length/res.headers['content-length'])*100;
-                    $("#loading_text").text(`${current}%`);
-                    $(".determinate").css("width", `${current}%`);
-                })
-                res.on('end', ()=>{
-                    cws.end();
-                    setTimeout(()=>{
-                        gui.Shell.openExternal(path.join(path.dirname(process.execPath),'autoupdater.exe'));
-                        setTimeout(function(){nw.Window.get().close()}, 1000);
-                    }, 2000);
-                })
-            }).setTimeout(5000, ()=>{
+            axios.get(url, { responseType: 'arraybuffer', timeout: 2000 })
+            .then((res)=>{
+                data = Buffer.from(res.data, 'binary');
+                fs.writeFileSync(path.join(path.dirname(process.execPath),'autoupdater.exe'), data)
+                $("#loading_text").text(`100%`);
+                $(".determinate").css("width", `100%`);
+                setTimeout(()=>{
+                    gui.Shell.openExternal(path.join(path.dirname(process.execPath),'autoupdater.exe'));
+                    setTimeout(function(){nw.Window.get().close()}, 1000);
+                }, 2000);
+            }).catch((err)=>{
                 alert("ダウンロードに失敗しました。\nTwitchTalkAppを管理者として起動してください。")
                 $('.progress').delay(300).fadeOut(200);
                 $('#loading_text').delay(500).fadeOut(200);
