@@ -6,6 +6,9 @@ $(function(){
     $('#ReadEmotes').on('change', function(){
         localStorage.readEmotes = $(this).prop('checked');
     });
+    $('#ReadCheer').on('change', function(){
+        localStorage.readCheer = $(this).prop('checked');
+    });
     $('#UseEnglish').on('change', function(){
         localStorage.useENvoice = $(this).prop('checked');
         if(!$('#UseEnglish').is(':checked')){
@@ -23,6 +26,7 @@ $(function(){
 
 $(document).ready(function(){
     $('#ReadName').prop('checked', JSON.parse(localStorage.readName));
+    $('#ReadCheer').prop('checked', JSON.parse(localStorage.readCheer));
     $('#ReadEmotes').prop('checked', JSON.parse(localStorage.readEmotes));
     $('#UseEnglish').prop('checked', JSON.parse(localStorage.useENvoice));
     if(!$('#UseEnglish').is(':checked')){
