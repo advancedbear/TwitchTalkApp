@@ -86,15 +86,19 @@ window.onload = function(){
     let RepListEmotes = {};
     if(localStorage.replaceListEmote!=null) JSON.parse(localStorage.replaceListEmote);
     $.ajax({
-        url: 'https://api.twitchemotes.com/api/v4/channels/0',
+        url: 'https://api.twitch.tv/helix/chat/emotes/global',
         type:'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.password.slice(6)}`,
+            'Client-Id': 'wrhsp3sdvz973mf4kg94ftm3cgjrsz'
+        },
         dataType:'json',
         timeout:2000
     }).done(function(response){
-        let data = response.emotes
-        for(let name in data) {
-            let id = data[name]['id'];
-            let code = data[name]['code'];
+        let data = response.data
+        for(let emote of data) {
+            let id = emote['id'];
+            let code = emote['name'];
             newOrigListEmotes[id] = code;
             if(RepListEmotes[code]==null) RepListEmotes[code] = code;
         }
