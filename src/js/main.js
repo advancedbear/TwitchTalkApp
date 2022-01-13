@@ -247,7 +247,22 @@ function sayFunc(ch, userstate, message, channel) {
         localStorage.blockUser = JSON.stringify(blockedUserList);
     }
     if (JSON.parse(localStorage.blockUser)[from] == true) {
-        if (isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)) {
+        if (isRussian(nMessage)) {
+            logger.out("Message is Russian. Try to use Speech API.");
+            for (let voice of voices) {
+                if(localStorage.voiceType == voice.name) {
+                    uttr.voice = voice;
+                }
+            }
+            uttr.volume = localStorage.volume;
+            uttr.rate = localStorage.speed;
+            uttr.pitch = localStorage.pitch;
+            uttr.lang = 'ru-RU';
+            uttr.text = nMessage;
+            speechSynthesis.speak(uttr);
+            console.log(uttr);
+        }
+        else if (isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)) {
             logger.out("Message is English. Try to use Speech API.");
             for (let voice of voices) {
                 if (localStorage.voiceType == voice.name) {
@@ -307,6 +322,10 @@ function loginTwitch() {
 
 function isEnglish(message) {
     return (message.match("^(.*[｡-ﾟ０-９ａ-ｚＡ-Ｚぁ-んァ-ヶ亜-黑一-龠々ー].*)*$")) ? false : true;
+};
+
+function isRussian(message) {
+    return (/[а-яА-ЯЁё]/.test(message));
 };
 
 function deleteEmote(message) {
