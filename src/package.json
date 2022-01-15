@@ -8,11 +8,11 @@
         "say": "^0.15.0",
         "tmi.js": "^1.8.3"
     },
-    "description": "【Update: 2021/07/05】\n・TwitchEmotesのAPI廃止に対応\n・チア、リサブの読み上げに対応（チアはオフ可能）\n・自動アップデートが起動しない場合、手動でダウンロードしてください。\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。\n\n更新ができない場合は、管理者として起動してください。",
+    "description": "【Update: 2022/01/15】\n・ロシア語読み上げに対応（Thanks @Gateau)\n・自動アップデートが起動しない場合、手動でダウンロードしてください。\n\n【お知らせ】\n作者Twitter（@advanced_bear）の固定ツイートに掲載の画像とURLを、皆様の配信サイト等で宣伝いただけると嬉しいです。よろしくお願いします。\n\n更新ができない場合は、管理者として起動してください。",
     "main": "index.html",
     "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
     "name": "TwitchTalkApp",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "webexe_settings": {
         "blacklist": "",
         "custom_script": "",
