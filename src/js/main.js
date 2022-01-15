@@ -247,37 +247,40 @@ function sayFunc(ch, userstate, message, channel) {
         localStorage.blockUser = JSON.stringify(blockedUserList);
     }
     if (JSON.parse(localStorage.blockUser)[from] == true) {
-        if (isRussian(nMessage)) {
-            logger.out("Message is Russian. Try to use Speech API.");
-            for (let voice of voices) {
-                if(localStorage.voiceType == voice.name) {
-                    uttr.voice = voice;
+        if (isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)) { // no kana was detected in the message
+            logger.out("Message is not Japanese. Try to determine its language.");
+            if (isRussian(nMessage)) { // cyrillics were detected in the message
+                logger.out("Message is Russian. Try to use Speech API.");
+                for (let voice of voices) {
+                    if(localStorage.voiceType == voice.name) {
+                        uttr.voice = voice;
+                    }
                 }
+                uttr.volume = localStorage.volume;
+                uttr.rate = localStorage.speed;
+                uttr.pitch = localStorage.pitch;
+                uttr.lang = 'ru-RU';
+                uttr.text = nMessage;
+                speechSynthesis.speak(uttr);
+                console.log(uttr);
             }
-            uttr.volume = localStorage.volume;
-            uttr.rate = localStorage.speed;
-            uttr.pitch = localStorage.pitch;
-            uttr.lang = 'ru-RU';
-            uttr.text = nMessage;
-            speechSynthesis.speak(uttr);
-            console.log(uttr);
-        }
-        else if (isEnglish(nMessage) && JSON.parse(localStorage.useENvoice)) {
-            logger.out("Message is English. Try to use Speech API.");
-            for (let voice of voices) {
-                if (localStorage.voiceType == voice.name) {
-                    uttr.voice = voice;
+            else { // no cyrillics were detected in the message... assume the message is in English
+                logger.out("Message is English. Try to use Speech API.");
+                for (let voice of voices) {
+                    if (localStorage.voiceType == voice.name) {
+                        uttr.voice = voice;
+                    }
                 }
+                uttr.volume = localStorage.volume;
+                uttr.rate = localStorage.speed;
+                uttr.pitch = localStorage.pitch;
+                uttr.lang = 'en-US';
+                uttr.text = nMessage;
+                speechSynthesis.speak(uttr);
+                console.log(uttr);
             }
-            uttr.volume = localStorage.volume;
-            uttr.rate = localStorage.speed;
-            uttr.pitch = localStorage.pitch;
-            uttr.lang = 'en-US';
-            uttr.text = nMessage;
-            speechSynthesis.speak(uttr);
-            console.log(uttr);
-        } else {
-            logger.out("Message is Japanese. Try to use Bouyomi-chan");
+        } else { // kana was detected in the message
+            logger.out("Message is NOT English. Try to use Bouyomi-chan");
             if (localStorage.voiceJPType == 'bouyomi') {
                 Bouyomi.read(bouyomiServer, nMessage);
             } else {
