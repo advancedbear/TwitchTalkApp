@@ -8,11 +8,11 @@
         "say": "^0.15.0",
         "tmi.js": "^1.8.3"
     },
-    "description": "【Update: 2022/01/15】\n・ロシア語読み上げに対応（Thanks @Gateau)\n・自動アップデートが起動しない場合、手動でダウンロードしてください。\n\n【お知らせ】\nアップデート時に「TwitchTalkApp\\notification_helper.exe」がトロイの木馬として誤検知される場合があります。\n誤検知であるため安全性には影響ありませんが、不安な場合はご利用を控えてください\n\n更新ができない場合は、管理者として起動してください。",
+    "description": "【Update: 2022/01/15】\n・初期で読み上げしないユーザの設定を修正。\nnightbot, wizebot, streamelementsが初期からUnreadとなります。\n(Thanks @wakwak3125)\n【Update: 2022/01/15】\n・ロシア語読み上げに対応（Thanks @Gateau)\n・自動アップデートが起動しない場合、手動でダウンロードしてください。\n\n【お知らせ】\nアップデート時に「TwitchTalkApp\\notification_helper.exe」がトロイの木馬として誤検知される場合があります。\n誤検知であるため安全性には影響ありませんが、不安な場合はご利用を控えてください\n\n更新ができない場合は、管理者として起動してください。",
     "main": "index.html",
     "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
     "name": "TwitchTalkApp",
-    "version": "1.3.4",
+    "version": "1.3.5",
     "webexe_settings": {
         "blacklist": "",
         "custom_script": "",

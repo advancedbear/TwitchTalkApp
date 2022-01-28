@@ -79,7 +79,7 @@ window.onload = function () {
     if (localStorage.readEmotes == null) localStorage.readEmotes = false;
     if (localStorage.voiceType == null) localStorage.voiceType = 'none';
     if (localStorage.voiceJPType == null) localStorage.voiceJPType = 'bouyomi';
-    if (localStorage.blockUser == null || JSON.parse(localStorage.blockUser)[0] != undefined) localStorage.blockUser = JSON.stringify({ 'nightbot': false });
+    if (localStorage.blockUser == null || JSON.parse(localStorage.blockUser)[0] != undefined) localStorage.blockUser = JSON.stringify({ 'nightbot': false, 'wizebot': false, 'streamelements': false });
 
     voices = speechSynthesis.getVoices();
 
