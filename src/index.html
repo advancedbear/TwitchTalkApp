@@ -42,12 +42,11 @@
 
   <div class="container">
     <div class="row" id="loginTwitch">
-      <div class="col center" style="margin-top: 2rem;">
-        <button class="btn waves-effect waves-light btn-large purple darken-4" onclick="loginTwitch()">
-          Connect with Twitch
-          <i class="material-icons left">vpnkey</i>
-        </button>
-      </div>
+      <button class="col btn s10 offset-s1 waves-effect waves-light btn-large purple darken-4 center-align" style="margin-top: 2rem;"
+        onclick="loginTwitch()">
+        <i class="material-icons left">vpnkey</i>
+        Connect with Twitch
+      </button>
     </div>
     <div class="row" id="connSettings">
       <div class="input-field col s12">
@@ -114,6 +113,15 @@
             <input type="checkbox" id="ReadName">
             <span class="lever"></span>
             Read Username
+          </li>
+        </label>
+      </div>
+      <div class="switch hoverable" id="ReadName_After">
+        <label>
+          <li>
+            <input type="checkbox" id="AfterMessage">
+            <span class="lever"></span>
+            After message
           </li>
         </label>
       </div>

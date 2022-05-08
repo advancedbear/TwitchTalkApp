@@ -2,6 +2,10 @@ $(function(){
     nw.Window.get().width = 480
     $('#ReadName').on('change', function(){
         localStorage.readName = $(this).prop('checked');
+        $('#ReadName').prop('checked') ? $('#ReadName_After').slideDown() : $('#ReadName_After').slideUp() ;
+    });
+    $('#AfterMessage').on('change', function(){
+        localStorage.AfterMessage = $(this).prop('checked');
     });
     $('#ReadEmotes').on('change', function(){
         localStorage.readEmotes = $(this).prop('checked');
@@ -26,6 +30,8 @@ $(function(){
 
 $(document).ready(function(){
     $('#ReadName').prop('checked', JSON.parse(localStorage.readName));
+    $('#ReadName').prop('checked') ? $('#ReadName_After').show() : $('#ReadName_After').hide() ;
+    $('#AfterMessage').prop('checked', JSON.parse(localStorage.AfterMessage));
     $('#ReadCheer').prop('checked', JSON.parse(localStorage.readCheer));
     $('#ReadEmotes').prop('checked', JSON.parse(localStorage.readEmotes));
     $('#UseEnglish').prop('checked', JSON.parse(localStorage.useENvoice));

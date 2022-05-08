@@ -75,6 +75,7 @@ window.onload = function () {
     if (localStorage.useENvoice == null || localStorage.useENvoice === undefined) localStorage.useENvoice = true;
     if (localStorage.showNotify == null) localStorage.showNotify = false;
     if (localStorage.readName == null) localStorage.readName = false;
+    if (localStorage.AfterMessage == null) localStorage.AfterMessage = true;
     if (localStorage.readCheer == null) localStorage.readCheer = false;
     if (localStorage.readEmotes == null) localStorage.readEmotes = false;
     if (localStorage.voiceType == null) localStorage.voiceType = 'none';
@@ -83,38 +84,9 @@ window.onload = function () {
 
     voices = speechSynthesis.getVoices();
 
-    // エモートリストが空の場合、API経由で一覧を取得してリストに保存
-    let newOrigListEmotes = {};
-    let newRepListEmotes = {};
-    let RepListEmotes = {};
-    if (localStorage.replaceListEmote != null) JSON.parse(localStorage.replaceListEmote);
-    $.ajax({
-        url: 'https://api.twitch.tv/helix/chat/emotes/global',
-        type: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.password.slice(6)}`,
-            'Client-Id': 'wrhsp3sdvz973mf4kg94ftm3cgjrsz'
-        },
-        dataType: 'json',
-        timeout: 2000
-    }).done(function (response) {
-        let data = response.data
-        for (let emote of data) {
-            let id = emote['id'];
-            let code = emote['name'];
-            newOrigListEmotes[id] = code;
-            if (RepListEmotes[code] == null) RepListEmotes[code] = code;
-        }
-        // APIで取得した現在のエモート一覧に存在するエモートのみを、置換エモートリストへコピーする。
-        // 削除されたエモート等が破棄されるように。
-        for (let key in newOrigListEmotes) {
-            if (RepListEmotes[newOrigListEmotes[key]] != null) {
-                newRepListEmotes[newOrigListEmotes[key]] = RepListEmotes[newOrigListEmotes[key]];
-            }
-        }
-        localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
-        localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
-    });
+    // API経由で一覧を取得してリストに保存
+    if(localStorage.password != null) getEmoteList();
+
     if (nw.App.argv[0] == "-log") {
         logger.init(true);
     }
@@ -234,7 +206,13 @@ function sayFunc(ch, userstate, message, channel) {
         logger.out("Emotes were replaced. -> " + message);
     }
     let nMessage = message;
-    if (JSON.parse(localStorage.readName)) nMessage = message + ', ' + from + '';
+    if (JSON.parse(localStorage.readName)){
+        if (JSON.parse(localStorage.AfterMessage)){
+            nMessage = message + ', ' + from + '';
+        } else {
+            nMessage = from + ', ' + message + '';
+        }
+    } 
     logger.out("Readable nMessage was made. -> " + nMessage);
     if (isEnglish(message)) {
         nMessage = replaceMessage(nMessage, JSON.parse(localStorage.replaceListEn));
@@ -318,6 +296,7 @@ function loginTwitch() {
                 tmi.close();
                 document.getElementById("connButton").disabled = false;
                 statusUpdate("Twitch oAuth completed.", 1);
+                getEmoteList();
             }
         });
     });
@@ -398,3 +377,37 @@ $(document).on('dblclick', '.d_text0', function () {
         };
     }
 })
+
+function getEmoteList() {
+    let newOrigListEmotes = {};
+    let newRepListEmotes = {};
+    let RepListEmotes = {};
+    if (localStorage.replaceListEmote != null) JSON.parse(localStorage.replaceListEmote);
+    $.ajax({
+        url: 'https://api.twitch.tv/helix/chat/emotes/global',
+        type: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.password.slice(6)}`,
+            'Client-Id': 'wrhsp3sdvz973mf4kg94ftm3cgjrsz'
+        },
+        dataType: 'json',
+        timeout: 2000
+    }).done(function (response) {
+        let data = response.data
+        for (let emote of data) {
+            let id = emote['id'];
+            let code = emote['name'];
+            newOrigListEmotes[id] = code;
+            if (RepListEmotes[code] == null) RepListEmotes[code] = code;
+        }
+        // APIで取得した現在のエモート一覧に存在するエモートのみを、置換エモートリストへコピーする。
+        // 削除されたエモート等が破棄されるように。
+        for (let key in newOrigListEmotes) {
+            if (RepListEmotes[newOrigListEmotes[key]] != null) {
+                newRepListEmotes[newOrigListEmotes[key]] = RepListEmotes[newOrigListEmotes[key]];
+            }
+        }
+        localStorage.origListEmote = JSON.stringify(newOrigListEmotes);
+        localStorage.replaceListEmote = JSON.stringify(newRepListEmotes);
+    });
+}
