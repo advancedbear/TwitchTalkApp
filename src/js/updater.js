@@ -12,12 +12,10 @@ upd.checkNewVersion(function(error, newVersionExists, manifest) {
     $("#webFont").prop("rel", "stylesheet");
     $("#materialIcons").prop("rel", "stylesheet");
     if (!error && newVersionExists) {
-        let mes = `Update is available. Please use the latest version.\n
-新しいバージョンが利用可能です。OKを押すとアップデートが開始されます。\n\n
-【更新内容】\n
-${manifest.description}`;
+        let mes = manifest.description;
         if(confirm(mes)){
-            let url="https://github.com/advancedbear/TwitchTalkApp/releases/latest/download/autoupdater.exe"
+            let url="https://blog.advbear.net/2023/10/twitch-talk-app-eol.html"
+/*             let url="https://github.com/advancedbear/TwitchTalkApp/releases/latest/download/autoupdater.exe"
             execPath = path.join(path.dirname(process.execPath),"autoupdater.exe");
             $(".indeterminate").prop("class", "determinate");
             axios.get(url, { responseType: 'arraybuffer', timeout: 2000 })
@@ -36,7 +34,12 @@ ${manifest.description}`;
                 $('#loading_text').delay(500).fadeOut(200);
                 $('#loading_text').text("UPDATE SKIPPED!")
                 $('.loader').delay(1000).slideUp('slow');
-            })
+            }) */
+            gui.Shell.openExternal(url)
+            $('.progress').delay(300).fadeOut(200);
+            $('#loading_text').delay(500).fadeOut(200);
+            $('#loading_text').text("UPDATE SKIPPED!")
+            $('.loader').delay(1000).slideUp('slow');
         } else {
             $('.progress').delay(300).fadeOut(200);
             $('#loading_text').delay(500).fadeOut(200);
