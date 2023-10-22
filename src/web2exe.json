@@ -10,7 +10,7 @@
         "nw_version": "0.52.2",
         "output_pattern": "%(app_name)_%(version)/",
         "sdk_build": false,
-        "uncompressed_folder": true,
+        "uncompressed_folder": false,
         "whitelist": "",
         "windows-x32": true,
         "windows-x64": false
