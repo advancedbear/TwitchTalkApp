@@ -8,11 +8,11 @@
         "say": "^0.15.0",
         "tmi.js": "^1.8.5"
     },
-    "description": "【重要なお知らせ】\nTwitchTalkAppは2023年12月31日をもってサポートを終了いたします。今後は「わんコメ」等の他アプリケーションの利用をご検討ください。",
+    "description": "【重要なお知らせ】\nTwitchTalkAppは2023年12月31日をもってサポートを終了いたします。今後は「わんコメ」等の他アプリケーションの利用をご検討ください。\n更新後に「OK」を押すと詳細説明ページを開きます。",
     "main": "index.html",
     "manifestUrl": "https://raw.githubusercontent.com/advancedbear/TwitchTalkApp/master/src/package.json",
     "name": "TwitchTalkApp",
-    "version": "1.3.7",
+    "version": "9.9.9",
     "webexe_settings": {
         "blacklist": "",
         "custom_script": "",
